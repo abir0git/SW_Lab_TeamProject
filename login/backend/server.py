@@ -10,8 +10,8 @@ x = datetime.datetime.now()
 
 # Initializing flask app
 app = Flask(__name__)
-
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:password@localhost/user_signup'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:mazaqwer7531%40@localhost/user_signup'
+# app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:password@localhost/user_signup'
 # app.config['MYSQL_HOST'] = 'localhost'
 # app.config['MYSQL_USER'] = 'root'
 # app.config['MYSQL_PASSWORD'] = ''
@@ -43,3 +43,15 @@ def submit_data():
 # Running app
 if __name__ == '__main__':
 	app.run(debug=True)
+
+
+# SELECT `users_data`.`sno`,
+#     `users_data`.`Name`,
+#     `users_data`.`age`
+# FROM `user_signup`.`users_data`;
+
+# 0012
+# 1234
+# 0011
+# 0112
+# 0122
