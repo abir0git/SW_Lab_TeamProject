@@ -18,23 +18,20 @@ const SignUp = (props) => {
   // }
   const formik = useFormik({
     initialValues: {
-      name: "",
+      fname: "",
+      lname: "",
       email: "",
       password: "",
       cPassword: "",
       mobile: "",
-      college: "",
       city: "",
       state: "",
-      dob: "",
       gender: "",
-      yop: "",
-      security_qn: "",
-      security_ans: "",
-      captcha: "",
     },
     validationSchema: Yup.object({
-      name: Yup.string()
+      fname: Yup.string()
+        .required("Required"),
+      lname: Yup.string()
         .required("Required"),
       email: Yup.string().email("Invalid Email").required("Required"),
       mobile: Yup.number()
@@ -43,23 +40,7 @@ const SignUp = (props) => {
         .typeError("Inalid Phone Number")
         .integer("Inalid Phone Number")
         .required("Required"),
-      college: Yup.string()
-        .required("Required")
-        .matches(/^[',0-9a-zA-Z\s,-]+$/, "Invalid College Name"),
-      dob: Yup.string()
-        .required("Required"),
       gender: Yup.string()
-        .required("Required"),
-      yop: Yup.number()
-        .required("Required")
-        .typeError("Invalid Input")
-        .integer("Invalid Input")
-        .max(2029, "Invalid Input")
-        .min(2023, "Invalid Input"),
-      security_qn: Yup.string()
-        .required("Required")
-        .matches(/^[?,0-9a-zA-Z\s,-]+$/, "Field cannot contain Special Characteres"),
-      security_ans: Yup.string()
         .required("Required"),
       password: Yup.string()
         .min(8, "Password must be 8 characters long")
@@ -69,85 +50,26 @@ const SignUp = (props) => {
         .required("Required")
         .oneOf([Yup.ref('password'), null], 'Password does not match'),
       city: Yup.string().required("Required"),
-      state: Yup.string().required("Required"),
-      captcha: Yup.mixed().required("Captcha Required")
+      state: Yup.string().required("Required")
     }),
     onSubmit: (values) => {
       //console.log('hel')
       setbtnText("Signing up...");
       const req = {
-        name: values.name,
+        name: values.fname,
+        name: values.lname,
         email: values.email,
         password: values.password,
         mobile: values.mobile,
-        college: values.college,
         city: values.city,
         state: values.state,
-        dob: values.dob,
         gender: values.gender,
-        yop: values.yop,
-        security_qn: values.security_qn,
-        security_ans: values.security_ans,
-        captcha: captcha,
       }
       console.log(req);
       axios
-        .post("https://mainapi.springfest.in/api/user/register_user", req)
+        .post("/signup", req)
         .then(function (response) {
           console.log(response);
-          if (response.data.code === 0) {
-            localStorage.setItem("data", JSON.stringify(response.data));
-            console.log("success");
-            localStorage.setItem('logstat', true)
-            props.showToast(true, "Successfully Signed Up", "Success")
-            props.setOpenModal(false);
-            axios
-              .post(
-                "https://mainapi.springfest.in/api/user/get_registered_events",
-                {
-                  token: response.data.message.token,
-                }
-              )
-              .then(function (data) {
-                localStorage.setItem(
-                  "registered-event",
-                  JSON.stringify(data.data)
-                );
-              })
-
-          } else if (response.data.code === -1) {
-            if (response.data.message.email) {
-              props.showToast(true, response.data.message.email, "Unsuccessful")
-            }
-            else if (response.data.message.phone) {
-              props.showToast(true, response.data.message.phone, "Unsuccessful")
-            } else if (response.data.message.name) {
-              props.showToast(true, response.data.message.name, "Unsuccessful")
-            } else if (response.data.message.security_qn) {
-              props.showToast(true, response.data.message.security_qn, "Unsuccessful")
-            } else if (response.data.message.security_ans) {
-              props.showToast(true, response.data.message.security_ans, "Unsuccessful")
-            } else if (response.data.message.dob) {
-              props.showToast(true, response.data.message.dob, "Unsuccessful")
-            } else if (response.data.message.gender) {
-              props.showToast(true, response.data.message.gender, "Unsuccessful")
-            } else if (response.data.message.college) {
-              props.showToast(true, response.data.message.college, "Unsuccessful")
-            } else if (response.data.message.yop) {
-              props.showToast(true, response.data.message.yop, "Unsuccessful")
-            } else if (response.data.message.mobile) {
-              props.showToast(true, response.data.message.mobile, "Unsuccessful")
-            } else if (response.data.message.city) {
-              props.showToast(true, response.data.message.city, "Unsuccessful")
-            } else if (response.data.message.state) {
-              props.showToast(true, response.data.message.state, "Unsuccessful")
-            } else if (response.data.message.captcha) {
-              props.showToast(true, response.data.message.captcha, "Unsuccessful")
-            }
-            setbtnText("Sign Up");
-          } else {
-            props.showToast(true, response.data.message, "Unsuccessful");
-          }
           setbtnText("Sign Up");
         })
         .catch(function (error) {
@@ -169,7 +91,7 @@ const SignUp = (props) => {
           <label>First-Name </label>
           <input
             type="text"
-            name="name"
+            name="fname"
             required
             autoComplete="off"
             value={formik.values.name}
@@ -189,7 +111,7 @@ const SignUp = (props) => {
           <label>Last-Name </label>
           <input
             type="text"
-            name="name"
+            name="lname"
             required
             autoComplete="off"
             value={formik.values.name}
@@ -252,7 +174,7 @@ const SignUp = (props) => {
           <label>City</label>
           <input
             type="text"
-            name="state"
+            name="city"
             required
             autoComplete="off"
             value={formik.values.state}
