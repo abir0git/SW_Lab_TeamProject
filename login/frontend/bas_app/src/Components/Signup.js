@@ -20,7 +20,9 @@ const SignUp = (props) => {
     initialValues: {
       fname: "",
       lname: "",
+      uname: "",
       email: "",
+      adr: "",
       password: "",
       cPassword: "",
       mobile: "",
@@ -33,6 +35,8 @@ const SignUp = (props) => {
         .required("Required"),
       lname: Yup.string()
         .required("Required"),
+      uname: Yup.string()
+        .required("Required"),
       email: Yup.string().email("Invalid Email").required("Required"),
       mobile: Yup.number()
         .min(1000000000, "Inalid Phone Number")
@@ -41,6 +45,8 @@ const SignUp = (props) => {
         .integer("Inalid Phone Number")
         .required("Required"),
       gender: Yup.string()
+        .required("Required"),
+      adr: Yup.string()
         .required("Required"),
       password: Yup.string()
         .min(8, "Password must be 8 characters long")
@@ -56,8 +62,10 @@ const SignUp = (props) => {
       //console.log('hel')
       setbtnText("Signing up...");
       const req = {
-        name: values.fname,
-        name: values.lname,
+        fname: values.fname,
+        lname: values.lname,
+        uname: values.uname,
+        adr: values.adr,
         email: values.email,
         password: values.password,
         mobile: values.mobile,
@@ -112,6 +120,26 @@ const SignUp = (props) => {
           <input
             type="text"
             name="lname"
+            required
+            autoComplete="off"
+            value={formik.values.name}
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+          />
+
+
+        </div>
+
+        {formik.touched.name && formik.errors.name ? (
+          <p>{formik.errors.name}</p>
+        ) : null}
+        <br />
+
+        <div className="inputfield">
+          <label>UserName </label>
+          <input
+            type="text"
+            name="uname"
             required
             autoComplete="off"
             value={formik.values.name}
@@ -199,6 +227,30 @@ const SignUp = (props) => {
           <input
             type="text"
             name="state"
+            required
+            autoComplete="off"
+            value={formik.values.state}
+            onChange={formik.handleChange}
+            onBlur={
+              formik.handleBlur
+            }
+          >
+
+          </input>
+
+
+        </div>
+
+        {formik.touched.state && formik.errors.state ? (
+          <p>{formik.errors.state}</p>
+        ) : null}
+        <br />
+
+        <div className="inputfield sel">
+          <label>Address</label>
+          <input
+            type="text"
+            name="adr"
             required
             autoComplete="off"
             value={formik.values.state}

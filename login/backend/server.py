@@ -33,9 +33,18 @@ class new_users(db.Model):
 @app.route('/signup' , methods= ['GET','POST'] )
 def new_user_signup():
 	if(request.method == 'POST'):
-		name = request.form.get('fname')
-		age = request.form.get('age')
-		entry = new_users(Name = name , age=age)
+		fname = request.form.get('fname')
+		lname = request.form.get('lname')
+		uname = request.form.get('uname')
+		adr = request.form.get('adr')
+		email = request.form.get('email')
+		password = request.form.get('password')
+		mobile = request.form.get('mobile')
+		city = request.form.get('city')
+		state = request.form.get('state')
+		gender = request.form.get('gender')
+
+		entry = new_users(FirstName = fname , LastName=lname , Email=email, Passwd=password , Username=uname, Phno=mobile, City=city, State=state, Gender=gender)
 		db.session.add(entry)
 		db.session.commit()
 	return redirect("http://localhost:3000/")
