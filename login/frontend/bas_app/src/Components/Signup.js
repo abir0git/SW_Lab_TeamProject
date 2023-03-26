@@ -326,8 +326,6 @@ const SignUp = (props) => {
 
 
 
-
-
         <div className="inputfield">
           <label>Password </label>
           <input
