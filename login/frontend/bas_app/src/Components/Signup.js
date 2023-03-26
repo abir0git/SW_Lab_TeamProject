@@ -79,8 +79,9 @@ const SignUp = (props) => {
       }
       console.log(req);
       axios
-        .post("/signup", req)
+        .post("http://localhost:5000/signup", req)
         .then(function (response) {
+          console.log("hel1l")
           console.log(response);
           setbtnText("Sign Up");
         })
@@ -209,7 +210,7 @@ const SignUp = (props) => {
             name="city"
             required
             autoComplete="off"
-            value={formik.values.state}
+            value={formik.values.city}
             onChange={formik.handleChange}
             onBlur={
               formik.handleBlur
@@ -257,7 +258,7 @@ const SignUp = (props) => {
             name="adr"
             required
             autoComplete="off"
-            value={formik.values.state}
+            value={formik.values.adr}
             onChange={formik.handleChange}
             onBlur={
               formik.handleBlur
@@ -311,7 +312,7 @@ const SignUp = (props) => {
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
           >
-            <option value="" label="Select your Gender">Select</option>
+            <option value="" label="Select">Select</option>
             <option value="1" label="Owner">Owner</option>
             <option value="2" label="Employee">Employee</option>
             <option value="3" label="Customer">Customer</option>
@@ -332,7 +333,7 @@ const SignUp = (props) => {
             type="password"
             name="password"
             required
-            autoComplete="off"
+            autoComplete="on"
             value={formik.values.password}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
@@ -352,7 +353,7 @@ const SignUp = (props) => {
           <input
             type="password"
             name="cPassword"
-            autoComplete="off"
+            autoComplete="on"
             required
             value={formik.values.cPassword}
             onChange={formik.handleChange}
