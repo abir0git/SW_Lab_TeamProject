@@ -80,7 +80,13 @@ const SignUp = (props) => {
       }
       console.log(req);
       axios
-        .post("http://localhost:5000/signup", req)
+        .post("http://localhost:5000/signup",  req , {
+          headers:{
+            "Access-Control-Allow-Origin": "*",
+            'Access-Control-Allow-Credentials':true,
+            "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE,PATCH,OPTIONS",
+          }
+        })
         .then(function (response) {
           console.log("hel1l")
           console.log(response);

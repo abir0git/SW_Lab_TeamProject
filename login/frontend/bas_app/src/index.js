@@ -4,10 +4,10 @@ import {BrowserRouter, Routes, Route, Link, useNavigate } from "react-router-dom
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-// var cors = require('cors');
 // const express = require('express');
 // const app = express()
-// app.use(cors());
+// var cors = require('cors');
+// app.use(cors({credentials: true, origin: 'http://localhost:3000'}));
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(

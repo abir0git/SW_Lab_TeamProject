@@ -10,7 +10,7 @@ x = datetime.datetime.now()
 
 # Initializing flask app
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:mazaqwer7531%40@localhost/user_signup'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:mazaqwer7531%40@localhost/bas_sw'
 # app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:password@localhost/bas_sw'
 db = SQLAlchemy(app)
 
@@ -55,7 +55,7 @@ def new_user_signup():
 		db.session.commit()
 	return redirect("http://localhost:3000/")
 		
-		
+
 # Running app
 if __name__ == '__main__':
 	app.run(debug=True)

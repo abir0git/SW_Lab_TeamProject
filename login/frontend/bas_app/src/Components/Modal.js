@@ -1,5 +1,6 @@
 import SignIn from "./Signin";
 import SignUp from "./Signup";
+import SignUp1 from "./Signup1";
 import React, { useState, useEffect } from "react";
 
 const Modal = (props) => {
@@ -21,7 +22,7 @@ const Modal = (props) => {
         }
         else if (active === "signup") {
             return <div id="signupm">
-                <SignUp  />
+                <SignUp1  />
 
                 <h4>Already have an account? <span onClick={() => { setActive("signin") }}> Sign In</span></h4>
                 <br />
