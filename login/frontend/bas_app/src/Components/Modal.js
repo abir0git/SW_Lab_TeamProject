@@ -22,7 +22,7 @@ const Modal = (props) => {
         }
         else if (active === "signup") {
             return <div id="signupm">
-                <SignUp1  />
+                <SignUp  />
 
                 <h4>Already have an account? <span onClick={() => { setActive("signin") }}> Sign In</span></h4>
                 <br />
