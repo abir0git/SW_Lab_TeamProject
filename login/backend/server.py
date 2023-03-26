@@ -55,6 +55,7 @@ def new_user_signup():
 		db.session.commit()
 	return redirect("http://localhost:3000/")
 		
+		
 # Running app
 if __name__ == '__main__':
 	app.run(debug=True)
