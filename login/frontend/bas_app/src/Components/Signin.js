@@ -89,7 +89,7 @@ function SignIn (props) {
         
         
         <div className="inputfield">
-        <span></span><label>Password:</label>
+        <label>Password:</label>
           <input
             name="password"
             type="password"

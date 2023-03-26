@@ -166,7 +166,27 @@ const SignUp = (props) => {
       <br />
       <form onSubmit={formik.handleSubmit} className="signup">
         <div className="inputfield">
-          <label>Name </label>
+          <label>First-Name </label>
+          <input
+            type="text"
+            name="name"
+            required
+            autoComplete="off"
+            value={formik.values.name}
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+          />
+
+
+        </div>
+
+        {formik.touched.name && formik.errors.name ? (
+          <p>{formik.errors.name}</p>
+        ) : null}
+        <br />
+
+        <div className="inputfield">
+          <label>Last-Name </label>
           <input
             type="text"
             name="name"
@@ -207,7 +227,7 @@ const SignUp = (props) => {
         <br />
 
         <div className="inputfield">
-          <label>Mobile Number</label>
+          <label>Phone Number</label>
           <input
             type="tel"
             name="mobile"
@@ -226,29 +246,11 @@ const SignUp = (props) => {
         ) : null}
         <br />
 
-        <div className="inputfield">
-          <label>College</label>
-          <input
-            type="text"
-            name="college"
-            required
-            autoComplete="off"
-            value={formik.values.college}
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-          />
 
-
-        </div>
-
-        {formik.touched.college && formik.errors.college ? (
-          <p>{formik.errors.college}</p>
-        ) : null}
-        <br />
 
         <div className="inputfield sel">
-          <label>State</label>
-          <select
+          <label>City</label>
+          <input
             type="text"
             name="state"
             required
@@ -259,9 +261,8 @@ const SignUp = (props) => {
               formik.handleBlur
             }
           >
-            <option value="" unselectable="true" label="Select your State">Select your State</option>
-            
-          </select>
+
+          </input>
 
 
         </div>
@@ -270,65 +271,32 @@ const SignUp = (props) => {
           <p>{formik.errors.state}</p>
         ) : null}
         <br />
+
         <div className="inputfield sel">
-          <label>City </label>
-          <select
-
-            name="city"
-            required
-            autoComplete="off"
-            value={formik.values.city}
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-          >
-            <option value="" label="Select your City" unselectable="true">Select your City</option>
-
-            {/* {data.states.map((e)=>{
-            console.log("hell")
-            return(e.state==state?e.districts.map((ele)=>{
-              return(<option value={ele} label={ele}>{ele}</option>)
-            }):""
-)})} */}
-            {
-              statecity.map(ele => {
-                return (<option value={ele} label={ele}>{ele}</option>)
-              })
-            }
-          </select>
-
-
-        </div>
-
-        {formik.touched.city && formik.errors.city ? (
-          <p>{formik.errors.city}</p>
-        ) : null}
-        <br />
-
-
-
-        <div className="inputfield calender" onClick={() => {
-          document.getElementById("datepicker-signup").showPicker()
-        }}>
-          <label htmlFor="dob">Date of Birth </label>
+          <label>State</label>
           <input
-            type="date"
-            name="dob"
+            type="text"
+            name="state"
             required
             autoComplete="off"
-            value={formik.values.dob}
+            value={formik.values.state}
             onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-            className='dateinput'
-            id="datepicker-signup"
-          />
+            onBlur={
+              formik.handleBlur
+            }
+          >
+
+          </input>
 
 
         </div>
 
-        {formik.touched.dob && formik.errors.dob ? (
-          <p>{formik.errors.dob}</p>
+        {formik.touched.state && formik.errors.state ? (
+          <p>{formik.errors.state}</p>
         ) : null}
         <br />
+
+
 
         <div className="inputfield sel">
           <label>Gender </label>
@@ -355,78 +323,9 @@ const SignUp = (props) => {
         ) : null}
         <br />
 
-        <div className="inputfield">
-          <label>Year of Passing </label>
-          <select
-            type="text"
-            name="yop"
-            required
-            autoComplete="off"
-            value={formik.values.yop}
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-          >
-            <option value="" label="Select Year Of Passing ">Select Year Of Passing</option>
-            <option value="2023" label="2023">2023</option>
-            <option value="2024" label="2024">2024</option>
-            <option value="2025" label="2025">2025</option>
-            <option value="2026" label="2026">2026</option>
-            <option value="2027" label="2027">2027</option>
-            <option value="2028" label="2028">2028</option>
-            <option value="2029" label="2029">2029</option>
-          </select>
-
-          <div className="underline"></div>
-        </div>
-
-        {formik.touched.yop && formik.errors.yop ? (
-          <p>{formik.errors.yop}</p>
-        ) : null}
-        <br />
-        <div className="inputfield sel">
-          <label>Security Question </label>
-          <input
-            type="text"
-            name="security_qn"
-            required
-            autoComplete="off"
-            value={formik.values.security_qn}
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-          />
-          {/* <option value="Select your Security Question" label="Security Question"></option>
-               <option value="A" label="A"></option>
-               <option value="B" label="B"></option>
-               <option value="C" label="C"></option>
-               </select> */}
 
 
-        </div>
 
-        {formik.touched.security_qn && formik.errors.security_qn ? (
-          <p>{formik.errors.security_qn}</p>
-        ) : null}
-        <br />
-
-        <div className="inputfield">
-          <label>Answer </label>
-          <input
-            type="text"
-            name="security_ans"
-            required
-            autoComplete="off"
-            value={formik.values.security_ans}
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-          />
-
-
-        </div>
-
-        {formik.touched.security_ans && formik.errors.security_ans ? (
-          <p>{formik.errors.security_ans}</p>
-        ) : null}
-        <br />
 
 
         <div className="inputfield">
@@ -469,15 +368,6 @@ const SignUp = (props) => {
           <p>{formik.errors.cPassword}</p>
         ) : null}
         <br />
-        <div className="captcha">
-          
-        </div>
-        {formik.touched.captcha && formik.errors.captcha ? (
-          <p>{formik.errors.captcha}</p>
-        ) : null}
-        <br />
-
-
 
         <button className="sgnbutton" type="submit" >{btnText}</button>
 
