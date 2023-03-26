@@ -22,6 +22,7 @@ const SignUp = (props) => {
       lname: "",
       uname: "",
       email: "",
+      usty: "",
       adr: "",
       password: "",
       cPassword: "",
@@ -36,6 +37,8 @@ const SignUp = (props) => {
       lname: Yup.string()
         .required("Required"),
       uname: Yup.string()
+        .required("Required"),
+      usty: Yup.string()
         .required("Required"),
       email: Yup.string().email("Invalid Email").required("Required"),
       mobile: Yup.number()
@@ -65,6 +68,7 @@ const SignUp = (props) => {
         fname: values.fname,
         lname: values.lname,
         uname: values.uname,
+        usty: values.usty,
         adr: values.adr,
         email: values.email,
         password: values.password,
@@ -289,7 +293,6 @@ const SignUp = (props) => {
             <option value="Other" label="Other">Other</option>
           </select>
 
-
         </div>
 
         {formik.touched.gender && formik.errors.gender ? (
@@ -297,6 +300,29 @@ const SignUp = (props) => {
         ) : null}
         <br />
 
+        <div className="inputfield sel">
+          <label>Who are you? </label>
+          <select
+            type="text"
+            name="usty"
+            required
+            autoComplete="off"
+            value={formik.values.usty}
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+          >
+            <option value="" label="Select your Gender">Select</option>
+            <option value="1" label="Owner">Owner</option>
+            <option value="2" label="Employee">Employee</option>
+            <option value="3" label="Customer">Customer</option>
+          </select>
+
+        </div>
+
+        {formik.touched.gender && formik.errors.gender ? (
+          <p>{formik.errors.gender}</p>
+        ) : null}
+        <br />
 
 
 

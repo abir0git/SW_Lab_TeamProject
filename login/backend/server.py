@@ -43,8 +43,14 @@ def new_user_signup():
 		city = request.form.get('city')
 		state = request.form.get('state')
 		gender = request.form.get('gender')
+		usty = request.form.get('usty')
 
-		entry = new_users(FirstName = fname , LastName=lname , Email=email, Passwd=password , Username=uname, Phno=mobile, City=city, State=state, Gender=gender)
+		if(usty=="1"):
+			entry = new_users(FirstName = fname , LastName=lname , Email=email, Passwd=password , Username=uname, Phno=mobile, City=city, State=state, Gender=gender, Address=adr, User_type=1)
+		if(usty=="2"):
+			entry = new_users(FirstName = fname , LastName=lname , Email=email, Passwd=password , Username=uname, Phno=mobile, City=city, State=state, Gender=gender, Address=adr, User_type=2)
+		if(usty=="3"):
+			entry = new_users(FirstName = fname , LastName=lname , Email=email, Passwd=password , Username=uname, Phno=mobile, City=city, State=state, Gender=gender, Address=adr, User_type=3)
 		db.session.add(entry)
 		db.session.commit()
 	return redirect("http://localhost:3000/")
