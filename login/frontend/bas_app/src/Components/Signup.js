@@ -4,7 +4,8 @@ import * as Yup from "yup";
 // import "./SignUp.css";
 // import data from "./city.json"
 // var Recaptcha = require("react-recaptcha");
-const axios = require("axios");
+// const axios = require("axios");
+import axios from 'axios';
 
 const SignUp = (props) => {
   const [btnText, setbtnText] = useState("Sign Up");
@@ -87,7 +88,7 @@ const SignUp = (props) => {
         })
         .catch(function (error) {
           console.log(error);
-          props.showToast(true, "Unable to Sign Up", "Unsuccessful")
+          // props.showToast(true, "Unable to Sign Up", "Unsuccessful")
           setbtnText("Sign Up");
         });
 
