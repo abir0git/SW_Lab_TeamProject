@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import './SignIn.css';
-import * as RiIcons from "react-icons/ri";
-import * as FaIcons from "react-icons/fa";
+// import './SignIn.css';
+// import * as RiIcons from "react-icons/ri";
+// import * as FaIcons from "react-icons/fa";
 const axios = require("axios");
 function SignIn (props) {
   const [btnText, setbtnText] = useState("Sign In")
@@ -70,7 +70,7 @@ function SignIn (props) {
       
       <form className="signin" onSubmit={formik.handleSubmit}>
         <div className="inputfield">
-        <span><FaIcons.FaUserTie/></span><label>Email:</label>
+        <span></span><label>Email:</label>
           <input
             name="email"
             type="email"
@@ -89,7 +89,7 @@ function SignIn (props) {
         
         
         <div className="inputfield">
-        <span><RiIcons.RiLockPasswordFill/></span><label>Password:</label>
+        <span></span><label>Password:</label>
           <input
             name="password"
             type="password"

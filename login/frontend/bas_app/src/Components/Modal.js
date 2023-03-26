@@ -1,14 +1,19 @@
-
 import SignIn from "./Signin";
 import SignUp from "./Signup";
+import React, { useState, useEffect } from "react";
 
-const Modal = () => {
+const Modal = (props) => {
 
     const [active, setActive] = useState("signin");
-
+    function modalclose()
+	{
+        console.log("1222");
+		props.setopenmodal(false);
+        setActive("signin");
+	}
     const Modal = () => {
         if (active === "signin") {
-            return <div id='signinm'><SignIn showToast={props.showToast} setOpenModal={props.setOpenModal} />
+            return <div id='signinm'><SignIn  />
 
                 <h4>Don't have an account? <span onClick={() => { setActive("signup") }}>Sign Up</span></h4>
                 <h4 id="fp" onClick={() => { setActive("forgot1") }}>Forgot Password?</h4>
@@ -16,7 +21,7 @@ const Modal = () => {
         }
         else if (active === "signup") {
             return <div id="signupm">
-                <SignUp showToast={props.showToast} setOpenModal={props.setOpenModal} />
+                <SignUp  />
 
                 <h4>Already have an account? <span onClick={() => { setActive("signin") }}> Sign In</span></h4>
                 <br />
@@ -25,13 +30,13 @@ const Modal = () => {
         }
         else if (active === "forgot1") {
             return <div className="forgot1m">
-                <Forgot showToast={props.showToast} setActive={setActive} setEmail={setEmail} setQuestion={setQuestion} setOpenModal={props.setOpenModal} />
+                {/* <Forgot /> */}
 
             </div>
         }
         else if (active === "forgot2") {
             return <div className="forgot2m">
-                <Forgot2 showToast={props.showToast} email={email} setActive={setActive} question={question} setOpenModal={props.setOpenModal} />
+                {/* <Forgot2  /> */}
 
             </div>
         }
@@ -39,12 +44,12 @@ const Modal = () => {
     }
 
     return (
-        <div className="sgnmodalBackground" onClick={closeModal} ref={modalRef}>
+        <div className="sgnmodalBackground" >
             <div className="sgnmodalContainer">
                 <div className="sgnmodalclose">
                     <button
                         onClick={() => {
-                            props.setOpenModal(false);
+                            props.setopenmodal(false);
                         }}
                     >
                         X

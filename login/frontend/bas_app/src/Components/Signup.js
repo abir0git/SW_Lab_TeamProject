@@ -1,21 +1,21 @@
-import React, {useState,useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import "./SignUp.css";
-import data from "./city.json"
-var Recaptcha = require("react-recaptcha");
+// import "./SignUp.css";
+// import data from "./city.json"
+// var Recaptcha = require("react-recaptcha");
 const axios = require("axios");
 
 const SignUp = (props) => {
   const [btnText, setbtnText] = useState("Sign Up");
   const [statecity, setStatecity] = useState([])
-  const [captcha, setCaptcha]= useState("");
-  function calculateAge(birthday) {
-    var ageDifMs = Date.now() - birthday;
-    var ageDate = new Date(ageDifMs); // miliseconds from epoch
-    console.log(Math.abs(ageDate.getUTCFullYear()-1970))
-    return Math.abs(ageDate.getUTCFullYear()-1970);
-}
+  const [captcha, setCaptcha] = useState("");
+  //   function calculateAge(birthday) {
+  //     var ageDifMs = Date.now() - birthday;
+  //     var ageDate = new Date(ageDifMs); // miliseconds from epoch
+  //     console.log(Math.abs(ageDate.getUTCFullYear()-1970))
+  //     return Math.abs(ageDate.getUTCFullYear()-1970);
+  // }
   const formik = useFormik({
     initialValues: {
       name: "",
@@ -31,15 +31,15 @@ const SignUp = (props) => {
       yop: "",
       security_qn: "",
       security_ans: "",
-      captcha:"",
+      captcha: "",
     },
     validationSchema: Yup.object({
       name: Yup.string()
         .required("Required"),
       email: Yup.string().email("Invalid Email").required("Required"),
       mobile: Yup.number()
-        .min(1000000000,"Inalid Phone Number")
-        .max(9999999999,"Inalid Phone Number")
+        .min(1000000000, "Inalid Phone Number")
+        .max(9999999999, "Inalid Phone Number")
         .typeError("Inalid Phone Number")
         .integer("Inalid Phone Number")
         .required("Required"),
@@ -47,9 +47,6 @@ const SignUp = (props) => {
         .required("Required")
         .matches(/^[',0-9a-zA-Z\s,-]+$/, "Invalid College Name"),
       dob: Yup.string()
-        .test("dob","You must be older than 16 years to register.",function(dob) {
-          return calculateAge(new Date(dob)) > 16;
-      })
         .required("Required"),
       gender: Yup.string()
         .required("Required"),
@@ -57,11 +54,11 @@ const SignUp = (props) => {
         .required("Required")
         .typeError("Invalid Input")
         .integer("Invalid Input")
-        .max(2029,"Invalid Input")
-        .min(2023,"Invalid Input"),
+        .max(2029, "Invalid Input")
+        .min(2023, "Invalid Input"),
       security_qn: Yup.string()
         .required("Required")
-        .matches(/^[?,0-9a-zA-Z\s,-]+$/, "Field cannot contain Special Characteres"), 
+        .matches(/^[?,0-9a-zA-Z\s,-]+$/, "Field cannot contain Special Characteres"),
       security_ans: Yup.string()
         .required("Required"),
       password: Yup.string()
@@ -71,27 +68,27 @@ const SignUp = (props) => {
         .min(8, "Password msut be 8 chracters long")
         .required("Required")
         .oneOf([Yup.ref('password'), null], 'Password does not match'),
-        city: Yup.string().required("Required"),
-        state: Yup.string().required("Required"),
-        captcha: Yup.mixed().required("Captcha Required")
+      city: Yup.string().required("Required"),
+      state: Yup.string().required("Required"),
+      captcha: Yup.mixed().required("Captcha Required")
     }),
     onSubmit: (values) => {
       //console.log('hel')
       setbtnText("Signing up...");
       const req = {
-          name: values.name,
-          email: values.email,
-          password: values.password,
-          mobile: values.mobile,
-          college: values.college,
-          city: values.city,
-          state: values.state,
-          dob: values.dob,
-          gender: values.gender,
-          yop: values.yop,
-          security_qn: values.security_qn,
-          security_ans: values.security_ans,
-          captcha: captcha,
+        name: values.name,
+        email: values.email,
+        password: values.password,
+        mobile: values.mobile,
+        college: values.college,
+        city: values.city,
+        state: values.state,
+        dob: values.dob,
+        gender: values.gender,
+        yop: values.yop,
+        security_qn: values.security_qn,
+        security_ans: values.security_ans,
+        captcha: captcha,
       }
       console.log(req);
       axios
@@ -101,8 +98,8 @@ const SignUp = (props) => {
           if (response.data.code === 0) {
             localStorage.setItem("data", JSON.stringify(response.data));
             console.log("success");
-            localStorage.setItem('logstat',true)
-            props.showToast(true,"Successfully Signed Up","Success")
+            localStorage.setItem('logstat', true)
+            props.showToast(true, "Successfully Signed Up", "Success")
             props.setOpenModal(false);
             axios
               .post(
@@ -118,65 +115,58 @@ const SignUp = (props) => {
                 );
               })
 
-          } else if (response.data.code===-1){
-            if(response.data.message.email){
-            props.showToast(true,response.data.message.email,"Unsuccessful")
+          } else if (response.data.code === -1) {
+            if (response.data.message.email) {
+              props.showToast(true, response.data.message.email, "Unsuccessful")
             }
-            else if(response.data.message.phone){
-              props.showToast(true,response.data.message.phone,"Unsuccessful")
-            }else if(response.data.message.name){
-            props.showToast(true,response.data.message.name,"Unsuccessful")
-            }else if(response.data.message.security_qn){
-            props.showToast(true,response.data.message.security_qn,"Unsuccessful")
-            }else if(response.data.message.security_ans){
-            props.showToast(true,response.data.message.security_ans,"Unsuccessful")
-            }else if(response.data.message.dob){
-            props.showToast(true,response.data.message.dob,"Unsuccessful")
-            }else if(response.data.message.gender){
-            props.showToast(true,response.data.message.gender,"Unsuccessful")
-            }else if(response.data.message.college){
-            props.showToast(true,response.data.message.college,"Unsuccessful")
-            }else if(response.data.message.yop){
-            props.showToast(true,response.data.message.yop,"Unsuccessful")
-            }else if(response.data.message.mobile){
-            props.showToast(true,response.data.message.mobile,"Unsuccessful")
-            }else if(response.data.message.city){
-            props.showToast(true,response.data.message.city,"Unsuccessful")
-            }else if(response.data.message.state){
-            props.showToast(true,response.data.message.state,"Unsuccessful")
-            }else if(response.data.message.captcha){
-            props.showToast(true,response.data.message.captcha,"Unsuccessful")
+            else if (response.data.message.phone) {
+              props.showToast(true, response.data.message.phone, "Unsuccessful")
+            } else if (response.data.message.name) {
+              props.showToast(true, response.data.message.name, "Unsuccessful")
+            } else if (response.data.message.security_qn) {
+              props.showToast(true, response.data.message.security_qn, "Unsuccessful")
+            } else if (response.data.message.security_ans) {
+              props.showToast(true, response.data.message.security_ans, "Unsuccessful")
+            } else if (response.data.message.dob) {
+              props.showToast(true, response.data.message.dob, "Unsuccessful")
+            } else if (response.data.message.gender) {
+              props.showToast(true, response.data.message.gender, "Unsuccessful")
+            } else if (response.data.message.college) {
+              props.showToast(true, response.data.message.college, "Unsuccessful")
+            } else if (response.data.message.yop) {
+              props.showToast(true, response.data.message.yop, "Unsuccessful")
+            } else if (response.data.message.mobile) {
+              props.showToast(true, response.data.message.mobile, "Unsuccessful")
+            } else if (response.data.message.city) {
+              props.showToast(true, response.data.message.city, "Unsuccessful")
+            } else if (response.data.message.state) {
+              props.showToast(true, response.data.message.state, "Unsuccessful")
+            } else if (response.data.message.captcha) {
+              props.showToast(true, response.data.message.captcha, "Unsuccessful")
             }
-          setbtnText("Sign Up");
-          }else{
-            props.showToast(true,response.data.message,"Unsuccessful");          }
             setbtnText("Sign Up");
+          } else {
+            props.showToast(true, response.data.message, "Unsuccessful");
+          }
+          setbtnText("Sign Up");
         })
         .catch(function (error) {
           console.log(error);
-          props.showToast(true,"Unable to Sign Up","Unsuccessful")
+          props.showToast(true, "Unable to Sign Up", "Unsuccessful")
           setbtnText("Sign Up");
         });
-      
+
     },
   });
-  useEffect(() => {
-    data.states.forEach(element => {
-      
-      if(formik.values.state==element.state) {
-        setStatecity(element.districts)
-      } 
-    });
-  
-  }, [formik.values.state])
-  
+
+
   return (
     <div className="form-box">
       <h2>SignUp </h2>
-      <br/>
+      <br />
       <form onSubmit={formik.handleSubmit} className="signup">
         <div className="inputfield">
-        <label>Name </label>
+          <label>Name </label>
           <input
             type="text"
             name="name"
@@ -186,8 +176,8 @@ const SignUp = (props) => {
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
           />
-          
-          
+
+
         </div>
 
         {formik.touched.name && formik.errors.name ? (
@@ -196,19 +186,19 @@ const SignUp = (props) => {
         <br />
 
         <div className="inputfield">
-        <label>Email </label>
+          <label>Email </label>
           <input
             type="email"
             name="email"
-            
+
             required
             autoComplete="off"
             value={formik.values.email}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
           />
-          
-          
+
+
         </div>
 
         {formik.touched.email && formik.errors.email ? (
@@ -217,7 +207,7 @@ const SignUp = (props) => {
         <br />
 
         <div className="inputfield">
-        <label>Mobile Number</label>
+          <label>Mobile Number</label>
           <input
             type="tel"
             name="mobile"
@@ -227,8 +217,8 @@ const SignUp = (props) => {
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
           />
-          
-          
+
+
         </div>
 
         {formik.touched.mobile && formik.errors.mobile ? (
@@ -237,7 +227,7 @@ const SignUp = (props) => {
         <br />
 
         <div className="inputfield">
-        <label>College</label>
+          <label>College</label>
           <input
             type="text"
             name="college"
@@ -247,8 +237,8 @@ const SignUp = (props) => {
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
           />
-          
-          
+
+
         </div>
 
         {formik.touched.college && formik.errors.college ? (
@@ -257,7 +247,7 @@ const SignUp = (props) => {
         <br />
 
         <div className="inputfield sel">
-        <label>State</label>
+          <label>State</label>
           <select
             type="text"
             name="state"
@@ -269,14 +259,11 @@ const SignUp = (props) => {
               formik.handleBlur
             }
           >
-          <option value="" unselectable="true" label="Select your State">Select your State</option>
-          {
-            data.states.map((e)=>{const districts=e.districts
-              return(<option value={e.state} label={e.state}>{e.state}</option>)})
-}
+            <option value="" unselectable="true" label="Select your State">Select your State</option>
+            
           </select>
-          
-          
+
+
         </div>
 
         {formik.touched.state && formik.errors.state ? (
@@ -284,9 +271,9 @@ const SignUp = (props) => {
         ) : null}
         <br />
         <div className="inputfield sel">
-        <label>City </label>
+          <label>City </label>
           <select
-            
+
             name="city"
             required
             autoComplete="off"
@@ -294,22 +281,22 @@ const SignUp = (props) => {
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
           >
-          <option value="" label="Select your City" unselectable="true">Select your City</option>
-    
-          {/* {data.states.map((e)=>{
+            <option value="" label="Select your City" unselectable="true">Select your City</option>
+
+            {/* {data.states.map((e)=>{
             console.log("hell")
             return(e.state==state?e.districts.map((ele)=>{
               return(<option value={ele} label={ele}>{ele}</option>)
             }):""
 )})} */}
-{
-  statecity.map(ele=>{
-    return(<option value={ele} label={ele}>{ele}</option>)
-  })
-}
+            {
+              statecity.map(ele => {
+                return (<option value={ele} label={ele}>{ele}</option>)
+              })
+            }
           </select>
-          
-          
+
+
         </div>
 
         {formik.touched.city && formik.errors.city ? (
@@ -317,11 +304,11 @@ const SignUp = (props) => {
         ) : null}
         <br />
 
-        
 
-        <div className="inputfield calender" onClick={()=>{
+
+        <div className="inputfield calender" onClick={() => {
           document.getElementById("datepicker-signup").showPicker()
-}}>
+        }}>
           <label htmlFor="dob">Date of Birth </label>
           <input
             type="date"
@@ -334,8 +321,8 @@ const SignUp = (props) => {
             className='dateinput'
             id="datepicker-signup"
           />
-          
-          
+
+
         </div>
 
         {formik.touched.dob && formik.errors.dob ? (
@@ -344,7 +331,7 @@ const SignUp = (props) => {
         <br />
 
         <div className="inputfield sel">
-        <label>Gender </label>
+          <label>Gender </label>
           <select
             type="text"
             name="gender"
@@ -354,13 +341,13 @@ const SignUp = (props) => {
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
           >
-          <option value="" label="Select your Gender">Select your Gender</option>
-          <option value="M" label="Male">Male</option>
-          <option value="F" label="Female">Female</option>
-          <option value="Other" label="Other">Other</option>
-         </select>
-          
-          
+            <option value="" label="Select your Gender">Select your Gender</option>
+            <option value="M" label="Male">Male</option>
+            <option value="F" label="Female">Female</option>
+            <option value="Other" label="Other">Other</option>
+          </select>
+
+
         </div>
 
         {formik.touched.gender && formik.errors.gender ? (
@@ -369,7 +356,7 @@ const SignUp = (props) => {
         <br />
 
         <div className="inputfield">
-         <label>Year of Passing </label>
+          <label>Year of Passing </label>
           <select
             type="text"
             name="yop"
@@ -388,7 +375,7 @@ const SignUp = (props) => {
             <option value="2028" label="2028">2028</option>
             <option value="2029" label="2029">2029</option>
           </select>
-          
+
           <div className="underline"></div>
         </div>
 
@@ -397,7 +384,7 @@ const SignUp = (props) => {
         ) : null}
         <br />
         <div className="inputfield sel">
-        <label>Security Question </label>
+          <label>Security Question </label>
           <input
             type="text"
             name="security_qn"
@@ -407,22 +394,22 @@ const SignUp = (props) => {
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
           />
-           {/* <option value="Select your Security Question" label="Security Question"></option>
+          {/* <option value="Select your Security Question" label="Security Question"></option>
                <option value="A" label="A"></option>
                <option value="B" label="B"></option>
                <option value="C" label="C"></option>
                </select> */}
-          
-          
+
+
         </div>
 
         {formik.touched.security_qn && formik.errors.security_qn ? (
           <p>{formik.errors.security_qn}</p>
         ) : null}
         <br />
-        
+
         <div className="inputfield">
-         <label>Answer </label>
+          <label>Answer </label>
           <input
             type="text"
             name="security_ans"
@@ -432,13 +419,13 @@ const SignUp = (props) => {
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
           />
-          
-          
+
+
         </div>
 
         {formik.touched.security_ans && formik.errors.security_ans ? (
           <p>{formik.errors.security_ans}</p>
-        ) : null} 
+        ) : null}
         <br />
 
 
@@ -453,7 +440,7 @@ const SignUp = (props) => {
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
           />
-          
+
           <div className="underline"></div>
         </div>
 
@@ -474,7 +461,7 @@ const SignUp = (props) => {
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
           />
-          
+
           <div className="underline"></div>
         </div>
 
@@ -483,32 +470,19 @@ const SignUp = (props) => {
         ) : null}
         <br />
         <div className="captcha">
-        <Recaptcha
-        
-        sitekey='6Ldpbz0UAAAAAHWONmYJCv8nbMwG4w-htCr8iC1p'
-        secretkey='6LdaqAUaAAAAADDxBzlEOWodcZDpymVMc_C-oW4f'
-        render="explicit"
-        theme="dark"
-        verifyCallback={(response) =>  {
-          console.log('response', response)
-        formik.setFieldValue("captcha",response)
-        setCaptcha(response); }}
-        onloadCallback={() => { console.log("done loading!"); }}
-        
-
-        />
+          
         </div>
         {formik.touched.captcha && formik.errors.captcha ? (
           <p>{formik.errors.captcha}</p>
-          ) : null}
-          <br/>
-         
+        ) : null}
+        <br />
+
 
 
         <button className="sgnbutton" type="submit" >{btnText}</button>
-        
+
       </form>
-      
+
     </div>
   );
 };
