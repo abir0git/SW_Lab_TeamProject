@@ -1,6 +1,7 @@
 import SignIn from "./Signin";
 import SignUp from "./Signup";
 import SignUp1 from "./Signup1";
+import SignIn1 from "./Signin1";
 import React, { useState, useEffect } from "react";
 
 const Modal = (props) => {
@@ -14,7 +15,7 @@ const Modal = (props) => {
 	}
     const Modal = () => {
         if (active === "signin") {
-            return <div id='signinm'><SignIn  />
+            return <div id='signinm'><SignIn1  />
 
                 <h4>Don't have an account? <span onClick={() => { setActive("signup") }}>Sign Up</span></h4>
                 <h4 id="fp" onClick={() => { setActive("forgot1") }}>Forgot Password?</h4>
@@ -22,7 +23,7 @@ const Modal = (props) => {
         }
         else if (active === "signup") {
             return <div id="signupm">
-                <SignUp  />
+                <SignUp1  />
 
                 <h4>Already have an account? <span onClick={() => { setActive("signin") }}> Sign In</span></h4>
                 <br />

@@ -3,6 +3,11 @@ import MySQLdb
 from flask_mysqldb import MySQL
 from flask import Flask, Response, request, redirect
 from flask_sqlalchemy import SQLAlchemy
+from flask_login import UserMixin, login_user , logout_user , login_required, LoginManager, current_user
+from flask_wtf import  FlaskForm
+from flask_bcrypt import Bcrypt
+from wtforms import StringField, PasswordField , SubmitField
+from wtforms.validators import InputRequired, Length , ValidationError
 import datetime
 import requests
 
@@ -13,8 +18,12 @@ app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:mazaqwer7531%40@localhost/bas_sw'
 # app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:password@localhost/bas_sw'
 db = SQLAlchemy(app)
+bcrypt = Bcrypt(app)
+login_manager = LoginManager()
+login_manager.init_app(app)
+login_manager.login_view = "login"
 
-class new_users(db.Model):
+class new_users(db.Model, UserMixin):
 	sno = db.Column(db.Integer, primary_key=True)
 	LastName = db.Column(db.String(30),  nullable=False)
 	FirstName = db.Column(db.String(30), nullable=False)
@@ -39,6 +48,7 @@ def new_user_signup():
 		adr = request.form.get('adr')
 		email = request.form.get('email')
 		password = request.form.get('password')
+		# hashed_passwd = bcrypt.generate_password_hash(password)
 		mobile = request.form.get('mobile')
 		city = request.form.get('city')
 		state = request.form.get('state')
@@ -55,6 +65,20 @@ def new_user_signup():
 		db.session.commit()
 	return redirect("http://localhost:3000/")
 		
+
+@app.route('/login',methods= ['GET','POST'] )
+def usr_login():
+	if(request.method == 'POST'):
+		uname = request.form.get('uname')
+		password = request.form.get('password')
+		user = new_users.query.filter_by(Username=uname)
+		if user:
+			if (user.Passwd == password):
+				return "Successful"
+			else: 
+				return "Not a success"
+		else:
+			return "Username not found"
 
 # Running app
 if __name__ == '__main__':
