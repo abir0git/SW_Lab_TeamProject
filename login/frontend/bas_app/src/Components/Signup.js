@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
+import axios from 'axios';
 // import "./SignUp.css";
 // import data from "./city.json"
 // var Recaptcha = require("react-recaptcha");
 // const axios = require("axios");
-import axios from 'axios';
 
 const SignUp = (props) => {
   const [btnText, setbtnText] = useState("Sign Up");

@@ -72,9 +72,9 @@ def usr_login():
 		uname = request.form.get('uname')
 		password = request.form.get('password')
 		user = new_users.query.filter_by(Username=uname).first()
-		print("HQQQ")
-		print(user == None)
-		print("HIIII")
+		# print("HQQQ")
+		# print(user == None)
+		# print("HIIII") 
 		if (user != None):
 			if (user.Passwd == password):
 				return "Hi , " + user.FirstName + " " + user.LastName
