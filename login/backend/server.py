@@ -54,7 +54,12 @@ def new_user_signup():
 		state = request.form.get('state')
 		gender = request.form.get('gender')
 		usty = request.form.get('usty')
-
+		usr_sm = new_users.query.filter_by(Username=uname).first()
+		email_sm = new_users.query.filter_by(Email=email).first()
+		if (usr_sm != None):
+			return "Username already exists"
+		if (email_sm != None):
+			return "Email already exists"
 		if(usty=="1"):
 			entry = new_users(FirstName = fname , LastName=lname , Email=email, Passwd=password , Username=uname, Phno=mobile, City=city, State=state, Gender=gender, Address=adr, User_type=1)
 		if(usty=="2"):
