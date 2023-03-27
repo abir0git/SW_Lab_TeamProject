@@ -71,14 +71,18 @@ def usr_login():
 	if(request.method == 'POST'):
 		uname = request.form.get('uname')
 		password = request.form.get('password')
-		user = new_users.query.filter_by(Username=uname)
-		if user:
+		user = new_users.query.filter_by(Username=uname).first()
+		print("HQQQ")
+		print(user == None)
+		print("HIIII")
+		if (user != None):
 			if (user.Passwd == password):
-				return "Successful"
+				return "Hi , " + user.FirstName + " " + user.LastName
 			else: 
-				return "Not a success"
+				return "Wrong Password"
 		else:
 			return "Username not found"
+	# return "Hello World"
 
 # Running app
 if __name__ == '__main__':
