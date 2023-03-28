@@ -11,6 +11,7 @@ from wtforms import StringField, PasswordField , SubmitField
 from wtforms.validators import InputRequired, Length , ValidationError
 import datetime
 import requests
+from flask_cors import CORS
 
 x = datetime.datetime.now()
 
@@ -26,6 +27,8 @@ login_manager.login_view = "login"
 user_logged_in = False
 user_fname = ""
 user_lname = ""
+# CORS(app , origins=["http://localhost:3000/"] , expose_headers = ["Content_Type" , "X-CSRFToken"] , supports_credentials = True)
+cors = CORS(app)
 
 class new_users(db.Model, UserMixin):
 	sno = db.Column(db.Integer, primary_key=True)
@@ -89,7 +92,8 @@ def usr_login():
 			if (user.Passwd == password):
 				user_fname = user.FirstName  
 				user_lname = user.LastName
-				return "Hi , " + user.FirstName + " " + user.LastName
+				# return "Hi , " + user.FirstName + " " + user.LastName
+				return redirect("http://localhost:3000/user")
 			else: 
 				return "Wrong Password"
 		else:
@@ -106,6 +110,7 @@ def returnuser():
         }  
         return jsonify(data)
     
+
 # Running app
 if __name__ == '__main__':
 	app.run(debug=True)
