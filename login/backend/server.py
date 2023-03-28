@@ -37,6 +37,12 @@ class new_users(db.Model, UserMixin):
 	Gender = db.Column(db.String(10), nullable=False)
 	User_type = db.Column(db.Integer, nullable=False)
 
+class all_book(db.Model, UserMixin):
+	sno = db.Column(db.Integer, primary_key=True)
+	name = db.Column(db.String(20), nullable=False)
+	author = db.Column(db.String(20), nullable=False)
+	ISBN = db.Column(db.String(45), nullable=False, unique=True)
+
 
 # Route for new user signup
 @app.route('/signup' , methods= ['GET','POST'] )
@@ -91,11 +97,16 @@ def usr_login():
 			return "Username not found"
 	# return "Hello World"
 
-app.route('/customer/search', methods=['GET', 'POST'])
+@app.route('/search', methods=['GET', 'POST'])
 def book_search():
 	if(request.method == 'POST'):
-		pass
-		name = request.form.get()
+		search_key = request.form.get('search_key')
+		print(89)
+		books = all_book.query.filter_by(name=search_key).all()
+		for book in books:
+			print(book.name)
+		return redirect("http://localhost:3000/")
+
 
 # Running app
 if __name__ == '__main__':
