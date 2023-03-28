@@ -91,6 +91,12 @@ def usr_login():
 			return "Username not found"
 	# return "Hello World"
 
+app.route('/customer/search', methods=['GET', 'POST'])
+def book_search():
+	if(request.method == 'POST'):
+		pass
+		name = request.form.get()
+
 # Running app
 if __name__ == '__main__':
 	app.run(debug=True)
