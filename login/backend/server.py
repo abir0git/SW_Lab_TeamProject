@@ -12,6 +12,7 @@ from wtforms.validators import InputRequired, Length, ValidationError
 import datetime
 import requests
 from flask_cors import CORS
+from flask_cors import cross_origin
 
 x = datetime.datetime.now()
 
@@ -28,7 +29,7 @@ user_logged_in = False
 user_fname = ""
 user_lname = ""
 # CORS(app , origins=["http://localhost:3000/"] , expose_headers = ["Content_Type" , "X-CSRFToken"] , supports_credentials = True)
-cors = CORS(app)
+CORS(app)
 
 
 class new_users(db.Model, UserMixin):
@@ -106,6 +107,7 @@ def usr_login():
 
 
 @app.route('/get_user', methods=['GET'])
+@cross_origin(origins=['http://localhost:3000'])
 def returnuser():
     if (request.method == 'GET' and user_logged_in == True):
         data = {
@@ -113,7 +115,8 @@ def returnuser():
             "LastName": user_lname,
         }
         res = jsonify(data)
-        res.headers.add("Access-Control-Allow-Origin", "*")
+        # res.headers.add("Access-Control-Allow-Origin", "*")
+        res.headers.add("Access-Control-Allow-Origin", "http://localhost:5000/")
         return res
 
 
