@@ -126,8 +126,9 @@ const Signup1 = () => {
             >
               <option value="" label="Select">Select</option>
               <option value="1" label="Owner">Owner</option>
-              <option value="2" label="Employee">Employee</option>
-              <option value="3" label="Customer">Customer</option>
+              <option value="2" label="Manager">Employee</option>
+              <option value="3" label="Clerk">Customer</option>
+              <option value="4" label="Customer">Customer</option>
             </select>
   
           </div>
