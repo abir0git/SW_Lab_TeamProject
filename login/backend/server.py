@@ -18,7 +18,7 @@ x = datetime.datetime.now()
 
 # Initializing flask app
 app = Flask(__name__)
-# app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:Babai#123@localhost/bas_sw'
+# app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:password@localhost/bas_sw'
 
 
 db = SQLAlchemy(app)
@@ -79,6 +79,9 @@ def new_user_signup():
         if (usty == "3"):
             entry = new_users(FirstName=fname, LastName=lname, Email=email, Passwd=password, Username=uname,
                               Phno=mobile, City=city, State=state, Gender=gender, Address=adr, User_type=3)
+        if (usty == "4"):
+            entry = new_users(FirstName=fname, LastName=lname, Email=email, Passwd=password, Username=uname,
+                              Phno=mobile, City=city, State=state, Gender=gender, Address=adr, User_type=4)
         db.session.add(entry)
         user_logged_in = True
         db.session.commit()
