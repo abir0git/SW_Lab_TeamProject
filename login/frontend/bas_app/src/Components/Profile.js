@@ -1,6 +1,15 @@
 const Profile = () => {
+
+
+    
+
+    useEffect(() => {
+        fetch("http://localhost:5000/get_user").then((response)=> response.json)
+    .then((json)=> console.log(json));
+      });
+
     return ( 
-        <div></div>
+        <div>HELLO USER</div>
      );
 }
  
