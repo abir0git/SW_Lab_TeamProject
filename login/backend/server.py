@@ -1,5 +1,6 @@
 # Import flask and datetime module for showing date and time
 import MySQLdb
+from flask import jsonify
 from flask_mysqldb import MySQL
 from flask import Flask, Response, request, redirect
 from flask_sqlalchemy import SQLAlchemy
@@ -15,13 +16,16 @@ x = datetime.datetime.now()
 
 # Initializing flask app
 app = Flask(__name__)
-
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:mazaqwer7531%40@localhost/bas_sw'
 # app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:password@localhost/bas_sw'
 db = SQLAlchemy(app)
 bcrypt = Bcrypt(app)
 login_manager = LoginManager()
 login_manager.init_app(app)
 login_manager.login_view = "login"
+user_logged_in = False
+user_fname = ""
+user_lname = ""
 
 class new_users(db.Model, UserMixin):
 	sno = db.Column(db.Integer, primary_key=True)
@@ -67,6 +71,7 @@ def new_user_signup():
 		if(usty=="3"):
 			entry = new_users(FirstName = fname , LastName=lname , Email=email, Passwd=password , Username=uname, Phno=mobile, City=city, State=state, Gender=gender, Address=adr, User_type=3)
 		db.session.add(entry)
+		user_logged_in = True
 		db.session.commit()
 	return redirect("http://localhost:3000/")
 		
@@ -82,6 +87,8 @@ def usr_login():
 		# print("HIIII") 
 		if (user != None):
 			if (user.Passwd == password):
+				user_fname = user.FirstName  
+				user_lname = user.LastName
 				return "Hi , " + user.FirstName + " " + user.LastName
 			else: 
 				return "Wrong Password"
@@ -89,6 +96,16 @@ def usr_login():
 			return "Username not found"
 	# return "Hello World"
 
+
+@app.route('/get_user', methods = ['GET'])
+def returnuser():
+    if(request.method == 'GET' and user_logged_in == True):
+        data = {
+            "FirstName" : user_fname,
+            "LastName" : user_lname,
+        }  
+        return jsonify(data)
+    
 # Running app
 if __name__ == '__main__':
 	app.run(debug=True)
