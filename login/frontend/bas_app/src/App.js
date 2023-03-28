@@ -6,9 +6,11 @@ import LoginButton from "./Components/LoginButton"
 import "./Components/Css_files/Modal.css"
 import "./Components/Css_files/Signup.css"
 import "./Components/Css_files/Signin.css"
+import Profile from "./Components/Profile";
 
 function App() {
 	const [openmodal, setopenmodal] = useState(false);
+	const[loggedin_setloggedin] = useState(false);
 	
 	return (
 	
@@ -18,6 +20,13 @@ function App() {
             path="/"
             element={     <div>
 				<LoginButton openmodal={openmodal} setopenmodal={setopenmodal}></LoginButton>
+			</div>      }
+          />
+			<Route
+            exact
+            path="/user"
+            element={     <div>
+				<Profile/>
 			</div>      }
           />
 			
