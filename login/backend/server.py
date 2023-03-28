@@ -16,7 +16,7 @@ x = datetime.datetime.now()
 # Initializing flask app
 app = Flask(__name__)
 
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:Babai#123@localhost/bas_sw'
+# app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:password@localhost/bas_sw'
 db = SQLAlchemy(app)
 bcrypt = Bcrypt(app)
 login_manager = LoginManager()
