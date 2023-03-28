@@ -26,8 +26,8 @@ login_manager = LoginManager()
 login_manager.init_app(app)
 login_manager.login_view = "login"
 user_logged_in = False
-user_fname = ""
-user_lname = ""
+user_fname = "dummyf"
+user_lname = "dummyl"
 # CORS(app , origins=["http://localhost:3000/"] , expose_headers = ["Content_Type" , "X-CSRFToken"] , supports_credentials = True)
 CORS(app)
 
@@ -86,6 +86,8 @@ def new_user_signup():
 
 @app.route('/login', methods=['GET', 'POST'])
 def usr_login():
+    global user_fname
+    global user_lname
     if (request.method == 'POST'):
         uname = request.form.get('uname')
         password = request.form.get('password')
@@ -109,15 +111,39 @@ def usr_login():
 @app.route('/get_user', methods=['GET'])
 @cross_origin(origins=['http://localhost:3000'])
 def returnuser():
-    if (request.method == 'GET' and user_logged_in == True):
+    global user_fname
+    global user_lname
+    if (request.method == 'GET' ):
         data = {
             "FirstName": user_fname,
             "LastName": user_lname,
         }
         res = jsonify(data)
         # res.headers.add("Access-Control-Allow-Origin", "*")
-        res.headers.add("Access-Control-Allow-Origin", "http://localhost:5000/")
+        # res.headers.add("Access-Control-Allow-Origin", "http://localhost:5000/")
         return res
+    
+@app.route('/get_user11', methods=['GET'])
+@cross_origin(origins=['http://localhost:3000'])
+def returnuser11():
+    if (request.method == 'GET' ):
+        data = {
+            "id" : 1,
+            "FirstName": "ABC",
+            "LastName": "XYZ",
+        }
+        res = jsonify(data)
+        # print(type(res))
+        print(res.json)
+        print(type(res.json))
+        # print((data))
+        return res
+        return "Hi"
+        # return (jsonify(data))
+        # res = jsonify(data)
+        # res.headers.add("Access-Control-Allow-Origin", "*")
+        # res.headers.add("Access-Control-Allow-Origin", "http://localhost:5000/")
+        # return res
 
 
 # Running app
@@ -147,3 +173,6 @@ if __name__ == '__main__':
 #     State varchar(30),
 #     User_type int(3)
 # );
+
+
+
