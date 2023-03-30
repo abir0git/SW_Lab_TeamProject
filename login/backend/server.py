@@ -16,7 +16,7 @@ x = datetime.datetime.now()
 # Initializing flask app
 app = Flask(__name__)
 
-# app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:password@localhost/bas_sw'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:Babai#123@localhost/bas_sw'
 db = SQLAlchemy(app)
 bcrypt = Bcrypt(app)
 login_manager = LoginManager()
@@ -42,6 +42,8 @@ class all_book(db.Model, UserMixin):
 	name = db.Column(db.String(20), nullable=False)
 	author = db.Column(db.String(20), nullable=False)
 	ISBN = db.Column(db.String(45), nullable=False, unique=True)
+	publisher = db.Column(db.String(20), nullable=False)
+	copies = db.Column(db.Integer, nullable=True)
 
 
 # Route for new user signup
@@ -100,12 +102,55 @@ def usr_login():
 @app.route('/search', methods=['GET', 'POST'])
 def book_search():
 	if(request.method == 'POST'):
-		search_key = request.form.get('search_key')
-		print(89)
-		books = all_book.query.filter_by(name=search_key).all()
+		book_name = request.form.get('book_name')
+		book_author = request.form.get('book_author')
+		books = []
+
+		def Union(l1, l2):
+			return list(set.union(set(l1), set(l2)))
+
+		books = Union(books , all_book.query.filter_by(name=book_name).all())
+		books = Union(books , all_book.query.filter_by(author=book_author).all())
+
+		named_books = []
+		oth_books = []
 		for book in books:
-			print(book.name)
+			if(book.name ==book_name and book.author == book_author):
+				named_books.append(book)
+			else:
+				oth_books.append(book)
+		final_books = named_books + oth_books
+			
+		for book in final_books:
+			print(book.name, book.author)
+		
 		return redirect("http://localhost:3000/")
+
+	
+@app.route('/addbook', methods=['GET', 'POST'])
+def addbook():
+	if(request.method == 'POST'):
+		name = request.form.get('name')
+		author = request.form.get('author')
+		ISBN = request.form.get('ISBN')
+		publisher = request.form.get('publisher')
+		copies = request.form.get('copies')
+
+		print(name, author, ISBN, publisher, type(copies))
+
+		ispresent = all_book.query.filter_by(ISBN = ISBN).all()
+		if(len(ispresent) != 0):
+			book = all_book.query.filter_by(ISBN = ISBN).first()
+			book.copies += int(copies)
+			db.session.commit()
+
+		else:
+			entry = all_book(name=name, author=author, ISBN=ISBN, publisher=publisher, copies=int(copies))
+			db.session.add(entry)
+			db.session.commit()
+	
+		return redirect("http://localhost:3000/")
+
 
 
 # Running app

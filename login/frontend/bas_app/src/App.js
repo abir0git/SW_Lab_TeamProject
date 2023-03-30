@@ -4,6 +4,7 @@ import {BrowserRouter, Routes, Route, Link, useNavigate } from "react-router-dom
 import "./App.css";
 import LoginButton from "./Components/LoginButton"
 import SearchButton from "./Components/SearchButton"
+import Addbook from "./Components/Addbook"
 import "./Components/Css_files/Modal.css"
 import "./Components/Css_files/Signup.css"
 import "./Components/Css_files/Signin.css"
@@ -21,6 +22,7 @@ function App() {
 			<div>
 				<LoginButton openmodal={openmodal} setopenmodal={setopenmodal}></LoginButton>
 				<SearchButton></SearchButton>
+				<Addbook></Addbook>
 			</div>    
 			}
           />
