@@ -7,6 +7,8 @@ import "./Components/Css_files/Modal.css"
 import "./Components/Css_files/Signup.css"
 import "./Components/Css_files/Signin.css"
 import Profile from "./Components/Profile";
+import Customer from "./Components/Customer";
+import Clerk from "./Components/Clerk";
 
 function App() {
 	const [openmodal, setopenmodal] = useState(false);
@@ -27,6 +29,20 @@ function App() {
             path="/user"
             element={     <div>
 				<Profile/>
+			</div>      }
+          />
+			<Route
+            exact
+            path="/customer"
+            element={     <div>
+				<Customer/>
+			</div>      }
+          />
+			<Route
+            exact
+            path="/clerk"
+            element={     <div>
+				<Clerk/>
 			</div>      }
           />
 			

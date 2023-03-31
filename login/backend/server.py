@@ -18,7 +18,7 @@ x = datetime.datetime.now()
 
 # Initializing flask app
 app = Flask(__name__)
-# app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:password@localhost/bas_sw'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:Babai#123@localhost/bas_sw'
 
 
 
@@ -47,6 +47,16 @@ class new_users(db.Model, UserMixin):
     State = db.Column(db.String(30), nullable=False)
     Gender = db.Column(db.String(10), nullable=False)
     User_type = db.Column(db.Integer, nullable=False)
+
+class all_book(db.Model, UserMixin):
+	sno = db.Column(db.Integer, primary_key=True)
+	name = db.Column(db.String(20), nullable=False)
+	author = db.Column(db.String(20), nullable=False)
+	ISBN = db.Column(db.String(45), nullable=False, unique=True)
+	publisher = db.Column(db.String(20), nullable=False)
+	copies = db.Column(db.Integer, nullable=True)
+	shelf = db.Column(db.String(45), nullable=True)
+
 
 
 # Route for new user signup
@@ -93,6 +103,8 @@ def new_user_signup():
 def usr_login():
     global user_fname
     global user_lname
+    global username
+    global user_type
     if (request.method == 'POST'):
         uname = request.form.get('uname')
         password = request.form.get('password')
@@ -104,8 +116,15 @@ def usr_login():
             if (user.Passwd == password):
                 user_fname = user.FirstName
                 user_lname = user.LastName
+                username = user.Username
+                user_type = user.User_type
                 # return "Hi , " + user.FirstName + " " + user.LastName
-                return redirect("http://localhost:3000/user")
+                if(user_type == 3):
+                    return redirect("http://localhost:3000/clerk")
+                elif(user_type == 4):
+                    return redirect("http://localhost:3000/customer")
+                else:
+                    return redirect("http://localhost:3000/user")
             else:
                 return "Wrong Password"
         else:
@@ -127,23 +146,110 @@ def returnuser():
         # res.headers.add("Access-Control-Allow-Origin", "*")
         # res.headers.add("Access-Control-Allow-Origin", "http://localhost:5000/")
         return res
-    
-@app.route('/get_user11', methods=['GET'])
+
+@app.route('/get_customer', methods=['GET'])
 @cross_origin(origins=['http://localhost:3000'])
-def returnuser11():
+def returncustomer():
+    global user_fname
+    global user_lname
+    global username
+    global user_type
     if (request.method == 'GET' ):
         data = {
-            "id" : 1,
-            "FirstName": "ABC",
-            "LastName": "XYZ",
+            "FirstName": user_fname,
+            "LastName": user_lname,
         }
         res = jsonify(data)
-        # print(type(res))
-        print(res.json)
-        print(type(res.json))
-        # print((data))
+        # res.headers.add("Access-Control-Allow-Origin", "*")
+        # res.headers.add("Access-Control-Allow-Origin", "http://localhost:5000/")
         return res
-        return "Hi"
+
+@app.route('/get_clerk', methods=['GET'])
+@cross_origin(origins=['http://localhost:3000'])
+def returnclerk():
+    global user_fname
+    global user_lname
+    global username
+    global user_type
+    if (request.method == 'GET' ):
+        data = {
+            "FirstName": user_fname,
+            "LastName": user_lname,
+        }
+        res = jsonify(data)
+        # res.headers.add("Access-Control-Allow-Origin", "*")
+        # res.headers.add("Access-Control-Allow-Origin", "http://localhost:5000/")
+        return res
+    
+@app.route('/customer/search', methods=['GET', 'POST'])
+def book_search():
+	if(request.method == 'POST'):
+		book_name = request.form.get('book_name')
+		book_author = request.form.get('book_author')
+		books = []
+
+		def Union(l1, l2):
+			return list(set.union(set(l1), set(l2)))
+
+		books = Union(books , all_book.query.filter_by(name=book_name).all())
+		books = Union(books , all_book.query.filter_by(author=book_author).all())
+
+		named_books = []
+		oth_books = []
+		for book in books:
+			if(book.name ==book_name and book.author == book_author):
+				named_books.append(book)
+			else:
+				oth_books.append(book)
+		final_books = named_books + oth_books
+			
+		for book in final_books:
+			print(book.name, book.author)
+		
+		return redirect("http://localhost:3000/customer")
+
+@app.route('/clerk/addbook', methods=['GET', 'POST'])
+def addbook():
+	if(request.method == 'POST'):
+		name = request.form.get('name')
+		author = request.form.get('author')
+		ISBN = request.form.get('ISBN')
+		publisher = request.form.get('publisher')
+		copies = request.form.get('copies')
+		shelf = request.form.get('shelf')
+
+		print(name, author, ISBN, publisher, type(copies))
+
+		ispresent = all_book.query.filter_by(ISBN = ISBN).all()
+		if(len(ispresent) != 0):
+			book = all_book.query.filter_by(ISBN = ISBN).first()
+			book.copies += int(copies)
+			db.session.commit()
+
+		else:
+			entry = all_book(name=name, author=author, ISBN=ISBN, publisher=publisher, copies=int(copies), shelf=shelf)
+			db.session.add(entry)
+			db.session.commit()
+	
+		return redirect("http://localhost:3000/clerk")
+
+
+# @app.route('/get_user11', methods=['GET'])
+# @cross_origin(origins=['http://localhost:3000'])
+# def returnuser11():
+#     if (request.method == 'GET' ):
+#         data = {
+#             "id" : 1,
+#             "FirstName": "ABC",
+#             "LastName": "XYZ",
+#         }
+#         res = jsonify(data)
+#         # print(type(res))
+#         print(res.json)
+#         print(type(res.json))
+#         # print((data))
+#         return res
+#         return "Hi"
         # return (jsonify(data))
         # res = jsonify(data)
         # res.headers.add("Access-Control-Allow-Origin", "*")
