@@ -1,9 +1,9 @@
 const Addbook = () => {
     return ( 
-        <div >
+        <div className="form-box1">
         <h2>Addbook </h2>
         <br />
-        <form className="addbook" action="http://localhost:5000/clerk/addbook" method="post">
+        <form className="userform" action="http://localhost:5000/clerk/addbook" method="post">
           <div className="inputfield">
             <label>Name </label>
             <input
@@ -51,6 +51,15 @@ const Addbook = () => {
           </div>  
           
           <div className="inputfield">
+            <label>price </label>
+            <input
+              type="text"
+              name="price"
+              required
+            />
+          </div>  
+          
+          <div className="inputfield">
             <label>shelf no </label>
             <input
               type="text"
@@ -59,7 +68,7 @@ const Addbook = () => {
             />
           </div>  
   
-          <button type="submit" >Submit</button>
+          <button className="sgnbutton" type="submit" >Submit</button>
   
         </form>
   

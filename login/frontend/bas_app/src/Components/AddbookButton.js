@@ -9,8 +9,8 @@ const AddbookButton = (props) => {
 	}
     return ( 
         <div>
-            <button class="addbook" onClick={modalopen}>Set Keys</button>
-            {props.openmodal && <ModalUser setopenmodal={props.setopenmodal} state ={"keyset"}/>}
+            <button class="addbook" onClick={modalopen}>Add Book</button>
+            {props.openmodal && <ModalUser setopenmodal={props.setopenmodal} state ={"addbook"}/>}
         </div>
      );
 }

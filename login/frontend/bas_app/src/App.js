@@ -2,16 +2,18 @@
 import React, { useState, useEffect } from "react";
 import {BrowserRouter, Routes, Route, Link, useNavigate } from "react-router-dom";
 import "./App.css";
-import LoginButton from "./Components/LoginButton"
 import "./Components/Css_files/Modal.css"
 import "./Components/Css_files/Signup.css"
 import "./Components/Css_files/Signin.css"
+import "./Components/Css_files/Userform.css"
+import LoginButton from "./Components/LoginButton"
 import Profile from "./Components/Profile";
 import Customer from "./Components/Customer";
 import Clerk from "./Components/Clerk";
 import Manager from "./Components/Manager";
 import Owner from "./Components/Owner";
 import OTP from "./Components/OTP";
+import SearchedBooks from "./Components/SearchedBooks"
 
 function App() {
 	const [openmodal, setopenmodal] = useState(false);
@@ -67,6 +69,13 @@ function App() {
             path="/signup/otp"
             element={     <div>
 				<OTP/>
+			</div>      }
+          />
+			<Route
+            exact
+            path="/customer/searchedbooks"
+            element={     <div>
+				<SearchedBooks/>
 			</div>      }
           />
 			

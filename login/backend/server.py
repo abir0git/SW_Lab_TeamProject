@@ -16,6 +16,7 @@ from flask_cors import cross_origin
 import random
 import smtplib
 from email.mime.text import MIMEText
+import json
 x = datetime.datetime.now()
 
 # Initializing flask app
@@ -58,6 +59,7 @@ class all_book(db.Model, UserMixin):
 	publisher = db.Column(db.String(20), nullable=False)
 	copies = db.Column(db.Integer, nullable=True)
 	shelf = db.Column(db.String(45), nullable=True)
+	price = db.Column(db.String(45), nullable=False)
 		
 class private_key(db.Model, UserMixin):
 	sno = db.Column(db.Integer, primary_key=True)
@@ -309,12 +311,35 @@ def book_search():
 				named_books.append(book)
 			else:
 				oth_books.append(book)
+		
+		global final_books
 		final_books = named_books + oth_books
 			
 		for book in final_books:
 			print(book.name, book.author)
 		
-		return redirect("http://localhost:3000/customer")
+		return redirect("http://localhost:3000/customer/searchedbooks")
+	
+@app.route('/get_searchedbooks', methods=['GET'])
+@cross_origin(origins=['http://localhost:3000'])
+def get_searchedbooks():
+	global final_books
+	data = []
+	if(request.method == 'GET'):
+		for book in final_books:
+			d = {
+				"Sno" : book.sno,
+				"Name" : book.name,
+				"Author" : book.author,
+				"ISBN" : book.ISBN,
+				"Price" : book.price,
+				"Shelf" : book.shelf,
+				"Copies" : book.copies,
+				"Publisher" : book.publisher
+			}
+			data.append(d)
+		res = json.dumps(data, indent=2)
+		return res
 
 @app.route('/clerk/addbook', methods=['GET', 'POST'])
 def addbook():
@@ -325,6 +350,7 @@ def addbook():
 		publisher = request.form.get('publisher')
 		copies = request.form.get('copies')
 		shelf = request.form.get('shelf')
+		price = request.form.get('price')
 
 		print(name, author, ISBN, publisher, type(copies))
 
@@ -335,7 +361,7 @@ def addbook():
 			db.session.commit()
 
 		else:
-			entry = all_book(name=name, author=author, ISBN=ISBN, publisher=publisher, copies=int(copies), shelf=shelf)
+			entry = all_book(name=name, author=author, ISBN=ISBN, publisher=publisher, copies=int(copies), shelf=shelf, price=price)
 			db.session.add(entry)
 			db.session.commit()
 	

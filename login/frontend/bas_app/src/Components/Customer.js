@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
-import SearchButton from "./SearchButton"
+import Search from "./Search"
 import LogoutButton from "./LogoutButton";
+import SearchbookButton from "./SearckbookButton";
 
 const Customer = () => {
 
@@ -39,6 +40,7 @@ const Customer = () => {
     //         });
     //     })
 
+    const [openmodal, setopenmodal] = useState(false);
 
     useEffect(() => {
         fetch('http://localhost:5000/get_customer')
@@ -72,9 +74,12 @@ const Customer = () => {
             <div>
                 {user && <p>{user.FirstName} <span>{user.LastName}</span></p>}
             </div>
-            <div>
+            {/* <div>
                 <SearchButton></SearchButton>
-            </div>
+            </div> */}
+            <div>
+				<SearchbookButton  openmodal={openmodal} setopenmodal={setopenmodal}></SearchbookButton>
+			</div>
             <div>
                 <LogoutButton></LogoutButton>
             </div>
