@@ -61,9 +61,9 @@ class all_book(db.Model, UserMixin):
 		
 class private_key(db.Model, UserMixin):
 	sno = db.Column(db.Integer, primary_key=True)
-	clerk_key = db.Column(db.String(40), nullable=False)
-	manager_key = db.Column(db.String(40), nullable=False)
-	owner_key = db.Column(db.String(40), nullable=False)
+	clerk_key = db.Column(db.String(40), nullable=False, unique=True)
+	manager_key = db.Column(db.String(40), nullable=False, unique=True)
+	owner_key = db.Column(db.String(40), nullable=False, unique=True)
 
 
 
