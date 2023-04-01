@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import LogoutButton from "./LogoutButton"
+import Keyset from "./KeysetButton";
 
 const Owner = () => {
 
@@ -70,6 +71,9 @@ const Owner = () => {
             </div> */}
             <div>
                 {user && <p>{user.FirstName} <span>{user.LastName}</span></p>}
+            </div>
+            <div>
+                <Keyset></Keyset>
             </div>
             <div>
                 <LogoutButton></LogoutButton>

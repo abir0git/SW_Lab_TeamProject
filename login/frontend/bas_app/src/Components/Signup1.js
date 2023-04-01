@@ -136,6 +136,18 @@ const Signup1 = () => {
   
   
           <div className="inputfield">
+            <label>Secret key </label>
+            <input
+              type="password"
+              name="secret_key"
+              placeholder= "Enter 0 for customer"
+              required
+            />
+  
+            <div className="underline"></div>
+          </div>
+
+          <div className="inputfield">
             <label>Password </label>
             <input
               type="password"

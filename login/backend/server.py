@@ -35,18 +35,18 @@ CORS(app)
 
 
 class new_users(db.Model, UserMixin):
-    sno = db.Column(db.Integer, primary_key=True)
-    LastName = db.Column(db.String(30),  nullable=False)
-    FirstName = db.Column(db.String(30), nullable=False)
-    Email = db.Column(db.String(50), unique=True, nullable=False)
-    Passwd = db.Column(db.String(30), nullable=False)
-    Username = db.Column(db.String(30), unique=True, nullable=False)
-    Phno = db.Column(db.String(15), unique=True, nullable=False)
-    Address = db.Column(db.String(300), nullable=False)
-    City = db.Column(db.String(30), nullable=False)
-    State = db.Column(db.String(30), nullable=False)
-    Gender = db.Column(db.String(10), nullable=False)
-    User_type = db.Column(db.Integer, nullable=False)
+	sno = db.Column(db.Integer, primary_key=True)
+	LastName = db.Column(db.String(30),  nullable=False)
+	FirstName = db.Column(db.String(30), nullable=False)
+	Email = db.Column(db.String(50), unique=True, nullable=False)
+	Passwd = db.Column(db.String(30), nullable=False)
+	Username = db.Column(db.String(30), unique=True, nullable=False)
+	Phno = db.Column(db.String(15), unique=True, nullable=False)
+	Address = db.Column(db.String(300), nullable=False)
+	City = db.Column(db.String(30), nullable=False)
+	State = db.Column(db.String(30), nullable=False)
+	Gender = db.Column(db.String(10), nullable=False)
+	User_type = db.Column(db.Integer, nullable=False)
 
 class all_book(db.Model, UserMixin):
 	sno = db.Column(db.Integer, primary_key=True)
@@ -56,85 +56,108 @@ class all_book(db.Model, UserMixin):
 	publisher = db.Column(db.String(20), nullable=False)
 	copies = db.Column(db.Integer, nullable=True)
 	shelf = db.Column(db.String(45), nullable=True)
+		
+class private_key(db.Model, UserMixin):
+	sno = db.Column(db.Integer, primary_key=True)
+	clerk_key = db.Column(db.String(40), nullable=False)
+	manager_key = db.Column(db.String(40), nullable=False)
+	owner_key = db.Column(db.String(40), nullable=False)
 
 
 
 # Route for new user signup
 @app.route('/signup', methods=['GET', 'POST'])
 def new_user_signup():
-    if (request.method == 'POST'):
-        fname = request.form.get('fname')
-        lname = request.form.get('lname')
-        uname = request.form.get('uname')
-        adr = request.form.get('adr')
-        email = request.form.get('email')
-        password = request.form.get('password')
-        # hashed_passwd = bcrypt.generate_password_hash(password)
-        mobile = request.form.get('mobile')
-        city = request.form.get('city')
-        state = request.form.get('state')
-        gender = request.form.get('gender')
-        usty = request.form.get('usty')
-        usr_sm = new_users.query.filter_by(Username=uname).first()
-        email_sm = new_users.query.filter_by(Email=email).first()
-        if (usr_sm != None):
-            return "Username already exists"
-        if (email_sm != None):
-            return "Email already exists"
-        if (usty == "1"):
-            entry = new_users(FirstName=fname, LastName=lname, Email=email, Passwd=password, Username=uname,
-                              Phno=mobile, City=city, State=state, Gender=gender, Address=adr, User_type=1)
-        if (usty == "2"):
-            entry = new_users(FirstName=fname, LastName=lname, Email=email, Passwd=password, Username=uname,
-                              Phno=mobile, City=city, State=state, Gender=gender, Address=adr, User_type=2)
-        if (usty == "3"):
-            entry = new_users(FirstName=fname, LastName=lname, Email=email, Passwd=password, Username=uname,
-                              Phno=mobile, City=city, State=state, Gender=gender, Address=adr, User_type=3)
-        if (usty == "4"):
-            entry = new_users(FirstName=fname, LastName=lname, Email=email, Passwd=password, Username=uname,
-                              Phno=mobile, City=city, State=state, Gender=gender, Address=adr, User_type=4)
-        db.session.add(entry)
-        user_logged_in = True
-        db.session.commit()
-    return redirect("http://localhost:3000/")
+	if (request.method == 'POST'):
+		fname = request.form.get('fname')
+		lname = request.form.get('lname')
+		uname = request.form.get('uname')
+		adr = request.form.get('adr')
+		email = request.form.get('email')
+		password = request.form.get('password')
+		# hashed_passwd = bcrypt.generate_password_hash(password)
+		mobile = request.form.get('mobile')
+		city = request.form.get('city')
+		state = request.form.get('state')
+		gender = request.form.get('gender')
+		usty = request.form.get('usty')
+		privatekey = request.form.get('secret_key')
+		usr_sm = new_users.query.filter_by(Username=uname).first()
+		email_sm = new_users.query.filter_by(Email=email).first()
+		if (usr_sm != None):
+			return "Username already exists"
+		if (email_sm != None):
+			return "Email already exists"
+		
+		uniqe_row = private_key.query.filter_by(sno = 1).first()
+		if (usty == "1"):
+			# print(privatekey)
+			# print(uniqe_row.owner_key)
+			if(privatekey == uniqe_row.owner_key):
+				entry = new_users(FirstName=fname, LastName=lname, Email=email, Passwd=password, Username=uname,
+							  Phno=mobile, City=city, State=state, Gender=gender, Address=adr, User_type=1)
+			else:
+				return "Wrong private key"
+		if (usty == "2"):
+			if(privatekey == uniqe_row.manager_key):
+				entry = new_users(FirstName=fname, LastName=lname, Email=email, Passwd=password, Username=uname,
+							  Phno=mobile, City=city, State=state, Gender=gender, Address=adr, User_type=2)
+			else:
+				return "Wrong private key"
+		if (usty == "3"):
+			if(privatekey == uniqe_row.clerk_key):
+				entry = new_users(FirstName=fname, LastName=lname, Email=email, Passwd=password, Username=uname,
+							  Phno=mobile, City=city, State=state, Gender=gender, Address=adr, User_type=3)
+			else:
+				return "Wrong private key"
+		if (usty == "4"):
+			if(privatekey == "0"):
+				entry = new_users(FirstName=fname, LastName=lname, Email=email, Passwd=password, Username=uname,
+							  Phno=mobile, City=city, State=state, Gender=gender, Address=adr, User_type=4)
+			else:
+				return "Wrong private key"
+		db.session.add(entry)
+		user_logged_in = True
+		db.session.commit()
+	return redirect("http://localhost:3000/")
 
 
 @app.route('/login', methods=['GET', 'POST'])
 def usr_login():
-    global user_fname
-    global user_lname
-    global username
-    global user_type
-    if (request.method == 'POST'):
-        uname = request.form.get('uname')
-        password = request.form.get('password')
-        user = new_users.query.filter_by(Username=uname).first()
-        # print("HQQQ")
-        # print(user == None)
-        # print("HIIII")
-        if (user != None):
-            if (user.Passwd == password):
-                user_fname = user.FirstName
-                user_lname = user.LastName
-                username = user.Username
-                user_type = user.User_type
+	global user_fname
+	global user_lname
+	global username
+	global user_type
+	if (request.method == 'POST'):
+		uname = request.form.get('uname')
+		password = request.form.get('password')
+		user = new_users.query.filter_by(Username=uname).first()
+		# print("HQQQ")
+		# print(user == None)
+		# print("HIIII")
+		if (user != None):
+			if (user.Passwd == password):
+				user_fname = user.FirstName
+				user_lname = user.LastName
+				username = user.Username
+				user_type = user.User_type
 
-                global logged_in
-                logged_in = True
-                # return "Hi , " + user.FirstName + " " + user.LastName
-                if(user_type == 1):
-                     return redirect("http://localhost:3000/owner")
-                elif(user_type == 2):
-                     return redirect("http://localhost:3000/manager")
-                elif(user_type == 3):
-                    return redirect("http://localhost:3000/clerk")
-                elif(user_type == 4):
-                    return redirect("http://localhost:3000/customer")
-            else:
-                return "Wrong Password"
-        else:
-            return "Username not found"
-    # return "Hello World"
+				global logged_in
+				logged_in = True
+				# return "Hi , " + user.FirstName + " " + user.LastName
+				if(user_type == 1):
+					return redirect("http://localhost:3000/owner")
+				elif(user_type == 2):
+					return redirect("http://localhost:3000/manager")
+				elif(user_type == 3):
+					return redirect("http://localhost:3000/clerk")
+				elif(user_type == 4):
+					return redirect("http://localhost:3000/customer")
+			else:
+				return "Wrong Password"
+		else:
+			return "Username not found"
+	# return "Hello World"
 
 
 
@@ -142,86 +165,86 @@ def usr_login():
 @app.route('/get_user', methods=['GET'])
 @cross_origin(origins=['http://localhost:3000'])
 def returnuser():
-    global user_fname
-    global user_lname
-    if (request.method == 'GET' ):
-        data = {
-            "FirstName": user_fname,
-            "LastName": user_lname,
-        }
-        res = jsonify(data)
-        # res.headers.add("Access-Control-Allow-Origin", "*")
-        # res.headers.add("Access-Control-Allow-Origin", "http://localhost:5000/")
-        return res
+	global user_fname
+	global user_lname
+	if (request.method == 'GET' ):
+		data = {
+			"FirstName": user_fname,
+			"LastName": user_lname,
+		}
+		res = jsonify(data)
+		# res.headers.add("Access-Control-Allow-Origin", "*")
+		# res.headers.add("Access-Control-Allow-Origin", "http://localhost:5000/")
+		return res
 
 @app.route('/get_customer', methods=['GET'])
 @cross_origin(origins=['http://localhost:3000'])
 def returncustomer():
-    global user_fname
-    global user_lname
-    global username
-    global user_type
-    if (request.method == 'GET' ):
-        data = {
-            "FirstName": user_fname,
-            "LastName": user_lname,
-        }
-        res = jsonify(data)
-        # res.headers.add("Access-Control-Allow-Origin", "*")
-        # res.headers.add("Access-Control-Allow-Origin", "http://localhost:5000/")
-        return res
+	global user_fname
+	global user_lname
+	global username
+	global user_type
+	if (request.method == 'GET' ):
+		data = {
+			"FirstName": user_fname,
+			"LastName": user_lname,
+		}
+		res = jsonify(data)
+		# res.headers.add("Access-Control-Allow-Origin", "*")
+		# res.headers.add("Access-Control-Allow-Origin", "http://localhost:5000/")
+		return res
 
 @app.route('/get_clerk', methods=['GET'])
 @cross_origin(origins=['http://localhost:3000'])
 def returnclerk():
-    global user_fname
-    global user_lname
-    global username
-    global user_type
-    if (request.method == 'GET' ):
-        data = {
-            "FirstName": user_fname,
-            "LastName": user_lname,
-        }
-        res = jsonify(data)
-        # res.headers.add("Access-Control-Allow-Origin", "*")
-        # res.headers.add("Access-Control-Allow-Origin", "http://localhost:5000/")
-        return res
+	global user_fname
+	global user_lname
+	global username
+	global user_type
+	if (request.method == 'GET' ):
+		data = {
+			"FirstName": user_fname,
+			"LastName": user_lname,
+		}
+		res = jsonify(data)
+		# res.headers.add("Access-Control-Allow-Origin", "*")
+		# res.headers.add("Access-Control-Allow-Origin", "http://localhost:5000/")
+		return res
 
 @app.route('/get_owner', methods=['GET'])
 @cross_origin(origins=['http://localhost:3000'])
 def returnowner():
-    global user_fname
-    global user_lname
-    global username
-    global user_type
-    if (request.method == 'GET' ):
-        data = {
-            "FirstName": user_fname,
-            "LastName": user_lname,
-        }
-        res = jsonify(data)
-        # res.headers.add("Access-Control-Allow-Origin", "*")
-        # res.headers.add("Access-Control-Allow-Origin", "http://localhost:5000/")
-        return res
+	global user_fname
+	global user_lname
+	global username
+	global user_type
+	if (request.method == 'GET' ):
+		data = {
+			"FirstName": user_fname,
+			"LastName": user_lname,
+		}
+		res = jsonify(data)
+		# res.headers.add("Access-Control-Allow-Origin", "*")
+		# res.headers.add("Access-Control-Allow-Origin", "http://localhost:5000/")
+		return res
 
 @app.route('/get_manager', methods=['GET'])
 @cross_origin(origins=['http://localhost:3000'])
 def returnmanager():
-    global user_fname
-    global user_lname
-    global username
-    global user_type
-    if (request.method == 'GET' ):
-        data = {
-            "FirstName": user_fname,
-            "LastName": user_lname,
-        }
-        res = jsonify(data)
-        # res.headers.add("Access-Control-Allow-Origin", "*")
-        # res.headers.add("Access-Control-Allow-Origin", "http://localhost:5000/")
-        return res
-    
+	global user_fname
+	global user_lname
+	global username
+	global user_type
+	if (request.method == 'GET' ):
+		data = {
+			"FirstName": user_fname,
+			"LastName": user_lname,
+		}
+		res = jsonify(data)
+		# res.headers.add("Access-Control-Allow-Origin", "*")
+		# res.headers.add("Access-Control-Allow-Origin", "http://localhost:5000/")
+		return res
+	
 @app.route('/customer/search', methods=['GET', 'POST'])
 def book_search():
 	if(request.method == 'POST'):
@@ -275,6 +298,29 @@ def addbook():
 		return redirect("http://localhost:3000/clerk")
 
 
+@app.route('/owner/keyset', methods=['GET', 'POST'])
+def keyset():
+	if(request.method == 'POST'):
+		clerk_key = request.form.get('clerk_key')
+		manager_key = request.form.get('manager_key')
+		owner_key = request.form.get('owner_key')
+
+		# print(name, author, ISBN, publisher, type(copies))
+		isrow = private_key.query.count()
+		if(isrow == 0):
+			entry = private_key(clerk_key=clerk_key, manager_key=manager_key, owner_key=owner_key)     
+			db.session.add(entry)
+			db.session.commit()
+		else:
+			uniqe_row = private_key.query.filter_by(sno = 1).first()
+			uniqe_row.clerk_key = clerk_key
+			uniqe_row.manager_key = manager_key
+			uniqe_row.owowner_key =owner_key
+			db.session.commit()
+	
+		return redirect("http://localhost:3000/owner")
+
+
 # @app.route('/get_user11', methods=['GET'])
 # @cross_origin(origins=['http://localhost:3000'])
 # def returnuser11():
@@ -291,16 +337,16 @@ def addbook():
 #         # print((data))
 #         return res
 #         return "Hi"
-        # return (jsonify(data))
-        # res = jsonify(data)
-        # res.headers.add("Access-Control-Allow-Origin", "*")
-        # res.headers.add("Access-Control-Allow-Origin", "http://localhost:5000/")
-        # return res
+		# return (jsonify(data))
+		# res = jsonify(data)
+		# res.headers.add("Access-Control-Allow-Origin", "*")
+		# res.headers.add("Access-Control-Allow-Origin", "http://localhost:5000/")
+		# return res
 
 
 # Running app
 if __name__ == '__main__':
-    app.run(debug=True)
+	app.run(debug=True)
 
 
 # SELECT `users_data`.`sno`,
