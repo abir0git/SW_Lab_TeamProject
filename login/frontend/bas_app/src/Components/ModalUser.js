@@ -1,6 +1,7 @@
 import Search from "./Search";
 import Addbook from "./Addbook";
 import Keyset from "./Keyset";
+import Orderbook from "./Orderbook";
 
 import React, { useState, useEffect } from "react";
 
@@ -30,6 +31,11 @@ const ModalUser = (props) => {
         else if (active === "keyset") {
             return <div id="keyset">
                 <Keyset/>
+            </div>
+        }
+        else if (active === "orderbook") {
+            return <div id="orderbook">
+                <Orderbook/>
             </div>
         }
     }

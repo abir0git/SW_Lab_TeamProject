@@ -1,9 +1,10 @@
 const OTP = () => {
     return ( 
-        <div >
+      <div className="form-box2">
+      <h2>Enter OTP send to your mail(Check spam also) </h2>
         <br />
-        <form className="OTP" action="http://127.0.0.1:5000/signup/otp" method="post">
-          <div className="inputfield">
+        <form className="userform2" action="http://127.0.0.1:5000/signup/otp" method="post">
+          <div className="inputfield2">
             <label>OTP: </label>
             <input
               type="text"
@@ -13,11 +14,11 @@ const OTP = () => {
             />
           </div>
 
-          <button type="submit" >Verify</button>
+          <button class="sgnbutton2" type="submit" >Verify</button>
   
         </form>
-        <form action="http://127.0.0.1:5000/signup/otp/sendotp" method="post">
-            <button type="submit">Send otp</button>
+        <form className="userform2" action="http://127.0.0.1:5000/signup/otp/sendotp" method="post">
+            <button class="sgnbutton2" type="submit">Send OTP</button>
         </form>
       </div>
 

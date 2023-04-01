@@ -6,6 +6,8 @@ import "./Components/Css_files/Modal.css"
 import "./Components/Css_files/Signup.css"
 import "./Components/Css_files/Signin.css"
 import "./Components/Css_files/Userform.css"
+import "./Components/Css_files/Userform2.css"
+import "./Components/Css_files/Searchedbooks.css"
 import LoginButton from "./Components/LoginButton"
 import Profile from "./Components/Profile";
 import Customer from "./Components/Customer";
@@ -74,7 +76,7 @@ function App() {
 			<Route
             exact
             path="/customer/searchedbooks"
-            element={     <div>
+            element={     <div class="app_searchedbooks">
 				<SearchedBooks/>
 			</div>      }
           />

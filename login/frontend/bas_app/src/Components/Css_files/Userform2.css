@@ -1,0 +1,83 @@
+.form-box2 h2{
+    text-align: center;
+    color: rgb(4, 4, 33);
+}
+
+.form-box2 .userform2 .inputfield2{
+    text-align: left;
+    padding: 10px;
+    /* height: 40px; */
+    /* outline: 2px solid rgba(222, 250, 204, 0.338); */
+    /* display: flex; */
+    align-items: center;
+    width: 87%;
+    margin: 1em 1em ;
+    font-weight: 600;
+}
+
+.form-box2 .userform2 .inputfield2 input{
+    height: 10%;
+    padding: 7px;
+}
+
+.userform2 .inputfield2 span {
+    position: absolute;
+    float: middle;
+    margin-left: 0px;
+    margin-right: 2px;
+    font-weight: 600;
+    height: 2em;
+  }
+
+.sgnbutton2 {
+    cursor: pointer;
+  border: 2;
+  border-radius: 4px;
+  border-color: rgb(3, 3, 42);
+  text-align: center;
+  font-weight: 600;
+  margin: 20px 30px;
+  margin-left: 61px;
+    width: 192px;
+  padding: 10px 0;
+  color: rgb(12, 26, 63);;
+  transition: 0.4s;
+  background-color: rgb(205, 192, 244);
+  /* float: middle; */
+  }
+
+.sgnbuttonr {
+    cursor: pointer;
+  border: 2;
+  border-radius: 4px;
+  border-color: rgb(3, 3, 42);
+  text-align: center;
+  font-weight: 600;
+  margin: 20px 30px;
+  margin-left: 4em;
+  font-size: large;
+  width: 200px;
+  padding: 10px 0;
+  color: rgb(12, 26, 63);;
+  transition: 0.4s;
+  background-color: azure;
+  float: right;
+  }
+
+  .sgnbuttonm {
+    cursor: pointer;
+  border: 2;
+  border-radius: 4px;
+  border-color: rgb(3, 3, 42);
+  text-align: center;
+  font-weight: 600;
+  margin: 20px 30px;
+  margin-left: 4em;
+  font-size: large;
+  width: 200px;
+  padding: 10px 0;
+  color: rgb(12, 26, 63);;
+  transition: 0.4s;
+  background-color: azure;
+  float: center;
+  }

@@ -67,6 +67,13 @@ class private_key(db.Model, UserMixin):
 	manager_key = db.Column(db.String(40), nullable=False, unique=True)
 	owner_key = db.Column(db.String(40), nullable=False, unique=True)
 
+class used_book(db.Model, UserMixin):
+	sno = db.Column(db.Integer, primary_key=True)
+	ISBN = db.Column(db.String(40))
+	type = db.Column(db.String(40))
+	copies = db.Column(db.Integer)
+	username = db.Column(db.String(40))
+
 
 
 # Route for new user signup
@@ -206,8 +213,6 @@ def usr_login():
 	# return "Hello World"
 
 
-
-
 @app.route('/get_user', methods=['GET'])
 @cross_origin(origins=['http://localhost:3000'])
 def returnuser():
@@ -340,6 +345,21 @@ def get_searchedbooks():
 			data.append(d)
 		res = json.dumps(data, indent=2)
 		return res
+
+@app.route('/customer/orderbook', methods=['GET', 'POST'])
+def order_book():
+	if(request.method == 'POST'):
+		ISBN = request.form.get('ISBN')
+		copies = request.form.get('copies')
+		book = all_book.query.filter_by(ISBN = ISBN).all()
+		if(len(book) != 0):
+			entry = used_book(ISBN = ISBN, copies = int(copies), type="1")
+			db.session.add(entry)
+			db.session.commit()
+			return redirect("http://localhost:3000/customer/")
+		else:
+			return "Enter valid ISBN"
+		
 
 @app.route('/clerk/addbook', methods=['GET', 'POST'])
 def addbook():

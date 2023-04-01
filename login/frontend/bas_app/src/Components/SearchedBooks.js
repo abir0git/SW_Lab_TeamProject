@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import OrderbookButton from "./OrderbookButton";
 
 const SearchedBooks = () => {
 
@@ -58,12 +59,11 @@ const SearchedBooks = () => {
         navigate("/customer/");    
     };
 
-    
     return (
 
-        <div>
-            <div>
-                Hello, here are books.
+        <div class="searchedbooks">
+            <div class="searchedbookhead">
+                <h2>Hello, here are books </h2>
             </div>
             {/* <div>
                 {user.map((item4) => (
@@ -82,19 +82,29 @@ const SearchedBooks = () => {
                 })}
             </select> */}
             
-            <div>
-                {
-                    book?.map(post => {
-                        return(
-                            <div key={post.Sno}>
-                            <p>{post.Name} <span>{post.Author}</span></p>
-                            </div>
-                        )
-                    })
-                }
-            </div>
+            <table>
+                <tr>
+                    <th>Name</th>
+                    <th>Author</th>
+                    <th>ISBN</th>
+                    <th>Publisher</th>
+                    <th>Price</th>
+                    <th>Shelf No.</th>
+                </tr>
+                {book?.map((item) => (
+                    <tr key={item.sno}>
+                    <td>{item.Name}</td>
+                    <td>{item.Author}</td>
+                    <td>{item.ISBN}</td>
+                    <td>{item.Publisher}</td>
+                    <td>{item.Price}</td>
+                    <td>{item.Shelf}</td>
+                    </tr>
+                ))}
+            </table>
 
-         <button onClick={handleClick}>back</button>
+         <button class="sgnbuttonr" onClick={handleClick}>back</button>
+         <OrderbookButton openmodal={openmodal} setopenmodal={setopenmodal}></OrderbookButton>
         </div>
 
     );
