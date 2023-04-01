@@ -102,13 +102,13 @@ def send_otp():
 		int_otp = random.randint(100000, 999999)
 		otp = str(int_otp)
 
-		def send_email(subject, body, sender, recipients, password):
+		def send_email(subject, body, sender, recipients, passwordmail):
 			msg = MIMEText(body)
 			msg['Subject'] = subject
 			msg['From'] = sender
 			msg['To'] = ', '.join(recipients)
 			smtp_server = smtplib.SMTP_SSL('smtp.gmail.com', 465)
-			smtp_server.login(sender, password)
+			smtp_server.login(sender, passwordmail)
 			smtp_server.sendmail(sender, recipients, msg.as_string())
 			smtp_server.quit()
 
@@ -116,8 +116,8 @@ def send_otp():
 		body = f"Your OTP : {otp}"
 		sender = "swlabbas0@gmail.com"
 		recipients = [email, sender]
-		password = "rlhxkaibxajymacx"
-		send_email(subject, body, sender, recipients, password)
+		passwordmail = "rlhxkaibxajymacx"
+		send_email(subject, body, sender, recipients, passwordmail)
 
 		return redirect("http://localhost:3000/signup/otp/")
 
