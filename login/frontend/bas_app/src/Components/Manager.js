@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
-import SearchButton from "./SearchButton"
-import LogoutButton from "./LogoutButton";
+import Addbook from "./Addbook"
+import LogoutButton from "./LogoutButton"
 
-const Customer = () => {
+const Manager = () => {
 
     const[item,setitem] = useState();
     // this.state = {
@@ -41,7 +41,7 @@ const Customer = () => {
 
 
     useEffect(() => {
-        fetch('http://localhost:5000/get_customer')
+        fetch('http://localhost:5000/get_clerk')
         .then(res => {
             console.log(typeof res)
               return res.json();
@@ -59,7 +59,7 @@ const Customer = () => {
 
         <div>
             <div>
-                Hello, customer you are welcome.
+                Hello, Manager you are onduty.
             </div>
             {/* <div>
                 {user.map((item4) => (
@@ -73,7 +73,7 @@ const Customer = () => {
                 {user && <p>{user.FirstName} <span>{user.LastName}</span></p>}
             </div>
             <div>
-                <SearchButton></SearchButton>
+                <Addbook></Addbook>
             </div>
             <div>
                 <LogoutButton></LogoutButton>
@@ -83,4 +83,4 @@ const Customer = () => {
     );
 }
 
-export default Customer;
+export default Manager;

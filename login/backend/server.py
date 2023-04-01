@@ -118,18 +118,25 @@ def usr_login():
                 user_lname = user.LastName
                 username = user.Username
                 user_type = user.User_type
+
+                global logged_in
+                logged_in = True
                 # return "Hi , " + user.FirstName + " " + user.LastName
-                if(user_type == 3):
+                if(user_type == 1):
+                     return redirect("http://localhost:3000/owner")
+                elif(user_type == 2):
+                     return redirect("http://localhost:3000/manager")
+                elif(user_type == 3):
                     return redirect("http://localhost:3000/clerk")
                 elif(user_type == 4):
                     return redirect("http://localhost:3000/customer")
-                else:
-                    return redirect("http://localhost:3000/user")
             else:
                 return "Wrong Password"
         else:
             return "Username not found"
     # return "Hello World"
+
+
 
 
 @app.route('/get_user', methods=['GET'])
@@ -167,6 +174,40 @@ def returncustomer():
 @app.route('/get_clerk', methods=['GET'])
 @cross_origin(origins=['http://localhost:3000'])
 def returnclerk():
+    global user_fname
+    global user_lname
+    global username
+    global user_type
+    if (request.method == 'GET' ):
+        data = {
+            "FirstName": user_fname,
+            "LastName": user_lname,
+        }
+        res = jsonify(data)
+        # res.headers.add("Access-Control-Allow-Origin", "*")
+        # res.headers.add("Access-Control-Allow-Origin", "http://localhost:5000/")
+        return res
+
+@app.route('/get_owner', methods=['GET'])
+@cross_origin(origins=['http://localhost:3000'])
+def returnowner():
+    global user_fname
+    global user_lname
+    global username
+    global user_type
+    if (request.method == 'GET' ):
+        data = {
+            "FirstName": user_fname,
+            "LastName": user_lname,
+        }
+        res = jsonify(data)
+        # res.headers.add("Access-Control-Allow-Origin", "*")
+        # res.headers.add("Access-Control-Allow-Origin", "http://localhost:5000/")
+        return res
+
+@app.route('/get_manager', methods=['GET'])
+@cross_origin(origins=['http://localhost:3000'])
+def returnmanager():
     global user_fname
     global user_lname
     global username

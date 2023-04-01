@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
 import Addbook from "./Addbook"
+import LogoutButton from "./LogoutButton"
 
-const Profile = () => {
+const Clerk = () => {
 
     const[item,setitem] = useState();
     // this.state = {
@@ -74,9 +75,12 @@ const Profile = () => {
             <div>
                 <Addbook></Addbook>
             </div>
+            <div>
+                <LogoutButton></LogoutButton>
+            </div>
         </div>
 
     );
 }
 
-export default Profile;
+export default Clerk;

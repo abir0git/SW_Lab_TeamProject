@@ -9,6 +9,8 @@ import "./Components/Css_files/Signin.css"
 import Profile from "./Components/Profile";
 import Customer from "./Components/Customer";
 import Clerk from "./Components/Clerk";
+import Manager from "./Components/Manager";
+import Owner from "./Components/Owner";
 
 function App() {
 	const [openmodal, setopenmodal] = useState(false);
@@ -21,7 +23,7 @@ function App() {
             exact
             path="/"
             element={     <div>
-				<LoginButton openmodal={openmodal} setopenmodal={setopenmodal}></LoginButton>
+				<LoginButton  openmodal={openmodal} setopenmodal={setopenmodal}></LoginButton>
 			</div>      }
           />
 			<Route
@@ -43,6 +45,20 @@ function App() {
             path="/clerk"
             element={     <div>
 				<Clerk/>
+			</div>      }
+          />
+			<Route
+            exact
+            path="/owner"
+            element={     <div>
+				<Owner/>
+			</div>      }
+          />
+			<Route
+            exact
+            path="/manager"
+            element={     <div>
+				<Manager/>
 			</div>      }
           />
 			
