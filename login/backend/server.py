@@ -13,7 +13,9 @@ import datetime
 import requests
 from flask_cors import CORS
 from flask_cors import cross_origin
-
+import random
+import smtplib
+from email.mime.text import MIMEText
 x = datetime.datetime.now()
 
 # Initializing flask app
@@ -69,6 +71,7 @@ class private_key(db.Model, UserMixin):
 @app.route('/signup', methods=['GET', 'POST'])
 def new_user_signup():
 	if (request.method == 'POST'):
+		global fname, lname, uname, adr, email, password, mobile, city, state, gender, usty, privatekey
 		fname = request.form.get('fname')
 		lname = request.form.get('lname')
 		uname = request.form.get('uname')
@@ -89,6 +92,45 @@ def new_user_signup():
 		if (email_sm != None):
 			return "Email already exists"
 		
+		return redirect("http://localhost:3000/signup/otp/")
+		
+@app.route('/signup/otp/sendotp', methods=['GET', 'POST'])
+def send_otp():
+	if(request.method == 'POST'):
+		global otp
+		global fname, lname, uname, adr, email, password, mobile, city, state, gender, usty, privatekey
+		int_otp = random.randint(100000, 999999)
+		otp = str(int_otp)
+
+		def send_email(subject, body, sender, recipients, password):
+			msg = MIMEText(body)
+			msg['Subject'] = subject
+			msg['From'] = sender
+			msg['To'] = ', '.join(recipients)
+			smtp_server = smtplib.SMTP_SSL('smtp.gmail.com', 465)
+			smtp_server.login(sender, password)
+			smtp_server.sendmail(sender, recipients, msg.as_string())
+			smtp_server.quit()
+
+		subject = "OTP Verification"
+		body = f"Your OTP : {otp}"
+		sender = "swlabbas0@gmail.com"
+		recipients = [email, sender]
+		password = "rlhxkaibxajymacx"
+		send_email(subject, body, sender, recipients, password)
+
+		return redirect("http://localhost:3000/signup/otp/")
+
+@app.route('/signup/otp', methods=['GET', 'POST'])
+def otp_verify():
+	global otp
+	global fname, lname, uname, adr, email, password, mobile, city, state, gender, usty, privatekey
+	verf_otp = request.form.get('OTP')
+	print(verf_otp, otp)
+	if(otp != verf_otp):
+		print("not match")
+		return "Wrong otp"
+	else:
 		uniqe_row = private_key.query.filter_by(sno = 1).first()
 		if (usty == "1"):
 			# print(privatekey)
@@ -119,7 +161,9 @@ def new_user_signup():
 		db.session.add(entry)
 		user_logged_in = True
 		db.session.commit()
-	return redirect("http://localhost:3000/")
+		return redirect("http://localhost:3000/")
+
+
 
 
 @app.route('/login', methods=['GET', 'POST'])

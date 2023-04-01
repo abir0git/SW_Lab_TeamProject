@@ -11,6 +11,7 @@ import Customer from "./Components/Customer";
 import Clerk from "./Components/Clerk";
 import Manager from "./Components/Manager";
 import Owner from "./Components/Owner";
+import OTP from "./Components/OTP";
 
 function App() {
 	const [openmodal, setopenmodal] = useState(false);
@@ -59,6 +60,13 @@ function App() {
             path="/manager"
             element={     <div>
 				<Manager/>
+			</div>      }
+          />
+			<Route
+            exact
+            path="/signup/otp"
+            element={     <div>
+				<OTP/>
 			</div>      }
           />
 			
