@@ -2,7 +2,7 @@
 import MySQLdb
 from flask import jsonify
 from flask_mysqldb import MySQL
-from flask import Flask, Response, request, redirect
+from flask import Flask, Response, request, redirect, flash,abort
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import UserMixin, login_user, logout_user, login_required, LoginManager, current_user
 from flask_wtf import FlaskForm
@@ -21,7 +21,8 @@ presenttime = datetime.datetime.now()
 
 # Initializing flask app
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:Babai#123@localhost/bas_sw'
+
+# app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:password@localhost/bas_sw'
 
 
 
@@ -74,8 +75,6 @@ class used_book(db.Model, UserMixin):
 	copies = db.Column(db.Integer)
 	username = db.Column(db.String(40))
 	datetime = db.Column(db.DateTime)
-
-
 
 # Route for new user signup
 @app.route('/signup', methods=['GET', 'POST'])
@@ -172,9 +171,6 @@ def otp_verify():
 		user_logged_in = True
 		db.session.commit()
 		return redirect("http://localhost:3000/")
-
-
-
 
 @app.route('/login', methods=['GET', 'POST'])
 def usr_login():
@@ -298,8 +294,6 @@ def returnmanager():
 		# res.headers.add("Access-Control-Allow-Origin", "http://localhost:5000/")
 		return res
 	
-
-
 @app.route('/customer/search', methods=['GET', 'POST'])
 def book_search():
 	if(request.method == 'POST'):
@@ -420,8 +414,6 @@ def get_buydetails():
 				
 		res = json.dumps(data, indent=2)
 		return res
-
-
 
 @app.route('/clerk/addbook', methods=['GET', 'POST'])
 def addbook():
