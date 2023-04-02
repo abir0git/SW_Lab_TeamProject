@@ -3,17 +3,18 @@ import React, { useState, useEffect } from "react";
 import "./Css_files/LoginButton.css"
 
 const SearchbookButton = (props) => {
-    console.log(props.username)
+    const [searchbook, setsearchbook] = useState(false)
     function modalopen()
 	{
         console.log("123");
 		props.setopenmodal(true);
+        setsearchbook(true);
 	}
     // const [state, changstate] = useState("searchbook")
     return ( 
         <div>
             <button class="searchbook" onClick={modalopen}>Search Book</button>
-            {props.openmodal && <ModalUser setopenmodal={props.setopenmodal} state={"searchbook"} username={props.username} />}
+            {props.openmodal && searchbook && <ModalUser setopenmodal={props.setopenmodal} state={"searchbook"} username={props.username} modechangefun={setsearchbook} />}
         </div>
      );
 }

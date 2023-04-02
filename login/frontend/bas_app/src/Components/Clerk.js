@@ -56,6 +56,7 @@ const Clerk = () => {
       },[]);
 
     const [openmodal, setopenmodal] = useState(false)
+    const [clerkstate, setclerkstate] = useState(1)
 
     return (
 

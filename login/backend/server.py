@@ -362,12 +362,24 @@ def order_book():
 			if(int(copies) > book[0].copies):
 				return "We don't have so much stock"
 			entry = used_book(ISBN = ISBN, copies = int(copies), type="1", username=username, datetime=presenttime )
+			book[0].copies -= int(copies)
 			db.session.add(entry)
 			db.session.commit()
 			return redirect("http://localhost:3000/customer/")
 		else:
 			return "Enter valid ISBN"
 		
+@app.route('/customer/addquery',  methods=['GET', 'POST'])
+def add_query():
+	if(request.method == 'POST'):
+		global username
+		name = request.form.get('name')
+		author = request.form.get('author')
+		ISBN = request.form.get('ISBN')
+		entry = used_book(ISBN=ISBN, username=username, type="3")
+		db.session.add(entry)
+		db.session.commit()
+		return redirect("http://localhost:3000/customer/")
 
 @app.route('/clerk/addbook', methods=['GET', 'POST'])
 def addbook():
@@ -447,7 +459,6 @@ def verify_books():
 			using_book = used_book.query.filter_by(sno=book.sno).first()
 			using_book.type = "2"
 			db.session.commit()
-			detailed_book.copies -= book.copies
 			db.session.commit()
 		return redirect("http://localhost:3000/clerk/")
 

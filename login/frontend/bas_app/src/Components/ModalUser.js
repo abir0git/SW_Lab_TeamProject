@@ -2,7 +2,8 @@ import Search from "./Search";
 import Addbook from "./Addbook";
 import Keyset from "./Keyset";
 import Orderbook from "./Orderbook";
-import Verifyform from "./Verifyform"
+import Verifyform from "./Verifyform";
+import Addquery from "./Addquery";
 
 import React, { useState, useEffect } from "react";
 
@@ -15,19 +16,14 @@ const ModalUser = (props) => {
 		props.setopenmodal(false);
         setActive("searchbook");
 	}
+    console.log(props.state)
     useEffect(()=>{
 		setActive(props.state);
 	}, [])
-
-    console.log(props.username)
+    
     const ModalUser = () => {
         if (active === "searchbook") {
             return <div id='searchbook'><Search/>
-            </div>
-        }
-        else if (active === "addbook") {
-            return <div id="addbook">
-                <Addbook/>
             </div>
         }
         else if (active === "keyset") {
@@ -45,6 +41,16 @@ const ModalUser = (props) => {
                 <Verifyform/>
             </div>
         }
+        else if (active === "addbook") {
+            return <div id="addbook">
+                <Addbook/>
+            </div>
+        }
+        else if (active === "addquery") {
+            return <div id="addquery">
+                <Addquery/>
+            </div>
+        }
     }
 
     return (
@@ -54,6 +60,7 @@ const ModalUser = (props) => {
                     <button
                         onClick={() => {
                             props.setopenmodal(false);
+                            props.modechangefun(false);
                         }}
                     >
                         X

@@ -10,7 +10,7 @@ const OrderbookButton = (props) => {
     return ( 
         <div>
             <button class="sgnbuttonm" onClick={modalopen}>Order Book</button>
-            {props.openmodal && <ModalUser setopenmodal={props.setopenmodal} state ={"orderbook"} username={props.username}/>}
+            {props.openmodal && <ModalUser setopenmodal={props.setopenmodal} state ={"orderbook"} username={props.username} modechangefun={props.setopenmodal}/>}
         </div>
      );
 }

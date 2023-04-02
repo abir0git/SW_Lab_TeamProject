@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import Search from "./Search"
 import LogoutButton from "./LogoutButton";
 import SearchbookButton from "./SearckbookButton";
+import AddqueryButton from "./AddqueryButton";
 
 const Customer = () => {
 
@@ -86,6 +87,9 @@ const Customer = () => {
             <div>
 				<SearchbookButton  openmodal={openmodal} setopenmodal={setopenmodal} username={username}></SearchbookButton>
 			</div>
+            <div>
+                <AddqueryButton  openmodal={openmodal} setopenmodal={setopenmodal}></AddqueryButton>
+            </div>
             <div>
                 <LogoutButton></LogoutButton>
             </div>
