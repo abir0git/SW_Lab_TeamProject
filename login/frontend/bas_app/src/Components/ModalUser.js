@@ -18,9 +18,10 @@ const ModalUser = (props) => {
 		setActive(props.state);
 	}, [])
 
+    console.log(props.username)
     const ModalUser = () => {
         if (active === "searchbook") {
-            return <div id='searchbook'><Search  />
+            return <div id='searchbook'><Search/>
             </div>
         }
         else if (active === "addbook") {

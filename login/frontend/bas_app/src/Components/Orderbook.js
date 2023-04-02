@@ -1,4 +1,5 @@
-const Orderbook = () => {
+const Orderbook = (props) => {
+
     return ( 
         <div className="form-box1">
         <h2>Order book </h2>
@@ -22,7 +23,7 @@ const Orderbook = () => {
               required
             />
           </div>   
-  
+          
           <button className="sgnbutton" type="submit" >Buy</button>
   
         </form>

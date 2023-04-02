@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import Addbook from "./Addbook"
+import AddbookButton from "./AddbookButton"
 import LogoutButton from "./LogoutButton"
 
 const Manager = () => {
@@ -53,7 +53,7 @@ const Manager = () => {
         })
       },[]);
 
-
+    const [openmodal, setopenmodal] = useState(false)
 
     return (
 
@@ -73,7 +73,7 @@ const Manager = () => {
                 {user && <p>{user.FirstName} <span>{user.LastName}</span></p>}
             </div>
             <div>
-                <Addbook></Addbook>
+                <AddbookButton openmodal={openmodal} setopenmodal={setopenmodal}></AddbookButton>
             </div>
             <div>
                 <LogoutButton></LogoutButton>

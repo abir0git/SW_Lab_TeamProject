@@ -59,6 +59,7 @@ const SearchedBooks = () => {
         navigate("/customer/");    
     };
 
+
     return (
 
         <div class="searchedbooks">

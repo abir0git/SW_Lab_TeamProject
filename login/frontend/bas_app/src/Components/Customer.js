@@ -55,6 +55,12 @@ const Customer = () => {
         })
       },[]);
 
+      var username = ""
+      if(user)
+      {
+            username = user.username
+      }
+
 
 
     return (
@@ -72,13 +78,13 @@ const Customer = () => {
                 ))}
             </div> */}
             <div>
-                {user && <p>{user.FirstName} <span>{user.LastName}</span></p>}
+                {user && <p>{user.FirstName} <span>{user.LastName}</span> <span>{user.username}</span></p>}
             </div>
             {/* <div>
                 <SearchButton></SearchButton>
             </div> */}
             <div>
-				<SearchbookButton  openmodal={openmodal} setopenmodal={setopenmodal}></SearchbookButton>
+				<SearchbookButton  openmodal={openmodal} setopenmodal={setopenmodal} username={username}></SearchbookButton>
 			</div>
             <div>
                 <LogoutButton></LogoutButton>

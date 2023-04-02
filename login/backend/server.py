@@ -17,7 +17,7 @@ import random
 import smtplib
 from email.mime.text import MIMEText
 import json
-x = datetime.datetime.now()
+presenttime = datetime.datetime.now()
 
 # Initializing flask app
 app = Flask(__name__)
@@ -54,7 +54,7 @@ class new_users(db.Model, UserMixin):
 class all_book(db.Model, UserMixin):
 	sno = db.Column(db.Integer, primary_key=True)
 	name = db.Column(db.String(20), nullable=False)
-	author = db.Column(db.String(20), nullable=False)
+	author = db.Column(db.String(50), nullable=False)
 	ISBN = db.Column(db.String(45), nullable=False, unique=True)
 	publisher = db.Column(db.String(20), nullable=False)
 	copies = db.Column(db.Integer, nullable=True)
@@ -73,6 +73,7 @@ class used_book(db.Model, UserMixin):
 	type = db.Column(db.String(40))
 	copies = db.Column(db.Integer)
 	username = db.Column(db.String(40))
+	datetime = db.Column(db.DateTime)
 
 
 
@@ -239,6 +240,7 @@ def returncustomer():
 		data = {
 			"FirstName": user_fname,
 			"LastName": user_lname,
+			"username" : username,
 		}
 		res = jsonify(data)
 		# res.headers.add("Access-Control-Allow-Origin", "*")
@@ -301,6 +303,7 @@ def book_search():
 	if(request.method == 'POST'):
 		book_name = request.form.get('book_name')
 		book_author = request.form.get('book_author')
+		# username = request.form.get('username')
 		books = []
 
 		def Union(l1, l2):
@@ -329,6 +332,7 @@ def book_search():
 @cross_origin(origins=['http://localhost:3000'])
 def get_searchedbooks():
 	global final_books
+	global username
 	data = []
 	if(request.method == 'GET'):
 		for book in final_books:
@@ -340,7 +344,7 @@ def get_searchedbooks():
 				"Price" : book.price,
 				"Shelf" : book.shelf,
 				"Copies" : book.copies,
-				"Publisher" : book.publisher
+				"Publisher" : book.publisher,
 			}
 			data.append(d)
 		res = json.dumps(data, indent=2)
@@ -349,11 +353,13 @@ def get_searchedbooks():
 @app.route('/customer/orderbook', methods=['GET', 'POST'])
 def order_book():
 	if(request.method == 'POST'):
+		global username
+		presenttime = datetime.datetime.now()
 		ISBN = request.form.get('ISBN')
 		copies = request.form.get('copies')
 		book = all_book.query.filter_by(ISBN = ISBN).all()
 		if(len(book) != 0):
-			entry = used_book(ISBN = ISBN, copies = int(copies), type="1")
+			entry = used_book(ISBN = ISBN, copies = int(copies), type="1", username=username, datetime=presenttime )
 			db.session.add(entry)
 			db.session.commit()
 			return redirect("http://localhost:3000/customer/")

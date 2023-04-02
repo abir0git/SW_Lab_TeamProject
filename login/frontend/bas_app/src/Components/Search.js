@@ -1,5 +1,5 @@
 // import Modal from "./Modal";
-const Search = () => {
+const Search = (props) => {
     
     return ( 
         <div className="form-box1">
@@ -22,6 +22,17 @@ const Search = () => {
                             type="text"
                         />
             </div>
+            {/* <div className="inputfield">
+            <label>username </label>
+            <input
+              type="text"
+              name="username"
+              required
+              value={props.username}
+              readOnly
+              placeholder={props.username}
+            />
+            </div>  */}
             <button className="sgnbutton" type="submit">Search</button>
             </form>
         </div>
