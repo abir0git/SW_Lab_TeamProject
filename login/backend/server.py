@@ -21,13 +21,8 @@ presenttime = datetime.datetime.now()
 
 # Initializing flask app
 app = Flask(__name__)
-<<<<<<< Updated upstream
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:Babai#123@localhost/bas_sw'
 
-=======
-# app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:password@localhost/bas_sw'
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:mazaqwer7531%40@localhost/bas_sw'
->>>>>>> Stashed changes
 
 
 db = SQLAlchemy(app)
@@ -183,7 +178,6 @@ def otp_verify():
 
 @app.route('/login', methods=['GET', 'POST'])
 def usr_login():
-<<<<<<< Updated upstream
 	global user_fname
 	global user_lname
 	global username
@@ -218,31 +212,6 @@ def usr_login():
 		else:
 			return "Username not found"
 	# return "Hello World"
-=======
-    global user_fname
-    global user_lname
-    if (request.method == 'POST'):
-        uname = request.form.get('uname')
-        password = request.form.get('password')
-        user = new_users.query.filter_by(Username=uname).first()
-        # print("HQQQ")
-        # print(user == None)
-        # print("HIIII")
-        if (user != None):
-            if (user.Passwd == password):
-                user_fname = user.FirstName
-                user_lname = user.LastName
-                # flash("You were successfully logged in")
-                # return "Hi , " + user.FirstName + " " + user.LastName
-				# flash("h")
-                return redirect("http://localhost:3000/user")
-            else:
-                abort(404)
-                # return "Wrong Password"
-        else:
-            return "Username not found"
-    # return "Hello World"
->>>>>>> Stashed changes
 
 
 @app.route('/get_user', methods=['GET'])
@@ -451,8 +420,6 @@ def get_buydetails():
 				
 		res = json.dumps(data, indent=2)
 		return res
-
-
 
 @app.route('/clerk/addbook', methods=['GET', 'POST'])
 def addbook():
