@@ -4,6 +4,7 @@ import Keyset from "./Keyset";
 import Orderbook from "./Orderbook";
 import Verifyform from "./Verifyform";
 import Addquery from "./Addquery";
+import Viewstat from "./Viewstatform";
 
 import React, { useState, useEffect } from "react";
 
@@ -49,6 +50,11 @@ const ModalUser = (props) => {
         else if (active === "addquery") {
             return <div id="addquery">
                 <Addquery/>
+            </div>
+        }
+        else if (active === "viewstat") {
+            return <div id="viewstat">
+                <Viewstat/>
             </div>
         }
     }

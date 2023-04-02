@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import AddbookButton from "./AddbookButton"
 import LogoutButton from "./LogoutButton"
 import { useNavigate } from "react-router-dom";
+import ViewstatButton from "./ViewstatButton";
 
 const Manager = () => {
 
@@ -83,6 +84,9 @@ const Manager = () => {
             </div>
             <div>
                 <button onClick={handleClick}>See Query</button>
+            </div>
+            <div>
+                <ViewstatButton openmodal={openmodal} setopenmodal={setopenmodal}></ViewstatButton>
             </div>
             <div>
                 <LogoutButton></LogoutButton>

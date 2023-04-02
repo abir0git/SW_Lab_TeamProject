@@ -537,6 +537,38 @@ def get_queries():
 	return res
 
 
+@app.route('/viewstat', methods=['GET', 'POST'] )
+def generate_stat():
+	if(request.method == 'POST'):
+		type = request.form.get('type')
+		from_date = request.form.get('fromdt')
+		to_date = request.form.get('todt')
+		# print(to_date[0:2])
+		books1 = used_book.query.filter(used_book.datetime >= datetime.datetime.strptime(from_date, '%Y-%m-%d'),
+                  used_book.datetime <= datetime.datetime.strptime(to_date, '%Y-%m-%d')).all()
+		books3 = used_book.query.filter_by(type="2").all()
+
+		def Intersection(l1, l2):
+			return list(set.intersection(set(l1), set(l2)))
+
+		books = Intersection(books1, books3)
+		unique_books = {}
+		for book in books:
+			try:
+				b1 = {book.ISBN : book.copies + unique_books[book.ISBN]}
+				unique_books.update(b1)
+			except:
+				unique_books.update({book.ISBN : book.copies})
+		sorted_unique_books_keys = sorted(unique_books, reverse=True)
+		global data1, data2
+		data1 = []
+		data2 = []
+		print(sorted_unique_books_keys)
+	return redirect("http://localhost:3000/manager/")
+
+
+
+
 @app.route('/owner/keyset', methods=['GET', 'POST'])
 def keyset():
 	if(request.method == 'POST'):
