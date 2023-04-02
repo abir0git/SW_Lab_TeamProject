@@ -1,4 +1,5 @@
 # Import flask and datetime module for showing date and time
+import threading
 import MySQLdb
 from flask import jsonify
 from flask_mysqldb import MySQL
@@ -25,7 +26,12 @@ app = Flask(__name__)
 # app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:password@localhost/bas_sw'
 
 
-
+errmsg = ""
+iserr = 0
+def seterr():
+	print("we")
+	global errmsg
+	errmsg=""
 db = SQLAlchemy(app)
 bcrypt = Bcrypt(app)
 login_manager = LoginManager()
@@ -179,13 +185,15 @@ def usr_login():
 	global username
 	global user_type
 	if (request.method == 'POST'):
+		# abc = request.get_json
+		# print(abc.uname)
 		uname = request.form.get('uname')
 		password = request.form.get('password')
 		user = new_users.query.filter_by(Username=uname).first()
-		# print("HQQQ")
 		# print(user == None)
 		# print("HIIII")
 		if (user != None):
+			print("HQQQ")
 			if (user.Passwd == password):
 				user_fname = user.FirstName
 				user_lname = user.LastName
@@ -204,11 +212,31 @@ def usr_login():
 				elif(user_type == 4):
 					return redirect("http://localhost:3000/customer")
 			else:
-				return "Wrong Password"
+				# return "Wrong Password"
+				global errmsg
+				global iserr
+				iserr=1
+				errmsg = "Wrong Password"
+				return redirect("http://localhost:3000/")
 		else:
 			return "Username not found"
 	# return "Hello World"
 
+@app.route('/get_err', methods=['GET'])
+@cross_origin(origins=['http://localhost:3000'])
+def geterr():
+	global errmsg
+	global iserr
+	print(errmsg)
+	data = {
+			"Error": errmsg,
+			"iserr" : iserr
+	}
+	res = jsonify(data)
+	delay = int(3)
+	start_time = threading.Timer(delay,seterr)
+	start_time.start()
+	return res
 
 @app.route('/get_user', methods=['GET'])
 @cross_origin(origins=['http://localhost:3000'])

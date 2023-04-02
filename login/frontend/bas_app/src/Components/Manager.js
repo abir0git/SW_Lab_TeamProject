@@ -4,8 +4,8 @@ import LogoutButton from "./LogoutButton"
 import { useNavigate } from "react-router-dom";
 import ViewstatButton from "./ViewstatButton";
 
-const Manager = () => {
-
+const Manager = (props) => {
+    props.seterr();
     const[item,setitem] = useState();
     // this.state = {
     //     items: [],

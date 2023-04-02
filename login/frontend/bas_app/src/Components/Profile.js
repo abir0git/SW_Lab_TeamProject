@@ -48,7 +48,7 @@ const Profile = () => {
           setuser(data);
           // setcBooks(data);
         })
-      },[]);
+      });
 
 
 

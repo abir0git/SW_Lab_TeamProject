@@ -13,7 +13,7 @@ const SearchbookButton = (props) => {
     // const [state, changstate] = useState("searchbook")
     return ( 
         <div>
-            <button class="searchbook" onClick={modalopen}>Search Book</button>
+            <button className="searchbook" onClick={modalopen}>Search Book</button>
             {props.openmodal && searchbook && <ModalUser setopenmodal={props.setopenmodal} state={"searchbook"} username={props.username} modechangefun={setsearchbook} />}
         </div>
      );

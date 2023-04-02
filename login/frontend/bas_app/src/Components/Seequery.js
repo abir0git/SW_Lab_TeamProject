@@ -61,8 +61,8 @@ const Buydetails = () => {
 
     return (
 
-        <div class="searchedbooks">
-            <div class="searchedbookhead">
+        <div className="searchedbooks">
+            <div className="searchedbookhead">
                 <h2>Hello, here are queries </h2>
             </div>
             {/* <div>
@@ -101,7 +101,7 @@ const Buydetails = () => {
                 ))}
             </table>
 
-         <button class="sgnbuttonr" onClick={handleClick}>back</button>
+         <button className="sgnbuttonr" onClick={handleClick}>back</button>
         </div>
 
     );

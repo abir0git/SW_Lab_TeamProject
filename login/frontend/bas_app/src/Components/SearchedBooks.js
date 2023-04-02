@@ -62,8 +62,8 @@ const SearchedBooks = () => {
 
     return (
 
-        <div class="searchedbooks">
-            <div class="searchedbookhead">
+        <div className="searchedbooks">
+            <div className="searchedbookhead">
                 <h2>Hello, here are books </h2>
             </div>
             {/* <div>
@@ -106,7 +106,7 @@ const SearchedBooks = () => {
                 ))}
             </table>
 
-         <button class="sgnbuttonr" onClick={handleClick}>back</button>
+         <button className="sgnbuttonr" onClick={handleClick}>back</button>
          <OrderbookButton openmodal={openmodal} setopenmodal={setopenmodal}></OrderbookButton>
         </div>
 
