@@ -18,6 +18,8 @@ import OTP from "./Components/OTP";
 import SearchedBooks from "./Components/SearchedBooks"
 import VerifiableBooks from "./Components/Verifiablebooks";
 import Buydetails from "./Components/Buydetails";
+import Seequery from "./Components/Seequery";
+import AppHome from "./Components/AppHome"
 
 function App() {
 	const [openmodal, setopenmodal] = useState(false);
@@ -30,7 +32,7 @@ function App() {
             exact
             path="/"
             element={     <div>
-				<LoginButton  openmodal={openmodal} setopenmodal={setopenmodal}></LoginButton>
+				<AppHome></AppHome>
 			</div>      }
           />
 			<Route
@@ -96,6 +98,14 @@ function App() {
             path="/clerk/verifiablebooks"
             element={     <div class="app_searchedbooks">
 				<VerifiableBooks/>
+			</div>      }
+          />
+			
+            <Route
+            exact
+            path="/manager/seequery"
+            element={     <div class="app_searchedbooks">
+				<Seequery/>
 			</div>      }
           />
 			

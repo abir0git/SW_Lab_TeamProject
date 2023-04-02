@@ -398,23 +398,25 @@ def get_buydetails():
 	data = []
 	if(request.method == 'GET'):
 		for book in allbooks_usr:
-			ori_book = all_book.query.filter_by(ISBN=book.ISBN).first()
-			d = {
-				"Sno" : book.sno,
-				"Name" : ori_book.name,
-				"Author" : ori_book.author,
-				"ISBN" : book.ISBN,
-				"Price" : ori_book.price,
-				"Copies" : book.copies,
-				"Publisher" : ori_book.publisher,
-				"Status" : "Hui"
-			}
-			if(book.type == "2"):
-				d.update({"Status" : "Approved"})
-				data.append(d)
-			if(book.type == "1"):
-				d.update({"Status" : "Pending"})
-				data.append(d)
+			print(book.ISBN)
+			orig_book = all_book.query.filter_by(ISBN=book.ISBN).all()
+			if(len(orig_book) != 0):
+				d = {
+					"Sno" : book.sno,
+					"Name" : orig_book[0].name,
+					"Author" : orig_book[0].author,
+					"ISBN" : book.ISBN,
+					"Price" : orig_book[0].price,
+					"Copies" : book.copies,
+					"Publisher" : orig_book[0].publisher,
+					"Status" : "Hui"
+				}
+				if(book.type == "2"):
+					d.update({"Status" : "Approved"})
+					data.append(d)
+				if(book.type == "1"):
+					d.update({"Status" : "Pending"})
+					data.append(d)
 				
 		res = json.dumps(data, indent=2)
 		return res
@@ -503,6 +505,37 @@ def verify_books():
 		return redirect("http://localhost:3000/clerk/")
 
 
+@app.route('/seequery', methods=['GET'])
+@cross_origin(origins=['http://localhost:3000'])
+def get_queries():
+	queiries = used_book.query.filter_by(type="3").all()
+	data = []
+	for book in queiries:
+		ori_book = all_book.query.filter_by(ISBN=book.ISBN).all()
+		if(len(ori_book) == 0):
+			d = {
+				"Sno" : book.sno,
+				"Name" : "---",
+				"Author" : "---",
+				"ISBN" : book.ISBN,
+				"User" : book.username,
+				"Status" : "New book"
+			}
+			data.append(d)
+		else:
+			d = {
+				"Sno" : book.sno,
+				"Name" : ori_book[0].name,
+				"Author" : ori_book[0].author,
+				"ISBN" : book.ISBN,
+				"User" : book.username,
+				"Status" : "Stock Empty/less"
+			}
+			data.append(d)
+
+	res = json.dumps(data, indent=2)
+	return res
+
 
 @app.route('/owner/keyset', methods=['GET', 'POST'])
 def keyset():
@@ -514,6 +547,7 @@ def keyset():
 		# print(name, author, ISBN, publisher, type(copies))
 		isrow = private_key.query.count()
 		if(isrow == 0):
+			print(clerk_key, manager_key, owner_key)
 			entry = private_key(clerk_key=clerk_key, manager_key=manager_key, owner_key=owner_key)     
 			db.session.add(entry)
 			db.session.commit()
@@ -521,7 +555,7 @@ def keyset():
 			uniqe_row = private_key.query.filter_by(sno = 1).first()
 			uniqe_row.clerk_key = clerk_key
 			uniqe_row.manager_key = manager_key
-			uniqe_row.owowner_key =owner_key
+			uniqe_row.owner_key =owner_key
 			db.session.commit()
 	
 		return redirect("http://localhost:3000/owner")

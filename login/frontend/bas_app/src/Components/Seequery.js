@@ -1,9 +1,7 @@
 import React, { useState, useEffect } from "react";
-import AddbookButton from "./AddbookButton"
-import LogoutButton from "./LogoutButton"
 import { useNavigate } from "react-router-dom";
 
-const Manager = () => {
+const Buydetails = () => {
 
     const[item,setitem] = useState();
     // this.state = {
@@ -11,7 +9,7 @@ const Manager = () => {
     //     DataisLoaded: false
     //     };
         
-    const [user,setuser] = useState();
+    const [book,setbook] = useState();
     // useEffect(() => {
     //     const res = fetch("http://localhost:5000/get_user11");
     //     console.log(res);
@@ -40,32 +38,32 @@ const Manager = () => {
     //         });
     //     })
 
+    const [openmodal, setopenmodal] = useState(false);
 
     useEffect(() => {
-        fetch('http://localhost:5000/get_clerk')
+        fetch('http://localhost:5000/seequery')
         .then(res => {
             console.log(typeof res)
               return res.json();
         })
         .then(data => {
           console.log(data);
-          setuser(data);
+          setbook(data);
           // setcBooks(data);
         })
       },[]);
 
-    const [openmodal, setopenmodal] = useState(false)
-
     const navigate = useNavigate();
     const handleClick = () => {
-        navigate("/manager/seequery");    
+        navigate("/manager/");    
     };
+
 
     return (
 
-        <div>
-            <div>
-                Hello, Manager you are onduty.
+        <div class="searchedbooks">
+            <div class="searchedbookhead">
+                <h2>Hello, here are queries </h2>
             </div>
             {/* <div>
                 {user.map((item4) => (
@@ -75,21 +73,38 @@ const Manager = () => {
                     </ol>
                 ))}
             </div> */}
-            <div>
-                {user && <p>{user.FirstName} <span>{user.LastName}</span></p>}
-            </div>
-            <div>
-                <AddbookButton openmodal={openmodal} setopenmodal={setopenmodal}></AddbookButton>
-            </div>
-            <div>
-                <button onClick={handleClick}>See Query</button>
-            </div>
-            <div>
-                <LogoutButton></LogoutButton>
-            </div>
+            {/* <div>
+                {book(0) && <p>{book(0).Name} <span>{book(0).Author}</span></p>}
+            </div> */}
+            {/* <select>
+                {book.map((book) => {
+                    return <option key={book.Name} value={country.id}>{country.name}</option>
+                })}
+            </select> */}
+            
+            <table>
+                <tr>
+                    <th>Name</th>
+                    <th>Author</th>
+                    <th>ISBN</th>
+                    <th>User</th>
+                    <th>Status</th>
+                </tr>
+                {book?.map((item) => (
+                    <tr key={item.Sno}>
+                    <td>{item.Name}</td>
+                    <td>{item.Author}</td>
+                    <td>{item.ISBN}</td>
+                    <td>{item.User}</td>
+                    <td>{item.Status}</td>
+                    </tr>
+                ))}
+            </table>
+
+         <button class="sgnbuttonr" onClick={handleClick}>back</button>
         </div>
 
     );
 }
 
-export default Manager;
+export default Buydetails;

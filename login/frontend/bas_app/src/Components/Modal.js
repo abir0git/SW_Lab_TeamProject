@@ -18,7 +18,7 @@ const Modal = (props) => {
             return <div id='signinm'><SignIn1  />
 
                 <h4>Don't have an account? <span onClick={() => { setActive("signup") }}>Sign Up</span></h4>
-                <h4 id="fp" onClick={() => { setActive("forgot1") }}>Forgot Password?</h4>
+                {/* <h4 id="fp" onClick={() => { setActive("forgot1") }}>Forgot Password?</h4> */}
             </div>
         }
         else if (active === "signup") {
