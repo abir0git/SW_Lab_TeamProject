@@ -91,6 +91,11 @@ const Customer = () => {
                 <AddqueryButton  openmodal={openmodal} setopenmodal={setopenmodal}></AddqueryButton>
             </div>
             <div>
+                <form action="http://127.0.0.1:5000/customer/see_buydetails" method="post">
+                    <button type="submit">Buy Details</button>
+                </form>
+            </div>
+            <div>
                 <LogoutButton></LogoutButton>
             </div>
         </div>

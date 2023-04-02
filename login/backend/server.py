@@ -298,6 +298,8 @@ def returnmanager():
 		# res.headers.add("Access-Control-Allow-Origin", "http://localhost:5000/")
 		return res
 	
+
+
 @app.route('/customer/search', methods=['GET', 'POST'])
 def book_search():
 	if(request.method == 'POST'):
@@ -381,6 +383,44 @@ def add_query():
 		db.session.commit()
 		return redirect("http://localhost:3000/customer/")
 
+@app.route("/customer/see_buydetails", methods=['GET', 'POST'])
+def see_buydetails():
+	if(request.method == 'POST'):
+		global username
+		global allbooks_usr
+		allbooks_usr = used_book.query.filter_by(username=username).all()
+		return redirect("http://localhost:3000/customer/buydetails")
+
+@app.route('/buydetails', methods=['GET'])
+@cross_origin(origins=['http://localhost:3000'])
+def get_buydetails():
+	global allbooks_usr
+	data = []
+	if(request.method == 'GET'):
+		for book in allbooks_usr:
+			ori_book = all_book.query.filter_by(ISBN=book.ISBN).first()
+			d = {
+				"Sno" : book.sno,
+				"Name" : ori_book.name,
+				"Author" : ori_book.author,
+				"ISBN" : book.ISBN,
+				"Price" : ori_book.price,
+				"Copies" : book.copies,
+				"Publisher" : ori_book.publisher,
+				"Status" : "Hui"
+			}
+			if(book.type == "2"):
+				d.update({"Status" : "Approved"})
+				data.append(d)
+			if(book.type == "1"):
+				d.update({"Status" : "Pending"})
+				data.append(d)
+				
+		res = json.dumps(data, indent=2)
+		return res
+
+
+
 @app.route('/clerk/addbook', methods=['GET', 'POST'])
 def addbook():
 	if(request.method == 'POST'):
@@ -461,6 +501,8 @@ def verify_books():
 			db.session.commit()
 			db.session.commit()
 		return redirect("http://localhost:3000/clerk/")
+
+
 
 @app.route('/owner/keyset', methods=['GET', 'POST'])
 def keyset():

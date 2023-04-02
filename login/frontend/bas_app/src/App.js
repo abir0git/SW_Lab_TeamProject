@@ -17,6 +17,7 @@ import Owner from "./Components/Owner";
 import OTP from "./Components/OTP";
 import SearchedBooks from "./Components/SearchedBooks"
 import VerifiableBooks from "./Components/Verifiablebooks";
+import Buydetails from "./Components/Buydetails";
 
 function App() {
 	const [openmodal, setopenmodal] = useState(false);
@@ -79,6 +80,14 @@ function App() {
             path="/customer/searchedbooks"
             element={     <div class="app_searchedbooks">
 				<SearchedBooks/>
+			</div>      }
+          />
+			
+            <Route
+            exact
+            path="/customer/buydetails"
+            element={     <div class="app_searchedbooks">
+				<Buydetails/>
 			</div>      }
           />
 			
