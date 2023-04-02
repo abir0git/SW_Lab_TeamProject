@@ -8,6 +8,7 @@ import "./Components/Css_files/Signin.css"
 import "./Components/Css_files/Userform.css"
 import "./Components/Css_files/Userform2.css"
 import "./Components/Css_files/Searchedbooks.css"
+import "./Components/Css_files/AppHome.css"
 import LoginButton from "./Components/LoginButton"
 import Profile from "./Components/Profile";
 import Customer from "./Components/Customer";
@@ -26,9 +27,9 @@ function App() {
 	const[loggedin_setloggedin] = useState(false);
 	
 	return (
-	
+	<div className="app">
 		<Routes>
-			<Route
+			<Route className="home"
             exact
             path="/"
             element={     <div>
@@ -110,7 +111,7 @@ function App() {
           />
 			
 		</Routes>
-		
+		</div>
 	);
 }
 

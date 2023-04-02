@@ -14,14 +14,14 @@ const AppHome = () => {
 
     return (
 
-        <div>
-            <div>
+        <div className="apphome">
+            <div className="appbutton">
                 <LoginButton openmodal={openmodal} setopenmodal={setopenmodal}></LoginButton>
             </div>
             <div>
-            <h1>
-                Welcome to BAS
-            </h1>
+                <h1>
+                Book-Shop Automation Software
+                </h1>
             </div>
         </div>
 
