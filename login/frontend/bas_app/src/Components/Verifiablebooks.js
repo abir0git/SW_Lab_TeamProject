@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import OrderbookButton from "./OrderbookButton";
 
-const SearchedBooks = () => {
+const VerifiableBooks = () => {
 
     const[item,setitem] = useState();
     // this.state = {
@@ -42,7 +42,7 @@ const SearchedBooks = () => {
     const [openmodal, setopenmodal] = useState(false);
 
     useEffect(() => {
-        fetch('http://localhost:5000/get_searchedbooks')
+        fetch('http://localhost:5000/get_verifiablebooks')
         .then(res => {
             console.log(typeof res)
               return res.json();
@@ -56,7 +56,7 @@ const SearchedBooks = () => {
 
     const navigate = useNavigate();
     const handleClick = () => {
-        navigate("/customer/");    
+        navigate("/clerk/");    
     };
 
 
@@ -107,10 +107,14 @@ const SearchedBooks = () => {
             </table>
 
          <button class="sgnbuttonr" onClick={handleClick}>back</button>
-         <OrderbookButton openmodal={openmodal} setopenmodal={setopenmodal}></OrderbookButton>
+         <div>
+         <form className="userform2" action="http://127.0.0.1:5000/clerk/verify" method="post">
+            <button class="sgnbutton2" type="submit">Verify</button>
+        </form>
+         </div>
         </div>
 
     );
 }
 
-export default SearchedBooks;
+export default VerifiableBooks;

@@ -2,6 +2,7 @@ import Search from "./Search";
 import Addbook from "./Addbook";
 import Keyset from "./Keyset";
 import Orderbook from "./Orderbook";
+import Verifyform from "./Verifyform"
 
 import React, { useState, useEffect } from "react";
 
@@ -37,6 +38,11 @@ const ModalUser = (props) => {
         else if (active === "orderbook") {
             return <div id="orderbook">
                 <Orderbook/>
+            </div>
+        }
+        else if (active === "verifyorder") {
+            return <div id="verifyorder">
+                <Verifyform/>
             </div>
         }
     }

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import Addbook from "./Addbook"
 import AddbookButton from "./AddbookButton"
 import LogoutButton from "./LogoutButton"
+import VerifyButton from "./VerifyButton";
 
 const Clerk = () => {
 
@@ -75,6 +76,9 @@ const Clerk = () => {
             </div>
             <div>
                 <AddbookButton openmodal={openmodal} setopenmodal={setopenmodal}></AddbookButton>
+            </div>
+            <div>
+                <VerifyButton openmodal={openmodal} setopenmodal={setopenmodal}></VerifyButton>
             </div>
             <div>
                 <LogoutButton></LogoutButton>

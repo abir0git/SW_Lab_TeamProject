@@ -359,6 +359,8 @@ def order_book():
 		copies = request.form.get('copies')
 		book = all_book.query.filter_by(ISBN = ISBN).all()
 		if(len(book) != 0):
+			if(int(copies) > book[0].copies):
+				return "We don't have so much stock"
 			entry = used_book(ISBN = ISBN, copies = int(copies), type="1", username=username, datetime=presenttime )
 			db.session.add(entry)
 			db.session.commit()
@@ -393,6 +395,61 @@ def addbook():
 	
 		return redirect("http://localhost:3000/clerk")
 
+@app.route('/clerk/seeverifybook', methods=['GET', 'POST'])
+def seeverify_books():
+	if(request.method == "POST"):
+		username = request.form.get('username')
+		global verifiable_books
+		verifiable_books = []
+		books_un = used_book.query.filter_by(username=username).all()
+		books_pend = used_book.query.filter_by(type="1").all()
+
+		def Intersection(l1, l2):
+			return list(set.intersection(set(l1), set(l2)))
+		
+		verifiable_books += Intersection(books_un, books_pend)
+		if(len(verifiable_books) == 0 ):
+			return "No order pending"
+		for book in verifiable_books:
+			print(book.ISBN, book.type)
+
+		return redirect("http://localhost:3000/clerk/verifiablebooks")
+	
+@app.route('/get_verifiablebooks', methods=['GET'])
+@cross_origin(origins=['http://localhost:3000'])
+def get_verifibalebooks():
+	global verifiable_books
+	data = []
+	if(request.method == 'GET'):
+		for book in verifiable_books:
+			detailed_book = all_book.query.filter_by(ISBN=book.ISBN).first()
+			d = {
+				"Sno" : book.sno,
+				"Name" : detailed_book.name,
+				"Author" : detailed_book.author,
+				"ISBN" : book.ISBN,
+				"Price" : detailed_book.price,
+				"Shelf" : detailed_book.shelf,
+				"Copies" : book.copies,
+				"Publisher" : detailed_book.publisher,
+			}
+			data.append(d)
+		res = json.dumps(data, indent=2)
+		return res
+
+@app.route('/clerk/verify',  methods=['GET', 'POST'])
+def verify_books():
+	if(request.method == 'POST'):
+		global verifiable_books
+		for book in verifiable_books:
+			print(book.ISBN)
+			detailed_book = all_book.query.filter_by(ISBN=book.ISBN).first()
+			using_book = used_book.query.filter_by(sno=book.sno).first()
+			using_book.type = "2"
+			db.session.commit()
+			detailed_book.copies -= book.copies
+			db.session.commit()
+		return redirect("http://localhost:3000/clerk/")
 
 @app.route('/owner/keyset', methods=['GET', 'POST'])
 def keyset():
