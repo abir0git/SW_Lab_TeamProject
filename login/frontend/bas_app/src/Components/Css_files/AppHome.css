@@ -5,3 +5,7 @@
 .appbutton{
     float: right;
 }
+.Errmsg{
+    text-align: center;
+    color: white;
+}

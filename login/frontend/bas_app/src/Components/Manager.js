@@ -3,8 +3,8 @@ import AddbookButton from "./AddbookButton"
 import LogoutButton from "./LogoutButton"
 import { useNavigate } from "react-router-dom";
 
-const Manager = () => {
-
+const Manager = (props) => {
+    props.seterr();
     const[item,setitem] = useState();
     // this.state = {
     //     items: [],

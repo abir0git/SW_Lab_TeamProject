@@ -12,7 +12,7 @@ const AddbookButton = (props) => {
 	}
     return ( 
         <div>
-            <button class="addbook" onClick={modalopen}>Add Book</button>
+            <button className="addbook" onClick={modalopen}>Add Book</button>
             {props.openmodal && addbook && <ModalUser setopenmodal={props.setopenmodal} state ={"addbook"} modechangefun = {setaddbook}/>}
         </div>
      );

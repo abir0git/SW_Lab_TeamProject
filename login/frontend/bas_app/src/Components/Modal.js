@@ -7,15 +7,15 @@ import React, { useState, useEffect } from "react";
 const Modal = (props) => {
 
     const [active, setActive] = useState("signin");
-    function modalclose()
-	{
+    if (props.errmessage) setActive("showerr");
+    function modalclose() {
         console.log("1222");
-		props.setopenmodal(false);
+        props.setopenmodal(false);
         setActive("signin");
-	}
+    }
     const Modal = () => {
         if (active === "signin") {
-            return <div id='signinm'><SignIn1  />
+            return <div id='signinm'><SignIn1 />
 
                 <h4>Don't have an account? <span onClick={() => { setActive("signup") }}>Sign Up</span></h4>
                 {/* <h4 id="fp" onClick={() => { setActive("forgot1") }}>Forgot Password?</h4> */}
@@ -23,7 +23,7 @@ const Modal = (props) => {
         }
         else if (active === "signup") {
             return <div id="signupm">
-                <SignUp1  />
+                <SignUp1 />
 
                 <h4>Already have an account? <span onClick={() => { setActive("signin") }}> Sign In</span></h4>
                 <br />
@@ -42,7 +42,11 @@ const Modal = (props) => {
 
             </div>
         }
-
+        else if (active === "showerr"){
+            return <div>
+                {props.errmessage}
+            </div>
+        }
     }
 
     return (

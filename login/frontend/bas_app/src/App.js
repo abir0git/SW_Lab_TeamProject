@@ -25,7 +25,8 @@ import AppHome from "./Components/AppHome"
 function App() {
 	const [openmodal, setopenmodal] = useState(false);
 	const[loggedin_setloggedin] = useState(false);
-	
+	const [err, seterr] = useState();
+
 	return (
 	<div className="app">
 		<Routes>
@@ -33,7 +34,7 @@ function App() {
             exact
             path="/"
             element={     <div>
-				<AppHome></AppHome>
+				<AppHome err={err} seterr={seterr}></AppHome>
 			</div>      }
           />
 			<Route
@@ -47,28 +48,28 @@ function App() {
             exact
             path="/customer"
             element={     <div>
-				<Customer/>
+				<Customer err={err} seterr={seterr}/>
 			</div>      }
           />
 			<Route
             exact
             path="/clerk"
             element={     <div>
-				<Clerk/>
+				<Clerk err={err} seterr={seterr}/>
 			</div>      }
           />
 			<Route
             exact
             path="/owner"
             element={     <div>
-				<Owner/>
+				<Owner err={err} seterr={seterr}/>
 			</div>      }
           />
 			<Route
             exact
             path="/manager"
             element={     <div>
-				<Manager/>
+				<Manager err={err} seterr={seterr}/>
 			</div>      }
           />
 			<Route
@@ -81,7 +82,7 @@ function App() {
 			<Route
             exact
             path="/customer/searchedbooks"
-            element={     <div class="app_searchedbooks">
+            element={     <div className="app_searchedbooks">
 				<SearchedBooks/>
 			</div>      }
           />
@@ -89,7 +90,7 @@ function App() {
             <Route
             exact
             path="/customer/buydetails"
-            element={     <div class="app_searchedbooks">
+            element={     <div className="app_searchedbooks">
 				<Buydetails/>
 			</div>      }
           />
@@ -97,7 +98,7 @@ function App() {
             <Route
             exact
             path="/clerk/verifiablebooks"
-            element={     <div class="app_searchedbooks">
+            element={     <div className="app_searchedbooks">
 				<VerifiableBooks/>
 			</div>      }
           />
@@ -105,7 +106,7 @@ function App() {
             <Route
             exact
             path="/manager/seequery"
-            element={     <div class="app_searchedbooks">
+            element={     <div className="app_searchedbooks">
 				<Seequery/>
 			</div>      }
           />
