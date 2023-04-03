@@ -7,11 +7,9 @@ const Signin1 = () => {
     function gr()
     {
         // console.log(location.pathname)
-        console.log("Duniya");
     }
     function submitform(){
         // setTimeout(gr,10000)
-        console.log("Duniya1");
         axios
         .post("http://localhost:5000/login", {
           uname: 'axc',
