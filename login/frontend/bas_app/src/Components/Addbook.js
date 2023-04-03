@@ -58,6 +58,15 @@ const Addbook = () => {
               required
             />
           </div>  
+
+          <div className="inputfield">
+            <label>Buy price</label>
+            <input
+              type="text"
+              name="buy_price"
+              required
+            />
+          </div>  
           
           <div className="inputfield">
             <label>shelf no </label>
@@ -67,6 +76,7 @@ const Addbook = () => {
               required
             />
           </div>  
+          
   
           <button className="sgnbutton" type="submit" >Submit</button>
   

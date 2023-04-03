@@ -43,8 +43,10 @@ const Modal = (props) => {
             </div>
         }
         else if (active === "showerr"){
-            return <div>
+            return <div className="error">
+                <h2>
                 {props.errmessage}
+                </h2>
             </div>
         }
     }

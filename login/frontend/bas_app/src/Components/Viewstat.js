@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
-const Buydetails = () => {
+const Viewstat = () => {
 
     const[item,setitem] = useState();
     // this.state = {
@@ -41,7 +41,7 @@ const Buydetails = () => {
     const [openmodal, setopenmodal] = useState(false);
 
     useEffect(() => {
-        fetch('http://localhost:5000/seequery')
+        fetch('http://localhost:5000/viewstat')
         .then(res => {
             console.log(typeof res)
               return res.json();
@@ -61,9 +61,9 @@ const Buydetails = () => {
 
     return (
 
-        <div className="searchedbooks">
-            <div className="searchedbookhead">
-                <h2>Hello, here are queries </h2>
+        <div class="searchedbooks">
+            <div class="searchedbookhead">
+                <h2>Hello, here are statistics </h2>
             </div>
             {/* <div>
                 {user.map((item4) => (
@@ -87,26 +87,24 @@ const Buydetails = () => {
                     <th>Name</th>
                     <th>Author</th>
                     <th>ISBN</th>
-                    <th>User</th>
-                    <th>Status</th>
-                    <th>Date time</th>
+                    <th>Total copies sold</th>
+                    <th>Total profit</th>
                 </tr>
                 {book?.map((item) => (
-                    <tr key={item.Sno}>
+                    <tr key={item.sno}>
                     <td>{item.Name}</td>
                     <td>{item.Author}</td>
                     <td>{item.ISBN}</td>
-                    <td>{item.User}</td>
-                    <td>{item.Status}</td>
-                    <td>{item.Datetime}</td>
+                    <td>{item.Total_copies_sold}</td>
+                    <td>{item.Total_profit}</td>
                     </tr>
                 ))}
             </table>
 
-         <button className="sgnbuttonr" onClick={handleClick}>back</button>
+         <button class="sgnbuttonr" onClick={handleClick}>back</button>
         </div>
 
     );
 }
 
-export default Buydetails;
+export default Viewstat;

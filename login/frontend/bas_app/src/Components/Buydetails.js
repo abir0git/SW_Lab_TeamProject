@@ -91,6 +91,8 @@ const Buydetails = () => {
                     <th>Price</th>
                     <th>Copies</th>
                     <th>Status</th>
+                    <th>Sell ID</th>
+                    <th>Datetime</th>
                 </tr>
                 {book?.map((item) => (
                     <tr key={item.sno}>
@@ -101,6 +103,8 @@ const Buydetails = () => {
                     <td>{item.Price}</td>
                     <td>{item.Copies}</td>
                     <td>{item.Status}</td>
+                    <td>{item.Sno}</td>
+                    <td>{item.Datetime}</td>
                     </tr>
                 ))}
             </table>

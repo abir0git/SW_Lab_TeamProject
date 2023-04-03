@@ -1,10 +1,10 @@
-const Viewstat = (props) => {
+const Viewstatform = (props) => {
 
     return ( 
         <div className="form-box1">
         <h2>View Statistics </h2>
         <br />
-        <form className="userform" action="http://localhost:5000/viewstat" method="post">
+        <form className="userform" action="http://localhost:5000/viewstatform" method="post">
           <div className="inputfield">
             <label>From </label>
             <input
@@ -42,4 +42,4 @@ const Viewstat = (props) => {
      );
 }
  
-export default Viewstat;
+export default Viewstatform;

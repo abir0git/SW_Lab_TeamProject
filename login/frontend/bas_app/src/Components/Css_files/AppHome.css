@@ -8,4 +8,7 @@
 .Errmsg{
     text-align: center;
     color: white;
+    font-size:3em;
+    vertical-align: middle;
+    padding-top: 50%;
 }

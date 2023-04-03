@@ -21,6 +21,7 @@ import VerifiableBooks from "./Components/Verifiablebooks";
 import Buydetails from "./Components/Buydetails";
 import Seequery from "./Components/Seequery";
 import AppHome from "./Components/AppHome"
+import Viewstat from "./Components/Viewstat";
 
 function App() {
 	const [openmodal, setopenmodal] = useState(false);
@@ -108,6 +109,14 @@ function App() {
             path="/manager/seequery"
             element={     <div className="app_searchedbooks">
 				<Seequery/>
+			</div>      }
+          />
+            
+            <Route
+            exact
+            path="/manager/viewstat"
+            element={     <div className="app_searchedbooks">
+				<Viewstat/>
 			</div>      }
           />
 			

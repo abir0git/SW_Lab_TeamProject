@@ -23,7 +23,7 @@ presenttime = datetime.datetime.now()
 # Initializing flask app
 app = Flask(__name__)
 
-# app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:password@localhost/bas_sw'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:Babai#123@localhost/bas_sw'
 
 
 errmsg = ""
@@ -67,6 +67,7 @@ class all_book(db.Model, UserMixin):
 	copies = db.Column(db.Integer, nullable=True)
 	shelf = db.Column(db.String(45), nullable=True)
 	price = db.Column(db.String(45), nullable=False)
+	buy_price = db.Column(db.String(45))
 		
 class private_key(db.Model, UserMixin):
 	sno = db.Column(db.Integer, primary_key=True)
@@ -81,6 +82,8 @@ class used_book(db.Model, UserMixin):
 	copies = db.Column(db.Integer)
 	username = db.Column(db.String(40))
 	datetime = db.Column(db.DateTime)
+	name = db.Column(db.String(40))
+	author = db.Column(db.String(40))
 
 # Route for new user signup
 @app.route('/signup', methods=['GET', 'POST'])
@@ -400,7 +403,8 @@ def add_query():
 		name = request.form.get('name')
 		author = request.form.get('author')
 		ISBN = request.form.get('ISBN')
-		entry = used_book(ISBN=ISBN, username=username, type="3")
+		entry = used_book(ISBN=ISBN, username=username, type="3", name=name,
+		     author=author, datetime=datetime.datetime.now())
 		db.session.add(entry)
 		db.session.commit()
 		return redirect("http://localhost:3000/customer/")
@@ -417,6 +421,7 @@ def see_buydetails():
 @cross_origin(origins=['http://localhost:3000'])
 def get_buydetails():
 	global allbooks_usr
+	# allbooks_usr.reverse()
 	data = []
 	if(request.method == 'GET'):
 		for book in allbooks_usr:
@@ -431,7 +436,8 @@ def get_buydetails():
 					"Price" : orig_book[0].price,
 					"Copies" : book.copies,
 					"Publisher" : orig_book[0].publisher,
-					"Status" : "Hui"
+					"Status" : "Hui",
+					"Datetime" : str(book.datetime)
 				}
 				if(book.type == "2"):
 					d.update({"Status" : "Approved"})
@@ -439,7 +445,7 @@ def get_buydetails():
 				if(book.type == "1"):
 					d.update({"Status" : "Pending"})
 					data.append(d)
-				
+		data.reverse()	
 		res = json.dumps(data, indent=2)
 		return res
 
@@ -453,6 +459,7 @@ def addbook():
 		copies = request.form.get('copies')
 		shelf = request.form.get('shelf')
 		price = request.form.get('price')
+		buy_price = request.form.get('buy_price')
 
 		print(name, author, ISBN, publisher, type(copies))
 
@@ -463,7 +470,8 @@ def addbook():
 			db.session.commit()
 
 		else:
-			entry = all_book(name=name, author=author, ISBN=ISBN, publisher=publisher, copies=int(copies), shelf=shelf, price=price)
+			entry = all_book(name=name, author=author, ISBN=ISBN, buy_price=buy_price, 
+		    publisher=publisher, copies=int(copies), shelf=shelf, price=price)
 			db.session.add(entry)
 			db.session.commit()
 	
@@ -529,17 +537,19 @@ def verify_books():
 @cross_origin(origins=['http://localhost:3000'])
 def get_queries():
 	queiries = used_book.query.filter_by(type="3").all()
+	queiries.reverse()
 	data = []
 	for book in queiries:
 		ori_book = all_book.query.filter_by(ISBN=book.ISBN).all()
 		if(len(ori_book) == 0):
 			d = {
 				"Sno" : book.sno,
-				"Name" : "---",
-				"Author" : "---",
+				"Name" : book.name,
+				"Author" : book.author,
 				"ISBN" : book.ISBN,
 				"User" : book.username,
-				"Status" : "New book"
+				"Status" : "New book",
+				"Datetime" : str(book.datetime)
 			}
 			data.append(d)
 		else:
@@ -549,7 +559,8 @@ def get_queries():
 				"Author" : ori_book[0].author,
 				"ISBN" : book.ISBN,
 				"User" : book.username,
-				"Status" : "Stock Empty/less"
+				"Status" : "Stock Empty/less",
+				"Datetime" : str(book.datetime)
 			}
 			data.append(d)
 
@@ -557,7 +568,7 @@ def get_queries():
 	return res
 
 
-@app.route('/viewstat', methods=['GET', 'POST'] )
+@app.route('/viewstatform', methods=['GET', 'POST'] )
 def generate_stat():
 	if(request.method == 'POST'):
 		type = request.form.get('type')
@@ -579,13 +590,35 @@ def generate_stat():
 				unique_books.update(b1)
 			except:
 				unique_books.update({book.ISBN : book.copies})
-		sorted_unique_books_keys = sorted(unique_books, reverse=True)
+		sorted_books = sorted(unique_books.items(), key=lambda x:x[1], reverse=True)
 		global data1, data2
 		data1 = []
 		data2 = []
-		print(sorted_unique_books_keys)
-	return redirect("http://localhost:3000/manager/")
+		
+		for book in sorted_books:
+			book_ori = all_book.query.filter_by(ISBN=book[0]).first()
+			print("****************************")
+			print(book_ori.price)
+			d1 = {
+				"sno" : book_ori.sno,
+				"Name" : book_ori.name,
+				"Author" : book_ori.author,
+				"ISBN" : book_ori.ISBN,
+				"Total_copies_sold" : book[1],
+				"Total_profit" : book[1] * (int(book_ori.price) - int(book_ori.buy_price)) 
+			}
+			data1.append(d1)
 
+	return redirect("http://localhost:3000/manager/viewstat")
+
+@app.route('/viewstat', methods=['GET'])
+@cross_origin(origins=['http://localhost:3000'])
+def viewstat():
+	if(request.method == 'GET'):
+		global data1
+		# print(data1)
+		res = json.dumps(data1, indent=2)
+		return res
 
 
 
