@@ -21,6 +21,7 @@ const AppHome = (props) => {
     }
     useEffect(() => {
         console.log("onreloading....")
+        
         fetch('http://localhost:5000/get_err')
             .then(res => {
                 // console.log(typeof res)
@@ -28,9 +29,10 @@ const AppHome = (props) => {
             })
             .then(data => {
                 console.log(data);
+                // alert("Hello! I am an alert box!!");
                 props.seterr(data);
                 setTimeout(gr,3000)
-                // console.log(err.Error)
+                // console.log(data.Error)
             })
     },[]);
 
@@ -47,11 +49,12 @@ const AppHome = (props) => {
             </div>
             <div>
                 {/* {err && err.Error == "Wrong Password" && <Modal openmodal={openmodal} setopenmodal={setopenmodal} errmessage = {err.Error} />} */}
-                {props.err && props.err.Error == "Wrong Password" && <div className="sgnmodalBackground" >
+                {props.err && props.err.Error === "Wrong Password" && <div className="sgnmodalBackground" >
                     <div className="sgnmodalContainer">
                         <div className="sgnmodalclose">
                             <button
                                 onClick={() => {
+                                    console.log(props.err);
                                     props.seterr();
                                 }}
                             >
