@@ -23,7 +23,7 @@ presenttime = datetime.datetime.now()
 # Initializing flask app
 app = Flask(__name__)
 
-# app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:password@localhost/bas_sw'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:Babai#123@localhost/bas_sw'
 
 
 
@@ -654,7 +654,7 @@ def generate_stat():
 					"ISBN" : book_ori.ISBN,
 					"Publisher" : book_ori.publisher
 				}
-				if(unique_books_15[key] < book_ori.copies):
+				if(unique_books_15[key] <= book_ori.copies):
 					d1.update(
 						{
 							"Below_Threshold" : "No",
@@ -662,10 +662,11 @@ def generate_stat():
 						}
 					)
 				if(unique_books_15[key] > book_ori.copies):
+					print("bui************************bui")
 					d1.update(
 						{
-							"Below Threshold" : "Yes",
-							"Copies required" : unique_books_15[key] - book_ori.copies
+							"Below_Threshold" : "Yes",
+							"Copies_required" : unique_books_15[key] - book_ori.copies
 						}
 					)
 				data1.append(d1)
