@@ -22,7 +22,7 @@ presenttime = datetime.datetime.now()
 
 # Initializing flask app
 app = Flask(__name__)
-
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:mazaqwer7531%40@localhost/bas_sw'
 # app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:password@localhost/bas_sw'
 
 
@@ -227,15 +227,20 @@ def usr_login():
 def geterr():
 	global errmsg
 	global iserr
-	print(errmsg)
+	# ermsg = errmsg
+	# errmsg = ""
+	print("Hell err: " , errmsg)
 	data = {
 			"Error": errmsg,
 			"iserr" : iserr
 	}
 	res = jsonify(data)
+	# ermsg = ""
+	# errmsg=""
 	delay = int(3)
 	start_time = threading.Timer(delay,seterr)
 	start_time.start()
+	# print(res)
 	return res
 
 @app.route('/get_user', methods=['GET'])
