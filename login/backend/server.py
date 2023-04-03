@@ -68,6 +68,7 @@ class all_book(db.Model, UserMixin):
 	shelf = db.Column(db.String(45), nullable=True)
 	price = db.Column(db.String(45), nullable=False)
 	buy_price = db.Column(db.String(45))
+	procure_day = db.Column(db.String(40))
 		
 class private_key(db.Model, UserMixin):
 	sno = db.Column(db.Integer, primary_key=True)
@@ -465,6 +466,7 @@ def addbook():
 		shelf = request.form.get('shelf')
 		price = request.form.get('price')
 		buy_price = request.form.get('buy_price')
+		procure_day = request.form.get('procure_day')
 
 		print(name, author, ISBN, publisher, type(copies))
 
@@ -476,7 +478,7 @@ def addbook():
 
 		else:
 			entry = all_book(name=name, author=author, ISBN=ISBN, buy_price=buy_price, 
-		    publisher=publisher, copies=int(copies), shelf=shelf, price=price)
+		    publisher=publisher, copies=int(copies), shelf=shelf, price=price, procure_day=procure_day)
 			db.session.add(entry)
 			db.session.commit()
 	
@@ -577,42 +579,95 @@ def get_queries():
 def generate_stat():
 	if(request.method == 'POST'):
 		type = request.form.get('type')
-		from_date = request.form.get('fromdt')
-		to_date = request.form.get('todt')
-		# print(to_date[0:2])
-		books1 = used_book.query.filter(used_book.datetime >= datetime.datetime.strptime(from_date, '%Y-%m-%d'),
-                  used_book.datetime <= datetime.datetime.strptime(to_date, '%Y-%m-%d')).all()
-		books3 = used_book.query.filter_by(type="2").all()
-
-		def Intersection(l1, l2):
-			return list(set.intersection(set(l1), set(l2)))
-
-		books = Intersection(books1, books3)
-		unique_books = {}
-		for book in books:
-			try:
-				b1 = {book.ISBN : book.copies + unique_books[book.ISBN]}
-				unique_books.update(b1)
-			except:
-				unique_books.update({book.ISBN : book.copies})
-		sorted_books = sorted(unique_books.items(), key=lambda x:x[1], reverse=True)
-		global data1, data2
+		print(type)
+		global data1
 		data1 = []
-		data2 = []
-		
-		for book in sorted_books:
-			book_ori = all_book.query.filter_by(ISBN=book[0]).first()
-			print("****************************")
-			print(book_ori.price)
-			d1 = {
-				"sno" : book_ori.sno,
-				"Name" : book_ori.name,
-				"Author" : book_ori.author,
-				"ISBN" : book_ori.ISBN,
-				"Total_copies_sold" : book[1],
-				"Total_profit" : book[1] * (int(book_ori.price) - int(book_ori.buy_price)) 
-			}
-			data1.append(d1)
+		if(type == "true"):
+			print("********get true*******************")
+			from_date = request.form.get('fromdt')
+			to_date = request.form.get('todt')
+			# print(to_date[0:2])
+			books1 = used_book.query.filter(used_book.datetime >= datetime.datetime.strptime(from_date, '%Y-%m-%d'),
+					used_book.datetime <= datetime.datetime.strptime(to_date, '%Y-%m-%d')).all()
+			books33 = used_book.query.filter_by(type="2").all()
+
+			def Intersection(l1, l2):
+				return list(set.intersection(set(l1), set(l2)))
+
+			books = Intersection(books1, books33)
+			unique_books = {}
+			for book in books:
+				try:
+					b1 = {book.ISBN : book.copies + unique_books[book.ISBN]}
+					unique_books.update(b1)
+				except:
+					unique_books.update({book.ISBN : book.copies})
+			sorted_books = sorted(unique_books.items(), key=lambda x:x[1], reverse=True)
+			
+			for book in sorted_books:
+				book_ori = all_book.query.filter_by(ISBN=book[0]).first()
+				print("****************************")
+				print(book_ori.price)
+				d1 = {
+					"key" : "true",
+					"sno" : book_ori.sno,
+					"Name" : book_ori.name,
+					"Author" : book_ori.author,
+					"ISBN" : book_ori.ISBN,
+					"Publisher" : book_ori.publisher,
+					"Total_copies_sold" : book[1],
+					"Total_profit" : book[1] * (int(book_ori.price) - int(book_ori.buy_price)) 
+				}
+				data1.append(d1)
+		else:
+			presenttime = datetime.datetime.now()
+			past_2week = presenttime - datetime.timedelta(days=15)
+			
+			books_15 = used_book.query.filter(used_book.datetime >= past_2week,
+					used_book.datetime <= presenttime).all()
+			books33 = used_book.query.filter_by(type="2").all()
+
+			def Intersection(l1, l2):
+				return list(set.intersection(set(l1), set(l2)))
+
+			books_15 = Intersection(books_15, books33)
+			unique_books_15 = {}
+			for book in books_15:
+				try:
+					b1 = {book.ISBN : book.copies + unique_books_15[book.ISBN]}
+					unique_books_15.update(b1)
+				except:
+					unique_books_15.update({book.ISBN : book.copies})
+
+			for key in unique_books_15.keys():
+				book_ori = all_book.query.filter_by(ISBN=key).first()
+				unique_books_15.update({key : unique_books_15[key]*int(book_ori.procure_day)})
+
+			for key in unique_books_15.keys():
+				book_ori = all_book.query.filter_by(ISBN=key).first()
+				d1 = {
+					"key" : "false",
+					"sno" : book_ori.sno,
+					"Name" : book_ori.name,
+					"Author" : book_ori.author,
+					"ISBN" : book_ori.ISBN,
+					"Publisher" : book_ori.publisher
+				}
+				if(unique_books_15[key] < book_ori.copies):
+					d1.update(
+						{
+							"Below_Threshold" : "No",
+							"Copies_required" : "---"
+						}
+					)
+				if(unique_books_15[key] > book_ori.copies):
+					d1.update(
+						{
+							"Below Threshold" : "Yes",
+							"Copies required" : unique_books_15[key] - book_ori.copies
+						}
+					)
+				data1.append(d1)
 
 	return redirect("http://localhost:3000/manager/viewstat")
 

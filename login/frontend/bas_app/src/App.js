@@ -27,6 +27,7 @@ function App() {
 	const [openmodal, setopenmodal] = useState(false);
 	const[loggedin_setloggedin] = useState(false);
 	const [err, seterr] = useState();
+	const [mode, setmode] = useState();
 
 	return (
 	<div className="app">
@@ -116,7 +117,7 @@ function App() {
             exact
             path="/manager/viewstat"
             element={     <div className="app_searchedbooks">
-				<Viewstat/>
+				<Viewstat mode={mode} setmode={setmode}/>
 			</div>      }
           />
 			

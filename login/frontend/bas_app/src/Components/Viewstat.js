@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
-const Viewstat = () => {
+const Viewstat = (props) => {
 
     const[item,setitem] = useState();
     // this.state = {
@@ -49,6 +49,11 @@ const Viewstat = () => {
         .then(data => {
           console.log(data);
           setbook(data);
+          var arr = data.map((item) => item.key)
+          console.log(arr[0])
+          props.setmode(arr[0])
+          console.log("**********")
+          console.log(props.mode)
           // setcBooks(data);
         })
       },[]);
@@ -57,14 +62,27 @@ const Viewstat = () => {
     const handleClick = () => {
         navigate("/manager/");    
     };
+    console.log(props.mode)
 
+
+    // useEffect(()=>{
+	// 	if(book?.map((item) => item.key
+    //     ))
+    //     {
+    //         console.log("happen");
+    //         setmode(true);
+    //     }
+	// }, [])
 
     return (
 
         <div class="searchedbooks">
-            <div class="searchedbookhead">
-                <h2>Hello, here are statistics </h2>
-            </div>
+            {(props.mode=="true") && <div class="searchedbookhead">
+                <h2>Hello, here are Statistics </h2>
+            </div>}
+            {(props.mode=='false') && <div class="searchedbookhead">
+                <h2>Hello, here Threshold for books </h2>
+            </div>}
             {/* <div>
                 {user.map((item4) => (
                     <ol key={item4.id} >
@@ -82,11 +100,12 @@ const Viewstat = () => {
                 })}
             </select> */}
             
-            <table>
+            {(props.mode=="true") &&<table>
                 <tr>
                     <th>Name</th>
                     <th>Author</th>
                     <th>ISBN</th>
+                    <th>Publisher</th>
                     <th>Total copies sold</th>
                     <th>Total profit</th>
                 </tr>
@@ -95,11 +114,33 @@ const Viewstat = () => {
                     <td>{item.Name}</td>
                     <td>{item.Author}</td>
                     <td>{item.ISBN}</td>
+                    <td>{item.Publisher}</td>
                     <td>{item.Total_copies_sold}</td>
                     <td>{item.Total_profit}</td>
                     </tr>
                 ))}
-            </table>
+            </table>}
+
+            {(props.mode=="false") &&<table>
+                <tr>
+                    <th>Name</th>
+                    <th>Author</th>
+                    <th>ISBN</th>
+                    <th>Publisher</th>
+                    <th>Below Threshold</th>
+                    <th>Copies required</th>
+                </tr>
+                {book?.map((item) => (
+                    <tr key={item.sno}>
+                    <td>{item.Name}</td>
+                    <td>{item.Author}</td>
+                    <td>{item.ISBN}</td>
+                    <td>{item.Publisher}</td>
+                    <td>{item.Below_Threshold}</td>
+                    <td>{item.Copies_required}</td>
+                    </tr>
+                ))}
+            </table>}
 
          <button class="sgnbuttonr" onClick={handleClick}>back</button>
         </div>

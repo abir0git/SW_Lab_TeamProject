@@ -77,6 +77,15 @@ const Addbook = () => {
             />
           </div>  
           
+          <div className="inputfield">
+            <label>Procure day</label>
+            <input
+              type="text"
+              name="procure_day"
+              required
+            />
+          </div>  
+          
   
           <button className="sgnbutton" type="submit" >Submit</button>
   

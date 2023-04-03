@@ -1,4 +1,12 @@
+import { useState } from "react";
+
 const Viewstatform = (props) => {
+
+    const [stat, setstat] = useState(false);
+    const onChange = (event) => {
+      const value = event.target.value;
+      setstat(value);
+    }
 
     return ( 
         <div className="form-box1">
@@ -6,33 +14,35 @@ const Viewstatform = (props) => {
         <br />
         <form className="userform" action="http://localhost:5000/viewstatform" method="post">
           <div className="inputfield">
+            <label>Type </label>
+            <select
+              type="text"
+              name="type"
+              required
+              onChange={onChange}
+            >
+              <option value={false} label="Threshold of books">Threshold of books</option>
+              <option value={true} label="Sell statistics">Sell statistics</option>
+            </select>
+          </div>   
+
+          { stat && <div className="inputfield">
             <label>From </label>
             <input
               type="date"
               name="fromdt"
-              required
               autoComplete="off"
             />
-          </div>
+          </div> }
 
-          <div className="inputfield">
+          { stat && <div className="inputfield">
             <label>To </label>
             <input
               type="date"
               name="todt"
-              required
             />
-          </div>   
+          </div>}   
           
-          <div className="inputfield">
-            <label>Type </label>
-            <input
-              type="text"
-              name="type"
-              required
-              placeholder="Enter overall or an ISBN"
-            />
-          </div>   
           
           <button className="sgnbutton" type="submit" >View</button>
   
