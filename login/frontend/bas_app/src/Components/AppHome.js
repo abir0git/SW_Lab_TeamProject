@@ -31,7 +31,7 @@ const AppHome = (props) => {
                 console.log(data);
                 // alert("Hello! I am an alert box!!");
                 props.seterr(data);
-                setTimeout(gr,3000)
+                setTimeout(gr,300000)
                 // console.log(data.Error)
             })
     },[]);
