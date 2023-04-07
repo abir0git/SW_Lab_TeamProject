@@ -22,14 +22,25 @@ import json
 from flask_bcrypt import Bcrypt
 
 bcrypt = Bcrypt()
-
+otp=""
+fname="" 
+lname=""
+uname="" 
+adr="" 
+email=""
+password=""
+mobile=""
+city=""
+state="" 
+gender=""
+usty="", 
+privatekey=""
 presenttime = datetime.datetime.now()
 
 # Initializing flask app
 app = Flask(__name__)
-
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:Babai#123@localhost/bas_sw'
-
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:mazaqwer7531%40@localhost/bas_sw'
+# app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:password@localhost/bas_sw'
 
 
 errmsg = ""
@@ -38,6 +49,7 @@ def seterr():
 	print("we")
 	global errmsg
 	errmsg=""
+	
 db = SQLAlchemy(app)
 bcrypt = Bcrypt(app)
 login_manager = LoginManager()
@@ -152,7 +164,8 @@ def otp_verify():
 	global fname, lname, uname, adr, email, password, mobile, city, state, gender, usty, privatekey
 	verf_otp = request.form.get('OTP')
 	print(verf_otp, otp)
-	if(otp != verf_otp):
+	print(type(verf_otp), type(otp))
+	if(otp != str(verf_otp)):
 		print("not match")
 		return "Wrong otp"
 	else:
@@ -243,7 +256,7 @@ def geterr():
 	global iserr
 	# ermsg = errmsg
 	# errmsg = ""
-	print("Hell err: " , errmsg)
+	# print("Hell err: " , errmsg)
 	data = {
 			"Error": errmsg,
 			"iserr" : iserr

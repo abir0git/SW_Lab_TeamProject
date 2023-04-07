@@ -70,14 +70,6 @@ const Customer = () => {
             <div>
                 Hello, customer you are welcome.
             </div>
-            {/* <div>
-                {user.map((item4) => (
-                    <ol key={item4.id} >
-                        First_Name: {item4.FirstName},
-                        Last_Name: {item4.LastName}
-                    </ol>
-                ))}
-            </div> */}
             <div>
                 {user && <p>{user.FirstName} <span>{user.LastName}</span> <span>{user.username}</span></p>}
             </div>

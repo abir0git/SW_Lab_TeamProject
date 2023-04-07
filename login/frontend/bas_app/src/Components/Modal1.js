@@ -8,11 +8,11 @@ const Modal = (props) => {
 
     const [active, setActive] = useState("signup");
     // if (props.errmessage) setActive("showerr");
-    if (props.sstate == "signup") f1();
+    // if (props.sstate == "signup") f1();
     console.log(props.sstate);
-    function f1(){
-        setActive("signup");
-    }
+    // function f1(){
+    //     setActive("signup");
+    // }
     function modalclose() {
         // console.log("1222");
         props.setopenmodal(false);
