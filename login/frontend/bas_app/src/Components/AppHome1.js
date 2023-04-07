@@ -48,7 +48,7 @@ const AppHome1 = (props) => {
                     <h3>Log In</h3>
                     <form id="form" action="http://localhost:5000/login" method="post">
                         <label for="">Username</label>
-                        <input type="text" name="uname" className="asd" />
+                        <input type="text" name="uname" className="asd" id='asd1' />
                         <label for="">Password</label>
                         <div id='pwf'><input type={PasswordInpTy} id="" name="password" className="asd" />
                         <div id='tcon'>{ToggleIcon}</div> </div>
