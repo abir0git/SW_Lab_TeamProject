@@ -18,9 +18,9 @@ import random
 import smtplib
 from email.mime.text import MIMEText
 import json
-# import bcrypt
+import os
 from flask_bcrypt import Bcrypt
-
+from pdf_mail import sendpdf
 import pdf_receipt
 
 bcrypt = Bcrypt()
@@ -41,7 +41,7 @@ presenttime = datetime.datetime.now()
 
 # Initializing flask app
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:mazaqwer7531%40@localhost/bas_sw'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:Babai#123@localhost/bas_sw'
 # app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:password@localhost/bas_sw'
 
 
@@ -418,6 +418,12 @@ def order_book():
 		presenttime = datetime.datetime.now()
 		ISBN = request.form.get('ISBN')
 		copies = request.form.get('copies')
+		try:
+			a = int(copies)
+		except:
+			return "Enter a positive number"
+		if(int(copies) < 0):
+			return "Enter a valid number"
 		book = all_book.query.filter_by(ISBN = ISBN).all()
 		if(len(book) != 0):
 			if(int(copies) > book[0].copies):
@@ -581,6 +587,19 @@ def verify_books():
 		receipt_data += f"Total Price : {tot_price}"
 		print(receipt_data)
 		pdf_receipt.create_pdf(content=receipt_data)
+		
+		k = sendpdf("swlabbas0@gmail.com", 
+            cust_user.Email,
+            "rlhxkaibxajymacx",
+            "ORDER CONFIRMATION",
+            "Thanks for buying these books\nPlease visit again\nYour receipt is attached",
+            "receipt",
+            ".")
+
+		k.email_send()
+
+		os.remove("./receipt.pdf")
+
 		return redirect("http://localhost:3000/clerk/")
 
 

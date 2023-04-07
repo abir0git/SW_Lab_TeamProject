@@ -1,6 +1,7 @@
 import os
 
 from fpdf import FPDF
+from pdf_mail import sendpdf
 
 def_spc = 20
 
@@ -51,5 +52,3 @@ def create_pdf(content):
     # save the pdf with name .pdf
     pdf.output("receipt.pdf")
 
-cont = "Abir store\nName : Abir\nDate: 7638798\nName Author Price Copies\ngejdg sdhf 78 98\nkeufh kuehfi 89 58\njegjegf ekjhfhg 98 45\ntot 55"
-create_pdf(content=cont)
