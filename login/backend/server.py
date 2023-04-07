@@ -18,8 +18,10 @@ import random
 import smtplib
 from email.mime.text import MIMEText
 import json
-# import bcrypt
+import os
 from flask_bcrypt import Bcrypt
+from pdf_mail import sendpdf
+import pdf_receipt
 
 bcrypt = Bcrypt()
 otp=""
@@ -39,7 +41,7 @@ presenttime = datetime.datetime.now()
 
 # Initializing flask app
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:mazaqwer7531%40@localhost/bas_sw'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:Babai#123@localhost/bas_sw'
 # app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:password@localhost/bas_sw'
 
 
@@ -93,6 +95,7 @@ class private_key(db.Model, UserMixin):
 	clerk_key = db.Column(db.String(40), nullable=False, unique=True)
 	manager_key = db.Column(db.String(40), nullable=False, unique=True)
 	owner_key = db.Column(db.String(40), nullable=False, unique=True)
+	shop_name = db.Column(db.String(40), nullable=False, unique=True)
 
 class used_book(db.Model, UserMixin):
 	sno = db.Column(db.Integer, primary_key=True)
@@ -149,8 +152,10 @@ def send_otp():
 			smtp_server.sendmail(sender, recipients, msg.as_string())
 			smtp_server.quit()
 
+		row = private_key.query.filter_by(sno = 1).first()
+		shop_name = row.shop_name
 		subject = "OTP Verification"
-		body = f"Your OTP : {otp}"
+		body = f"Welcome to {shop_name}\nYour OTP : {otp}"
 		sender = "swlabbas0@gmail.com"
 		recipients = [email, sender]
 		passwordmail = "rlhxkaibxajymacx"
@@ -364,23 +369,46 @@ def book_search():
 
 		def Union(l1, l2):
 			return list(set.union(set(l1), set(l2)))
+		def Difference(l1, l2):
+			return list(set.difference(set(l1), set(l2)))
 
+		all_books = all_book.query.filter(all_book.sno>1).all()
+		print(all_books[0].name)
 		books = Union(books , all_book.query.filter_by(name=book_name).all())
 		books = Union(books , all_book.query.filter_by(author=book_author).all())
 
 		named_books = []
 		oth_books = []
 		for book in books:
-			if(book.name ==book_name and book.author == book_author):
+			if(book.name.lower() ==book_name.lower() and book.author.lower() == book_author.lower()):
 				named_books.append(book)
 			else:
 				oth_books.append(book)
+
+		or_other_books = []
+		lw_name = book_name.lower()
+		lw_name_wrd = lw_name.split(" ")
+		lw_author = book_author.lower()
+		lw_author_wrd = lw_author.split(" ")
+		print(lw_name, lw_author)
+		for book in all_books:
+			lw_n = (book.name).lower()
+			lw_a = (book.author).lower()
+			for ln in lw_name_wrd:
+				if(lw_n.find(ln) != -1 and lw_name!=""):
+					or_other_books.append(book)
+			for la in lw_author_wrd:
+				if(lw_a.find(la) != -1 and lw_author!=""):
+					or_other_books.append(book)
+
+		or_other_books = list(set(or_other_books))
+		semi_final_books = named_books + oth_books
 		
 		global final_books
-		final_books = named_books + oth_books
+		final_books = semi_final_books + Difference(or_other_books, semi_final_books)
 			
-		for book in final_books:
-			print(book.name, book.author)
+		# for book in final_books:
+		# 	print(book.name, book.author)
 		
 		return redirect("http://localhost:3000/customer/searchedbooks")
 	
@@ -413,6 +441,12 @@ def order_book():
 		presenttime = datetime.datetime.now()
 		ISBN = request.form.get('ISBN')
 		copies = request.form.get('copies')
+		try:
+			a = int(copies)
+		except:
+			return "Enter a positive number"
+		if(int(copies) < 0):
+			return "Enter a valid number"
 		book = all_book.query.filter_by(ISBN = ISBN).all()
 		if(len(book) != 0):
 			if(int(copies) > book[0].copies):
@@ -511,10 +545,11 @@ def addbook():
 @app.route('/clerk/seeverifybook', methods=['GET', 'POST'])
 def seeverify_books():
 	if(request.method == "POST"):
-		username = request.form.get('username')
+		global cust_username
+		cust_username = request.form.get('username')
 		global verifiable_books
 		verifiable_books = []
-		books_un = used_book.query.filter_by(username=username).all()
+		books_un = used_book.query.filter_by(username=cust_username).all()
 		books_pend = used_book.query.filter_by(type="1").all()
 
 		def Intersection(l1, l2):
@@ -554,6 +589,14 @@ def get_verifibalebooks():
 def verify_books():
 	if(request.method == 'POST'):
 		global verifiable_books
+		global cust_username
+		row = private_key.query.filter_by(sno = 1).first()
+		cust_user = new_users.query.filter_by(Username=cust_username).first()
+		shop_name = row.shop_name
+		receipt_data=shop_name+"\nName : "+cust_user.FirstName+" "+cust_user.LastName+"\n"
+		receipt_data += "Date-time : "+str(datetime.datetime.now())[:-7]+"\n"
+		receipt_data += "Book-name Author ISBN Price Copies Net\n"
+		tot_price = 0
 		for book in verifiable_books:
 			print(book.ISBN)
 			detailed_book = all_book.query.filter_by(ISBN=book.ISBN).first()
@@ -561,6 +604,26 @@ def verify_books():
 			using_book.type = "2"
 			db.session.commit()
 			db.session.commit()
+
+			net_price = int(detailed_book.price)*using_book.copies
+			tot_price+=net_price
+			receipt_data+=f"{detailed_book.name} {detailed_book.author} {detailed_book.ISBN} {detailed_book.price} {using_book.copies} {net_price}\n"
+		receipt_data += f"Total Price : {tot_price}"
+		print(receipt_data)
+		pdf_receipt.create_pdf(content=receipt_data)
+		
+		k = sendpdf("swlabbas0@gmail.com", 
+            cust_user.Email,
+            "rlhxkaibxajymacx",
+            "ORDER CONFIRMATION",
+            "Thanks for buying these books\nPlease visit again\nYour receipt is attached",
+            "receipt",
+            ".")
+
+		k.email_send()
+
+		os.remove("./receipt.pdf")
+
 		return redirect("http://localhost:3000/clerk/")
 
 
@@ -713,12 +776,13 @@ def keyset():
 		clerk_key = request.form.get('clerk_key')
 		manager_key = request.form.get('manager_key')
 		owner_key = request.form.get('owner_key')
+		shop_name = request.form.get('shop_name')
 
 		# print(name, author, ISBN, publisher, type(copies))
 		isrow = private_key.query.count()
 		if(isrow == 0):
 			print(clerk_key, manager_key, owner_key)
-			entry = private_key(clerk_key=clerk_key, manager_key=manager_key, owner_key=owner_key)     
+			entry = private_key(clerk_key=clerk_key, shop_name=shop_name, manager_key=manager_key, owner_key=owner_key)     
 			db.session.add(entry)
 			db.session.commit()
 		else:
@@ -726,6 +790,7 @@ def keyset():
 			uniqe_row.clerk_key = clerk_key
 			uniqe_row.manager_key = manager_key
 			uniqe_row.owner_key =owner_key
+			uniqe_row.shop_name =shop_name
 			db.session.commit()
 	
 		return redirect("http://localhost:3000/owner")
