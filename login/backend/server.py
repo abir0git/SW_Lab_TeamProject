@@ -450,6 +450,7 @@ def see_buydetails():
 @cross_origin(origins=['http://localhost:3000'])
 def get_buydetails():
 	global allbooks_usr
+	# allbooks_usr = used_book.query.filter_by(username=username).all()
 	# allbooks_usr.reverse()
 	data = []
 	if(request.method == 'GET'):

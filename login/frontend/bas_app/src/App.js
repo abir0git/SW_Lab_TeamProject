@@ -26,6 +26,7 @@ import AppHome from "./Components/AppHome";
 import Viewstat from "./Components/Viewstat";
 import AppHome1 from "./Components/AppHome1";
 import { Beverage } from "./Components/Demo2";
+import C11 from "./Components/C12";
 
 function App() {
 	const [openmodal, setopenmodal] = useState(false);
@@ -52,6 +53,13 @@ function App() {
 				<Profile/>
 			</div>      }
           />
+			{/* <Route
+            exact
+            path="/newp"
+            element={     <div>
+				<C11/>
+			</div>      }
+          /> */}
 			<Route
             exact
             path="/customer"
