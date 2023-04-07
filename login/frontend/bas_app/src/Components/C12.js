@@ -158,7 +158,7 @@ const C11 = () => {
                         </div>
                     </div>
                     <div className="main-container">
-                        {/* <Buydetails/> */}
+                        <Buydetails/>
                     </div>
                 </div>
                 <div className="overlay-app"></div>

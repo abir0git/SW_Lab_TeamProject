@@ -53,18 +53,18 @@ function App() {
 				<Profile/>
 			</div>      }
           />
-			{/* <Route
+			<Route
             exact
             path="/newp"
             element={     <div>
 				<C11/>
 			</div>      }
-          /> */}
+          />
 			<Route
             exact
             path="/customer"
             element={     <div>
-				<Customer err={err} seterr={seterr}/>
+				<C11 err={err} seterr={seterr}/>
 			</div>      }
           />
 			<Route
