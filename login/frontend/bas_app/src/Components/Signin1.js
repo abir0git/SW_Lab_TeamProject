@@ -2,7 +2,9 @@ import React from 'react';
 import {Route, Link, Routes, useLocation} from 'react-router-dom';
 // const axios = require("axios");
 import axios from 'axios';
+import usePasswordToggle from './usePasswordToggle';
 const Signin1 = () => {
+    const [PasswordInpTy , ToggleIcon] = usePasswordToggle();
     const location = useLocation();
     function gr()
     {
@@ -52,18 +54,18 @@ const Signin1 = () => {
                         />
                     </div>
                     
-
+                    <div id='pwf1'>
                     <div className="inputfield">
                         <label>Password:</label>
                         <input
                             name="password"
-                            type="password"
+                            type={PasswordInpTy}
                             required
                         />
 
 
                     </div>
-                    
+                    <div id='tcon1'>{ToggleIcon}</div> </div>
                     <button className="sgnbutton" type="submit">Login</button>
                 </form>
                     {/* <button className="sgnbutton" onClick={submitform}>Login</button> */}
