@@ -4,6 +4,17 @@ const Keyset = () => {
         <h2>Set Keys </h2>
         <br />
         <form className="userform" action="http://localhost:5000/owner/keyset" method="post">
+          
+          <div className="inputfield">
+            <label>Shop Name: </label>
+            <input
+              type="text"
+              name="shop_name"
+              required
+              autoComplete="off"
+            />
+          </div>
+
           <div className="inputfield">
             <label>Clerk Key: </label>
             <input
