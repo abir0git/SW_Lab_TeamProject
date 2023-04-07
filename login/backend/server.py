@@ -41,7 +41,7 @@ presenttime = datetime.datetime.now()
 
 # Initializing flask app
 app = Flask(__name__)
-
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:mazaqwer7531%40@localhost/bas_sw'
 # app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:password@localhost/bas_sw'
 
 
@@ -363,7 +363,12 @@ def returnmanager():
 def book_search():
 	if(request.method == 'POST'):
 		book_name = request.form.get('book_name')
-		book_author = request.form.get('book_author')
+		book_author = request.form.get('book_name')
+		# book_name="feluda"
+		# book_author="taa"
+		print(book_name,book_author)
+		# book_author = request.form.get('book_author')
+		# if(request.form.get('book_author'))
 		# username = request.form.get('username')
 		books = []
 
@@ -484,7 +489,7 @@ def see_buydetails():
 @cross_origin(origins=['http://localhost:3000'])
 def get_buydetails():
 	global allbooks_usr
-	# allbooks_usr = used_book.query.filter_by(username=username).all()
+	allbooks_usr = used_book.query.filter_by(username=username).all()
 	# allbooks_usr.reverse()
 	data = []
 	if(request.method == 'GET'):

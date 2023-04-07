@@ -7,8 +7,12 @@ th,td{
 border: 2px solid rgb(14, 6, 42);   
 padding: 15px;  
 } 
+.app{
+    margin: auto;
+}
 .searchedbooks{
     background-size: cover;
+    /* padding: 2em 11em; */
     /* background-image: url("F:/SW_Lab/TeamProject_SWLab/Use_CaseDiagram.jpg") */
 }
 .searchedbookhead h2 {

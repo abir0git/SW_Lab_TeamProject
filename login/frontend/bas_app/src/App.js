@@ -65,6 +65,7 @@ function App() {
             path="/customer"
             element={     <div>
 				<C11 err={err} seterr={seterr}/>
+				{/* <Customer err={err} seterr={seterr}/> */}
 			</div>      }
           />
 			<Route
