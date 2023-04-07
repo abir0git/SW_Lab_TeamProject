@@ -21,9 +21,11 @@ import SearchedBooks from "./Components/SearchedBooks"
 import VerifiableBooks from "./Components/Verifiablebooks";
 import Buydetails from "./Components/Buydetails";
 import Seequery from "./Components/Seequery";
-import AppHome from "./Components/AppHome"
+import AppHome from "./Components/AppHome";
+// import Beverage from "./Components/Demo1";
 import Viewstat from "./Components/Viewstat";
 import AppHome1 from "./Components/AppHome1";
+import { Beverage } from "./Components/Demo2";
 
 function App() {
 	const [openmodal, setopenmodal] = useState(false);
@@ -40,6 +42,7 @@ function App() {
             element={     <div>
 				{/* <AppHome err={err} seterr={seterr}></AppHome> */}
             <AppHome1 err={err} seterr={seterr} />
+            {/* <Beverage/> */}
 			</div>      }
           />
 			<Route

@@ -1,4 +1,6 @@
+import usePasswordToggle from './usePasswordToggle';
 const Signup1 = () => {
+  const [PasswordInpTy , ToggleIcon] = usePasswordToggle();
     return ( 
         <div className="form-box">
         <h2>SignUp </h2>
@@ -146,17 +148,18 @@ const Signup1 = () => {
   
             <div className="underline"></div>
           </div>
-
+          <div id='pwf1'>
           <div className="inputfield">
             <label>Password </label>
             <input
-              type="password"
+              type={PasswordInpTy}
               name="password"
               required
             />
   
             <div className="underline"></div>
           </div>
+          <div id='tcon1'>{ToggleIcon}</div> </div>
   
   
   

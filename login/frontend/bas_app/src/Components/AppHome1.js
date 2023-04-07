@@ -6,8 +6,10 @@ import React, { useState, useEffect } from "react";
 import Error from './Error';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCoffee } from '@fortawesome/free-solid-svg-icons'
+import usePasswordToggle from './usePasswordToggle';
 
 const AppHome1 = (props) => {
+    const [PasswordInpTy , ToggleIcon] = usePasswordToggle();
     const location = useLocation();
     const [item, setitem] = useState();
     const [openmodal, setopenmodal] = useState(false);
@@ -46,14 +48,15 @@ const AppHome1 = (props) => {
                     <h3>Log In</h3>
                     <form id="form" action="http://localhost:5000/login" method="post">
                         <label for="">Username</label>
-                        <input type="text" name="uname" class="asd" />
+                        <input type="text" name="uname" className="asd" id='asd1' />
                         <label for="">Password</label>
-                        <input type="password" id="" name="password" class="asd" />
-                        <input id="btn" type="submit" name="submit" value="Log In" class="mainbox" />
+                        <div id='pwf'><input type={PasswordInpTy} id="" name="password" className="asd" />
+                        <div id='tcon'>{ToggleIcon}</div> </div>
+                        <input id="btn" type="submit" name="submit" value="Log In" className="mainbox" />
                         <label for="">New customer?</label>
                         {/* <i>mmm</i> */}
                     </form>
-                        <button class="mainbox" onClick={modalopen}>Register Now</button>
+                        <button className="mainbox" onClick={modalopen}>Register Now</button>
                 </div>
                         {openmodal && <Modal1 setopenmodal={setopenmodal} openmodal={openmodal} sstate={sstate} />}
                 <div>
