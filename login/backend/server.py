@@ -18,6 +18,11 @@ import random
 import smtplib
 from email.mime.text import MIMEText
 import json
+# import bcrypt
+from flask_bcrypt import Bcrypt
+
+bcrypt = Bcrypt()
+
 presenttime = datetime.datetime.now()
 
 # Initializing flask app
@@ -49,8 +54,8 @@ class new_users(db.Model, UserMixin):
 	sno = db.Column(db.Integer, primary_key=True)
 	LastName = db.Column(db.String(30),  nullable=False)
 	FirstName = db.Column(db.String(30), nullable=False)
-	Email = db.Column(db.String(50), unique=True, nullable=False)
-	Passwd = db.Column(db.String(30), nullable=False)
+	Email = db.Column(db.String(50), unique=False, nullable=False)
+	Passwd = db.Column(db.String(500), nullable=False)
 	Username = db.Column(db.String(30), unique=True, nullable=False)
 	Phno = db.Column(db.String(15), unique=True, nullable=False)
 	Address = db.Column(db.String(300), nullable=False)
@@ -109,8 +114,8 @@ def new_user_signup():
 		email_sm = new_users.query.filter_by(Email=email).first()
 		if (usr_sm != None):
 			return "Username already exists"
-		if (email_sm != None):
-			return "Email already exists"
+		# if (email_sm != None):
+		# 	return "Email already exists"
 		
 		return redirect("http://localhost:3000/signup/otp/")
 		
@@ -151,30 +156,34 @@ def otp_verify():
 		print("not match")
 		return "Wrong otp"
 	else:
+		# password = password.encode('utf-8')
+		# hashed_pw = bcrypt.hashpw(password, bcrypt.gensalt(10))
+		hashed_pw = bcrypt.generate_password_hash(password)
+
 		uniqe_row = private_key.query.filter_by(sno = 1).first()
 		if (usty == "1"):
 			# print(privatekey)
 			# print(uniqe_row.owner_key)
 			if(privatekey == uniqe_row.owner_key):
-				entry = new_users(FirstName=fname, LastName=lname, Email=email, Passwd=password, Username=uname,
+				entry = new_users(FirstName=fname, LastName=lname, Email=email, Passwd=hashed_pw, Username=uname,
 							  Phno=mobile, City=city, State=state, Gender=gender, Address=adr, User_type=1)
 			else:
 				return "Wrong private key"
 		if (usty == "2"):
 			if(privatekey == uniqe_row.manager_key):
-				entry = new_users(FirstName=fname, LastName=lname, Email=email, Passwd=password, Username=uname,
+				entry = new_users(FirstName=fname, LastName=lname, Email=email, Passwd=hashed_pw, Username=uname,
 							  Phno=mobile, City=city, State=state, Gender=gender, Address=adr, User_type=2)
 			else:
 				return "Wrong private key"
 		if (usty == "3"):
 			if(privatekey == uniqe_row.clerk_key):
-				entry = new_users(FirstName=fname, LastName=lname, Email=email, Passwd=password, Username=uname,
+				entry = new_users(FirstName=fname, LastName=lname, Email=email, Passwd=hashed_pw, Username=uname,
 							  Phno=mobile, City=city, State=state, Gender=gender, Address=adr, User_type=3)
 			else:
 				return "Wrong private key"
 		if (usty == "4"):
 			if(privatekey == "0"):
-				entry = new_users(FirstName=fname, LastName=lname, Email=email, Passwd=password, Username=uname,
+				entry = new_users(FirstName=fname, LastName=lname, Email=email, Passwd=hashed_pw, Username=uname,
 							  Phno=mobile, City=city, State=state, Gender=gender, Address=adr, User_type=4)
 			else:
 				return "Wrong private key"
@@ -193,13 +202,13 @@ def usr_login():
 		# abc = request.get_json
 		# print(abc.uname)
 		uname = request.form.get('uname')
-		password = request.form.get('password')
+		get_password = request.form.get('password')
 		user = new_users.query.filter_by(Username=uname).first()
 		# print(user == None)
 		# print("HIIII")
 		if (user != None):
 			print("HQQQ")
-			if (user.Passwd == password):
+			if (bcrypt.check_password_hash(user.Passwd, get_password)):
 				user_fname = user.FirstName
 				user_lname = user.LastName
 				username = user.Username
