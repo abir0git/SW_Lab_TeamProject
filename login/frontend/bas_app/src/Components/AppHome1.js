@@ -4,8 +4,8 @@ import Modal from "./Modal";
 import Modal1 from "./Modal1";
 import React, { useState, useEffect } from "react";
 import Error from './Error';
-// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-// import { faCoffee } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faCoffee } from '@fortawesome/free-solid-svg-icons'
 
 const AppHome1 = (props) => {
     const location = useLocation();
