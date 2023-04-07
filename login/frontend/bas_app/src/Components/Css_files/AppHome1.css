@@ -105,8 +105,9 @@ a .mainbox{
     /* position: relative; */
     color: white;
 }
-.asd1{
+#asd1{
     /* width: 102%; */
+    width: 95%;
 }
 #pwf{
     display: flex;
