@@ -369,23 +369,46 @@ def book_search():
 
 		def Union(l1, l2):
 			return list(set.union(set(l1), set(l2)))
+		def Difference(l1, l2):
+			return list(set.difference(set(l1), set(l2)))
 
+		all_books = all_book.query.filter(all_book.sno>1).all()
+		print(all_books[0].name)
 		books = Union(books , all_book.query.filter_by(name=book_name).all())
 		books = Union(books , all_book.query.filter_by(author=book_author).all())
 
 		named_books = []
 		oth_books = []
 		for book in books:
-			if(book.name ==book_name and book.author == book_author):
+			if(book.name.lower() ==book_name.lower() and book.author.lower() == book_author.lower()):
 				named_books.append(book)
 			else:
 				oth_books.append(book)
+
+		or_other_books = []
+		lw_name = book_name.lower()
+		lw_name_wrd = lw_name.split(" ")
+		lw_author = book_author.lower()
+		lw_author_wrd = lw_author.split(" ")
+		print(lw_name, lw_author)
+		for book in all_books:
+			lw_n = (book.name).lower()
+			lw_a = (book.author).lower()
+			for ln in lw_name_wrd:
+				if(lw_n.find(ln) != -1 and lw_name!=""):
+					or_other_books.append(book)
+			for la in lw_author_wrd:
+				if(lw_a.find(la) != -1 and lw_author!=""):
+					or_other_books.append(book)
+
+		or_other_books = list(set(or_other_books))
+		semi_final_books = named_books + oth_books
 		
 		global final_books
-		final_books = named_books + oth_books
+		final_books = semi_final_books + Difference(or_other_books, semi_final_books)
 			
-		for book in final_books:
-			print(book.name, book.author)
+		# for book in final_books:
+		# 	print(book.name, book.author)
 		
 		return redirect("http://localhost:3000/customer/searchedbooks")
 	
