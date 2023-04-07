@@ -9,7 +9,7 @@ const LoginButton = (props) => {
     return ( 
         <div>
             <button className="loginbutton" onClick={modalopen}>Login</button>
-            {props.openmodal && <Modal setopenmodal={props.setopenmodal} openmodal={props.openmodal} />}
+            {/* {props.openmodal && <Modal setopenmodal={props.setopenmodal} openmodal={props.openmodal} />} */}
         </div>
      );
 }

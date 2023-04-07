@@ -9,6 +9,7 @@ import "./Components/Css_files/Userform.css"
 import "./Components/Css_files/Userform2.css"
 import "./Components/Css_files/Searchedbooks.css"
 import "./Components/Css_files/AppHome.css"
+import "./Components/Css_files/AppHome1.css"
 import LoginButton from "./Components/LoginButton"
 import Profile from "./Components/Profile";
 import Customer from "./Components/Customer";
@@ -22,10 +23,11 @@ import Buydetails from "./Components/Buydetails";
 import Seequery from "./Components/Seequery";
 import AppHome from "./Components/AppHome"
 import Viewstat from "./Components/Viewstat";
+import AppHome1 from "./Components/AppHome1";
 
 function App() {
 	const [openmodal, setopenmodal] = useState(false);
-	const[loggedin_setloggedin] = useState(false);
+	const[loggedin,setloggedin] = useState(false);
 	const [err, seterr] = useState();
 	const [mode, setmode] = useState();
 
@@ -36,7 +38,8 @@ function App() {
             exact
             path="/"
             element={     <div>
-				<AppHome err={err} seterr={seterr}></AppHome>
+				{/* <AppHome err={err} seterr={seterr}></AppHome> */}
+            <AppHome1 err={err} seterr={seterr} />
 			</div>      }
           />
 			<Route
