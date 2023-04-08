@@ -5,20 +5,20 @@ const C11 = () => {
     function handlemode() {
         document.body.classList.toggle('light-mode');
     }
-    const [clname,setclname] = useState("");
-    function toggleactivestate1(){
-        // document.getElementById("hm1").classList.toggle('is-active');
-        // document.getElementById("hm2").classList.toggle('is-active');
+    const [clname, setclname] = useState("");
+    function toggleactivestate1() {
+        document.getElementById("hm1").classList.toggle('is-active');
+        document.getElementById("hm2").classList.toggle('is-active');
         // document.getElementById("hm2").classList.add('is-active');
-        setclname("isactive");
+        // setclname("isactive");
         setshowst("showprofile");
     }
-    function toggleactivestate2(){
+    function toggleactivestate2() {
         document.getElementById("hm1").classList.toggle('is-active');
         document.getElementById("hm2").classList.toggle('is-active');
         setshowst("showorders");
     }
-    const [showst,setshowst] = useState("showorders");
+    const [showst, setshowst] = useState("showorders");
     return (
         <div id="C12">
             <div className="video-bg">
@@ -36,12 +36,12 @@ const C11 = () => {
                     <div className="menu-circle"></div>
                     <div className="header-menu">
                         <a className="menu-link is-active" onClick={toggleactivestate2} id="hm1">Order details</a>
-                        <a className={"menu-link notify" + clname} onClick={toggleactivestate1} id="hm1">View Profile</a>
+                        <a className="menu-link " onClick={toggleactivestate1} id="hm2">View Profile</a>
                     </div>
                     <div className="search-bar">
-                    <form  action="http://127.0.0.1:5000/customer/search" method="post">
-                        <input type="text" name="book_name" placeholder="Search by name/author"/>
-                    </form>
+                        <form action="http://127.0.0.1:5000/customer/search" method="post">
+                            <input type="text" name="book_name" placeholder="Search by name/author" />
+                        </form>
                     </div>
                     <div className="header-profile">
                         <div className="notification">
@@ -112,8 +112,13 @@ const C11 = () => {
                         </div>
                     </div>
                     <div className="main-container">
-                        {showst==="showorders" && <Buydetails />}
-                        {showst==="showprofile" && <p>Hello USER</p>}
+                        <div class="content-wrapper">
+                        {showst === "showorders" && <Buydetails />}
+                        
+                        {showst === "showprofile" && <p>Hello USER</p>}
+                        </div>
+
+
                     </div>
                 </div>
                 <div className="overlay-app"></div>
