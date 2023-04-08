@@ -734,6 +734,7 @@ def generate_stat():
 
 			for key in unique_books_15.keys():
 				book_ori = all_book.query.filter_by(ISBN=key).first()
+				print("*********\n", book_ori)
 				unique_books_15.update({key : unique_books_15[key]*int(book_ori.procure_day)})
 
 			for key in unique_books_15.keys():
