@@ -80,7 +80,7 @@ class new_users(db.Model, UserMixin):
 
 class all_book(db.Model, UserMixin):
 	sno = db.Column(db.Integer, primary_key=True)
-	name = db.Column(db.String(20), nullable=False)
+	name = db.Column(db.String(120), nullable=False)
 	author = db.Column(db.String(50), nullable=False)
 	ISBN = db.Column(db.String(45), nullable=False, unique=True)
 	publisher = db.Column(db.String(20), nullable=False)
