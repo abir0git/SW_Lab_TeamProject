@@ -29,8 +29,8 @@ const C11 = () => {
     }
     function handlemode() {
         document.body.classList.toggle('light-mode');
-        document.getElementById("lplpl").classList.toggle('hg');
-        document.getElementById("lplp1").classList.toggle('hg');
+        // document.getElementById("lplpl").classList.toggle('hg');
+        // document.getElementById("lplp1").classList.toggle('hg');
     }
     const [clname, setclname] = useState("");
     function toggleactivestate1() {
