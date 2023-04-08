@@ -5,6 +5,7 @@ import Orderbook from "./Orderbook";
 import Verifyform from "./Verifyform";
 import Addquery from "./Addquery";
 import Viewstat from "./Viewstatform";
+import Rate from "./Rating.js"
 
 import React, { useState, useEffect } from "react";
 
@@ -57,6 +58,11 @@ const ModalUser = (props) => {
                 <Viewstat/>
             </div>
         }
+        else if (active === "rate") {
+            return <div id="rate">
+                <Rate/>
+            </div>
+        }
     }
 
     return (
@@ -66,7 +72,7 @@ const ModalUser = (props) => {
                     <button
                         onClick={() => {
                             props.setopenmodal(false);
-                            if(!(active === "addquery")) props.modechangefun(false);
+                            if(!(active === "addquery" || active==="rate")) props.modechangefun(false);
                         }}
                     >
                         X

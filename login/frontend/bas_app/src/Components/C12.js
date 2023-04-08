@@ -19,9 +19,16 @@ const C11 = () => {
       },[]);
 
     const [openmodal, setopenmodal] = useState(false);
-    function modalopen()
+    const [now, setnow] = useState();
+    function modalopen1()
 	{
 		setopenmodal(true);
+        setnow("addquery")
+	}
+    function modalopen2()
+	{
+		setopenmodal(true);
+        setnow("rate")
 	}
     const navigate = useNavigate();
     function handleClick(){
@@ -110,20 +117,16 @@ const C11 = () => {
                         <div className="side-wrapper">
                             <div className="side-title">Features</div>
                             <div className="side-menu">
-                                <a onClick={modalopen}>
+                                <a onClick={modalopen1}>
                                     <svg viewBox="0 0 512 512" fill="currentColor">
                                         <circle cx="295.099" cy="327.254" r="110.96" transform="rotate(-45 295.062 327.332)" />
                                         <path d="M471.854 338.281V163.146H296.72v41.169a123.1 123.1 0 01121.339 122.939c0 3.717-.176 7.393-.5 11.027zM172.14 327.254a123.16 123.16 0 01100.59-120.915L195.082 73.786 40.146 338.281H172.64c-.325-3.634-.5-7.31-.5-11.027z" />
                                     </svg>
                                     Add Query
                                 </a>
-                                {/* <a href="#">
-                                    <svg viewBox="0 0 488.455 488.455" fill="currentColor">
-                                        <path d="M287.396 216.317c23.845 23.845 23.845 62.505 0 86.35s-62.505 23.845-86.35 0-23.845-62.505 0-86.35 62.505-23.845 86.35 0" />
-                                        <path d="M427.397 91.581H385.21l-30.544-61.059H133.76l-30.515 61.089-42.127.075C27.533 91.746.193 119.115.164 152.715L0 396.86c0 33.675 27.384 61.074 61.059 61.074h366.338c33.675 0 61.059-27.384 61.059-61.059V152.639c-.001-33.674-27.385-61.058-61.059-61.058zM244.22 381.61c-67.335 0-122.118-54.783-122.118-122.118s54.783-122.118 122.118-122.118 122.118 54.783 122.118 122.118S311.555 381.61 244.22 381.61z" />
-                                    </svg>
-                                    Search book
-                                </a> */}
+                                <a onClick={modalopen2}>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-star-fill" viewBox="0 0 16 16"> <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"/> </svg>    Rating
+                                </a>
                             </div>
                         </div>
                         <div className="side-wrapper">
@@ -149,7 +152,8 @@ const C11 = () => {
                 </div>
                 <div className="overlay-app"></div>
             </div>
-            {openmodal && <ModalUser setopenmodal={setopenmodal} state={"addquery"} />}
+            {openmodal && <ModalUser setopenmodal={setopenmodal} state={now} />}
+            {/* {openmodal && <ModalUser setopenmodal={setopenmodal} state={"rate"} />} */}
         </div>
     );
 }
