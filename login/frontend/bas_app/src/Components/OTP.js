@@ -5,7 +5,7 @@ const OTP = () => {
         <br />
         <form className="userform2" action="http://127.0.0.1:5000/signup/otp" method="post">
           <div className="inputfield2">
-            <label>OTP: </label>
+            <label className="label-2">OTP: </label>
             <input
               type="text"
               name="OTP"

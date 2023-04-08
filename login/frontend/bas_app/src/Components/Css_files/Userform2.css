@@ -1,6 +1,9 @@
 .form-box2 h2{
     text-align: center;
-    color: rgb(4, 4, 33);
+    color: wheat;
+}
+.form-box2 .label-2{
+     color: wheat;
 }
 
 .form-box2 .userform2 .inputfield2{
