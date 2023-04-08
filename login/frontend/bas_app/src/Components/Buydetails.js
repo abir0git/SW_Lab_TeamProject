@@ -82,7 +82,7 @@ const Buydetails = () => {
                 })}
             </select> */}
             
-            <table>
+            <table id="lplpl">
                 <tr>
                     <th>Name</th>
                     <th>Author</th>

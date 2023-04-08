@@ -66,7 +66,7 @@ const ModalUser = (props) => {
                     <button
                         onClick={() => {
                             props.setopenmodal(false);
-                            props.modechangefun(false);
+                            if(!(active === "addquery")) props.modechangefun(false);
                         }}
                     >
                         X
