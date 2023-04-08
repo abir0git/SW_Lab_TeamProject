@@ -4,6 +4,7 @@ import React, { useState, useEffect } from "react";
 const C11 = () => {
     function handlemode() {
         document.body.classList.toggle('light-mode');
+        document.getElementById("lplpl").classList.toggle('hg');
     }
     const [clname, setclname] = useState("");
     function toggleactivestate1() {
