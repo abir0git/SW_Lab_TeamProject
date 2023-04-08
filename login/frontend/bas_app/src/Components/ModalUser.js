@@ -72,7 +72,9 @@ const ModalUser = (props) => {
                     <button
                         onClick={() => {
                             props.setopenmodal(false);
-                            if(!(active === "addquery" || active==="rate")) props.modechangefun(false);
+                            if(!(active === "addquery" || active==="rate" ||
+                             active==="addbook" || active==="verifyorder" || active==="viewstat"
+                             || active==="keyset")) props.modechangefun(false);
                         }}
                     >
                         X

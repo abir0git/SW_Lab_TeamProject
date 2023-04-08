@@ -3,10 +3,10 @@ import "./Css_files/C11.scss"
 import React, { useState, useEffect } from "react";
 import {useNavigate} from "react-router-dom";
 import ModalUser from "./ModalUser";
-const C11 = () => {
+const C23 = () => {
     const [user,setuser] = useState();
     useEffect(() => {
-        fetch('http://localhost:5000/get_customer')
+        fetch('http://localhost:5000/get_clerk')
         .then(res => {
             console.log(typeof res)
               return res.json();
@@ -23,12 +23,12 @@ const C11 = () => {
     function modalopen1()
 	{
 		setopenmodal(true);
-        setnow("addquery")
+        setnow("addbook")
 	}
     function modalopen2()
 	{
 		setopenmodal(true);
-        setnow("rate")
+        setnow("verifyorder")
 	}
     const navigate = useNavigate();
     function handleClick(){
@@ -47,12 +47,12 @@ const C11 = () => {
         // setclname("isactive");
         setshowst("showprofile");
     }
-    function toggleactivestate2() {
-        document.getElementById("hm1").classList.toggle('is-active');
-        document.getElementById("hm2").classList.toggle('is-active');
-        setshowst("showorders");
-    }
-    const [showst, setshowst] = useState("showorders");
+    // function toggleactivestate2() {
+    //     document.getElementById("hm1").classList.toggle('is-active');
+    //     document.getElementById("hm2").classList.toggle('is-active');
+    //     setshowst("showorders");
+    // }
+    const [showst, setshowst] = useState("showprofile");
     return (
         <div id="C12">
             <div className="video-bg">
@@ -69,14 +69,14 @@ const C11 = () => {
                 <div className="header">
                     <div className="menu-circle"></div>
                     <div className="header-menu">
-                        <a className="menu-link is-active" onClick={toggleactivestate2} id="hm1">Purchase details</a>
-                        <a className="menu-link " onClick={toggleactivestate1} id="hm2">View Profile</a>
+                        {/* <a className="menu-link is-active" onClick={toggleactivestate2} id="hm1">Purchase details</a> */}
+                        <a className="menu-link " id="hm2">Profile</a>
                     </div>
-                    <div className="search-bar">
+                    {/* <div className="search-bar">
                         <form action="http://127.0.0.1:5000/customer/search" method="post">
                             <input type="text" name="book_name" placeholder="Search by name/author" />
                         </form>
-                    </div>
+                    </div> */}
                     {/* <div className="header-profile">
                         <div className="notification">
                             <span className="notification-number">3</span>
@@ -122,11 +122,14 @@ const C11 = () => {
                                         <circle cx="295.099" cy="327.254" r="110.96" transform="rotate(-45 295.062 327.332)" />
                                         <path d="M471.854 338.281V163.146H296.72v41.169a123.1 123.1 0 01121.339 122.939c0 3.717-.176 7.393-.5 11.027zM172.14 327.254a123.16 123.16 0 01100.59-120.915L195.082 73.786 40.146 338.281H172.64c-.325-3.634-.5-7.31-.5-11.027z" />
                                     </svg>
-                                    Add Query
+                                    Add Book
                                 </a>
                                 <a onClick={modalopen2}>
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-star-fill" viewBox="0 0 16 16"> <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"/> </svg> 
-                                Rating
+                                <svg viewBox="0 0 512 512" fill="currentColor">
+                                        <circle cx="295.099" cy="327.254" r="110.96" transform="rotate(-45 295.062 327.332)" />
+                                        <path d="M471.854 338.281V163.146H296.72v41.169a123.1 123.1 0 01121.339 122.939c0 3.717-.176 7.393-.5 11.027zM172.14 327.254a123.16 123.16 0 01100.59-120.915L195.082 73.786 40.146 338.281H172.64c-.325-3.634-.5-7.31-.5-11.027z" />
+                                    </svg>                               
+                                     Verify Order
                                 </a>
                             </div>
                         </div>
@@ -142,10 +145,11 @@ const C11 = () => {
                     </div>
                     <div className="main-container">
                         <div class="content-wrapper">
-                        {showst === "showorders" && <Buydetails />}
-                        {showst === "showprofile" && user &&  <p><h2>{"You are on duty !!"}</h2></p>}
+                        {/* {showst === "showorders" && <Buydetails />} */}
+                        {showst === "showprofile" && user &&  <p><h2>{"Welcome !!"}</h2></p>}
                         {showst === "showprofile" && user &&  <p>{user.FirstName} <span>{user.LastName}</span></p>}
-                        {showst === "showprofile" && user &&  <p><span>{"Username : "}</span><span>{user.username}</span></p>}
+                        {showst === "showprofile" && user &&  <p><h4>{"Position : Clerk"}</h4></p>}
+                        {/* {showst === "showprofile" && user &&  <p><span>{"Username : "}</span><span>{user.username}</span></p>} */}
                         </div>
 
 
@@ -159,4 +163,4 @@ const C11 = () => {
     );
 }
 
-export default C11;
+export default C23;

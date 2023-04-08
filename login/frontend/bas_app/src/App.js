@@ -27,6 +27,9 @@ import Viewstat from "./Components/Viewstat";
 import AppHome1 from "./Components/AppHome1";
 import { Beverage } from "./Components/Demo2";
 import C11 from "./Components/C12";
+import C23 from "./Components/C23";
+import C34 from "./Components/C34";
+import C45 from "./Components/C45";
 
 function App() {
 	const [openmodal, setopenmodal] = useState(false);
@@ -72,21 +75,21 @@ function App() {
             exact
             path="/clerk"
             element={     <div>
-				<Clerk err={err} seterr={seterr}/>
+				<C23 err={err} seterr={seterr}/>
 			</div>      }
           />
 			<Route
             exact
             path="/owner"
             element={     <div>
-				<Owner err={err} seterr={seterr}/>
+				<C45 err={err} seterr={seterr}/>
 			</div>      }
           />
 			<Route
             exact
             path="/manager"
             element={     <div>
-				<Manager err={err} seterr={seterr}/>
+				<C34 err={err} seterr={seterr}/>
 			</div>      }
           />
 			<Route
