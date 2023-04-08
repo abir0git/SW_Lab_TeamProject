@@ -63,7 +63,7 @@ const Buydetails = () => {
 
         <div class="searchedbooks">
             <div class="searchedbookhead">
-                <h2>Hello, here are books </h2>
+                <h2>Your Purchase history</h2>
             </div>
             {/* <div>
                 {user.map((item4) => (
@@ -109,7 +109,7 @@ const Buydetails = () => {
                 ))}
             </table>
 
-         <button class="sgnbuttonr" onClick={handleClick}>back</button>
+         {/* <button class="sgnbuttonr" onClick={handleClick}>back</button> */}
         </div>
 
     );

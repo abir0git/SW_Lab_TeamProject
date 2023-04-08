@@ -2,6 +2,19 @@ import Buydetails from "./Buydetails";
 import "./Css_files/C11.scss"
 import React, { useState, useEffect } from "react";
 const C11 = () => {
+    const [user,setuser] = useState();
+    useEffect(() => {
+        fetch('http://localhost:5000/get_customer')
+        .then(res => {
+            console.log(typeof res)
+              return res.json();
+        })
+        .then(data => {
+          console.log(data);
+          setuser(data);
+          // setcBooks(data);
+        })
+      },[]);
     function handlemode() {
         document.body.classList.toggle('light-mode');
     }
@@ -35,7 +48,7 @@ const C11 = () => {
                 <div className="header">
                     <div className="menu-circle"></div>
                     <div className="header-menu">
-                        <a className="menu-link is-active" onClick={toggleactivestate2} id="hm1">Order details</a>
+                        <a className="menu-link is-active" onClick={toggleactivestate2} id="hm1">Purchase details</a>
                         <a className="menu-link " onClick={toggleactivestate1} id="hm2">View Profile</a>
                     </div>
                     <div className="search-bar">
@@ -114,8 +127,9 @@ const C11 = () => {
                     <div className="main-container">
                         <div class="content-wrapper">
                         {showst === "showorders" && <Buydetails />}
-                        
-                        {showst === "showprofile" && <p>Hello USER</p>}
+                        {showst === "showprofile" && user &&  <p><h2>{"Welcome !!"}</h2></p>}
+                        {showst === "showprofile" && user &&  <p>{user.FirstName} <span>{user.LastName}</span></p>}
+                        {showst === "showprofile" && user &&  <p><span>{"Username : "}</span><span>{user.username}</span></p>}
                         </div>
 
 
