@@ -45,6 +45,7 @@ app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:Babai#123@localhost/bas_sw'
 
 
+
 errmsg = ""
 iserr = 0
 def seterr():
@@ -363,7 +364,12 @@ def returnmanager():
 def book_search():
 	if(request.method == 'POST'):
 		book_name = request.form.get('book_name')
-		book_author = request.form.get('book_author')
+		book_author = request.form.get('book_name')
+		# book_name="feluda"
+		# book_author="taa"
+		print(book_name,book_author)
+		# book_author = request.form.get('book_author')
+		# if(request.form.get('book_author'))
 		# username = request.form.get('username')
 		books = []
 
@@ -484,7 +490,7 @@ def see_buydetails():
 @cross_origin(origins=['http://localhost:3000'])
 def get_buydetails():
 	global allbooks_usr
-	# allbooks_usr = used_book.query.filter_by(username=username).all()
+	allbooks_usr = used_book.query.filter_by(username=username).all()
 	# allbooks_usr.reverse()
 	data = []
 	if(request.method == 'GET'):
