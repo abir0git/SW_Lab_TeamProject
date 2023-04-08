@@ -1,7 +1,7 @@
 table{  
     border-collapse: collapse;  
     width: 100%;
-    color: rgb(14, 6, 42);  
+    color: wheat;  
 }  
 th,td{  
 border: 2px solid rgb(14, 6, 42);   
@@ -17,7 +17,7 @@ padding: 15px;
 }
 .searchedbookhead h2 {
     text-align: center;
-    color: rgb(14, 6, 42);
+    color: wheat;
 }
 
 .searchedbooks .sgnbutton

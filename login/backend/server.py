@@ -386,7 +386,7 @@ def book_search():
 		named_books = []
 		oth_books = []
 		for book in books:
-			if(book.name.lower() ==book_name.lower() and book.author.lower() == book_author.lower()):
+			if(book.name.lower() ==book_name.lower() or book.author.lower() == book_author.lower()):
 				named_books.append(book)
 			else:
 				oth_books.append(book)
@@ -401,10 +401,10 @@ def book_search():
 			lw_n = (book.name).lower()
 			lw_a = (book.author).lower()
 			for ln in lw_name_wrd:
-				if(lw_n.find(ln) != -1 and lw_name!=""):
+				if(lw_n.find(ln) != -1):
 					or_other_books.append(book)
 			for la in lw_author_wrd:
-				if(lw_a.find(la) != -1 and lw_author!=""):
+				if(lw_a.find(la) != -1):
 					or_other_books.append(book)
 
 		or_other_books = list(set(or_other_books))
