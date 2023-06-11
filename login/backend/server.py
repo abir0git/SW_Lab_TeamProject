@@ -600,7 +600,7 @@ def verify_books():
 		shop_name = row.shop_name
 		receipt_data=shop_name+"\nName : "+cust_user.FirstName+" "+cust_user.LastName+"\n"
 		receipt_data += "Date-time : "+str(datetime.datetime.now())[:-7]+"\n"
-		receipt_data += "Book-name Author ISBN Price Copies Net\n"
+		receipt_data += "Book-name  Author  ISBN  Price  Copies  Net\n"
 		tot_price = 0
 		for book in verifiable_books:
 			print(book.ISBN)
@@ -612,7 +612,7 @@ def verify_books():
 
 			net_price = int(detailed_book.price)*using_book.copies
 			tot_price+=net_price
-			receipt_data+=f"{detailed_book.name} {detailed_book.author} {detailed_book.ISBN} {detailed_book.price} {using_book.copies} {net_price}\n"
+			receipt_data+=f"{detailed_book.name}  {detailed_book.author}  {detailed_book.ISBN}  {detailed_book.price}  {using_book.copies}  {net_price}\n"
 		receipt_data += f"Total Price : {tot_price}"
 		print(receipt_data)
 		pdf_receipt.create_pdf(content=receipt_data)

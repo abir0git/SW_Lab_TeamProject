@@ -29,7 +29,7 @@ def create_pdf(content):
         # elif(i == 4):
         #     pdf.set_font(family="Arial" ,style="")
 
-        words = lines[i].split(" ")
+        words = lines[i].split("  ")
         tup = tuple(words)
         TABLE_DATA.append(tup)
         # text = ""
