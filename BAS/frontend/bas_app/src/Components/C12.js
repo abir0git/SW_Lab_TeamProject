@@ -143,7 +143,7 @@ const C11 = () => {
                     <div className="main-container">
                         <div class="content-wrapper">
                         {showst === "showorders" && <Buydetails />}
-                        {showst === "showprofile" && user &&  <p><h2>{"You are on duty !!"}</h2></p>}
+                        {showst === "showprofile" && user &&  <p><h2>{"You are Welcome"}</h2></p>}
                         {showst === "showprofile" && user &&  <p>{user.FirstName} <span>{user.LastName}</span></p>}
                         {showst === "showprofile" && user &&  <p><span>{"Username : "}</span><span>{user.username}</span></p>}
                         </div>
